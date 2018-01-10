@@ -18,4 +18,6 @@ defmodule EctoRole do
   def is?(key, role) do
     :false
   end
+
+
 end
