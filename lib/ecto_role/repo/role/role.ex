@@ -7,15 +7,16 @@ defmodule EctoRole.Role do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Role
   alias EctoRole.Entity
-  alias EctoRole.RoleToEntity
+  alias EctoRole.Entity.Role, as ER
 
   schema "role" do
     field :name, :string
     field :value, :string
     field :key, :string
 
-    many_to_many :entites, Entity, join_through: RoleToEntity
+    many_to_many :entites, Entity, join_through: ER
   end
 
   @params ~w(name value key)a

@@ -1,4 +1,4 @@
-defmodule EctoRole.RoleToEntity do
+defmodule EctoRole.Entity.Role do
 
   @moduledoc false
 
@@ -6,6 +6,8 @@ defmodule EctoRole.RoleToEntity do
 
   import Ecto.Changeset
   import Ecto.Query
+
+  alias EctoRole.Entity.Role
 
 
   schema "role_to_entity" do

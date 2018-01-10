@@ -1,4 +1,4 @@
-defmodule EctoRole.RoleToPermission do
+defmodule EctoRole.Permission.Role do
 
   @moduledoc false
 
@@ -7,6 +7,7 @@ defmodule EctoRole.RoleToPermission do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Permission.Role
 
   schema "role_to_permission" do
     field :role_id, :integer

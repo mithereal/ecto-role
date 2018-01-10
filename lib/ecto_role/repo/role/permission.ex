@@ -7,9 +7,9 @@ defmodule EctoRole.Permission do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Schema
   alias EctoRole.Permission
-  alias EctoRole.RoleToPermission
+  alias EctoRole.Schema, as: Schema
+  alias EctoRole.Permission.Role, as: PR
 
 
   schema "permission" do
@@ -22,7 +22,7 @@ defmodule EctoRole.Permission do
 
     belongs_to :schema, Schema
 
-    many_to_many :permissions, Permission, join_through: RoleToPermission
+    many_to_many :permissions, Permission, join_through: PR
 
     timestamps()
   end
