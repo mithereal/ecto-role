@@ -8,10 +8,19 @@ defmodule EctoRole.Entity do
   import Ecto.Query
 
 
+  alias EctoRole.Role
+  alias EctoRole.Permissions
+  alias EctoRole.RoleToEntity
+  alias EctoRole.RoleToPermission
+
+
   schema "entity" do
     field :name, :string
     field :value, :string
     field :key, :string
+
+    many_to_many :roles, Role, join_through: RoleToEntity
+    many_to_many :permissions, Permissions, join_through: RoleToPermission
   end
 
   @params ~w(name value key)a

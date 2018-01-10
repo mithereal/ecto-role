@@ -7,6 +7,10 @@ defmodule EctoRole.Permission do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Schema
+  alias EctoRole.Permission
+  alias EctoRole.RoleToPermission
+
 
   schema "permission" do
     field :name, :string
@@ -15,6 +19,10 @@ defmodule EctoRole.Permission do
     field :create, :boolean
     field :delete, :boolean
     field :key, :string
+
+    belongs_to :schema, Schema
+
+    many_to_many :permissions, Permission, join_through: RoleToPermission
 
     timestamps()
   end

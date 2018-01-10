@@ -7,10 +7,14 @@ defmodule EctoRole.Schema do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Permission
+
 
   schema "schema" do
     field :name, :string
     field :fields, :string
+
+    has_many :permissions, Permission
 
     timestamps()
   end

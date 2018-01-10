@@ -1,4 +1,4 @@
-defmodule EctoRole.Role do
+defmodule EctoRole.RoleToPermission do
 
   @moduledoc false
 
@@ -7,19 +7,15 @@ defmodule EctoRole.Role do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Entity
-  alias EctoRole.RoleToEntity
 
-  schema "role" do
-    field :name, :string
-    field :value, :string
-    field :key, :string
+  schema "role_to_permission" do
+    field :role_id, :integer
+    field :permission_id, :integer
 
-    many_to_many :entites, Entity, join_through: RoleToEntity
   end
 
-  @params ~w(name value key)a
-  @required_fields ~w(name value)a
+  @params ~w(role_id permission_id)a
+  @required_fields ~w(role_id permission_id)a
 
 
   @doc """
