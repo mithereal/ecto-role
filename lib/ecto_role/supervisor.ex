@@ -4,7 +4,9 @@ defmodule EctoRole.Supervisor do
 
   require Logger
 
-  @moduledoc "A Supervisor to Start and Manage your EctoRoles."
+  @moduledoc """
+  A Supervisor to Start and Manage your EctoRoles.
+  """
 
   @registry_name :ecto_role_registry
 

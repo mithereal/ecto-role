@@ -7,7 +7,7 @@ defmodule EctoRole do
   """
 
   @doc """
-  ** Ecto-Role: Implement Table, Row and Column Locking via OTP **
+  ** Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP **
 
   ## Examples
 

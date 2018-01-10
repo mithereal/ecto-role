@@ -4,7 +4,9 @@ defmodule EctoRole.Permission.Server do
 
   require Logger
 
-  @moduledoc "A Simple Server to Store Your Permissions."
+  @moduledoc """
+A Simple Server to Store Your Permissions.
+"""
 
 
   @registry_name :ecto_role_registry
