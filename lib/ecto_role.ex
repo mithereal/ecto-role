@@ -1,18 +1,21 @@
 defmodule EctoRole do
+
+  alias EctoRole.Repo
+
   @moduledoc """
   Documentation for EctoRole.
   """
 
   @doc """
-  Hello world.
+  ** Ecto-Role: Implement Table, Row and Column Locking via OTP **
 
   ## Examples
 
-      iex> EctoRole.hello
-      :world
+      iex> EctoRole.is? "username", "super"
+      :false
 
   """
-  def hello do
-    :world
+  def is?(key, role) do
+    :false
   end
 end

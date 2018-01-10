@@ -8,6 +8,8 @@ defmodule EctoRole.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      # Start the Ecto repository
+      supervisor(EctoRole.Repo, []),
       # Starts a worker by calling: EctoRole.Worker.start_link(arg)
       # {EctoRole.Worker, arg},
     ]
