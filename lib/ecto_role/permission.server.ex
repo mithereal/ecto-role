@@ -10,7 +10,8 @@ defmodule EctoRole.Permission.Server do
   @registry_name :ecto_role_registry
   @name __MODULE__
 
-  defstruct schemas: [ ]
+  defstruct schema: nil,
+            permissions: []
 
 
   def start_link(id) do
