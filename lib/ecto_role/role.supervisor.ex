@@ -1,4 +1,4 @@
-defmodule EctoRole.Supervisor do
+defmodule EctoRole.Role.Supervisor do
 
   use Supervisor
 
