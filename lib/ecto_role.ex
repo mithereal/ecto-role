@@ -3,11 +3,11 @@ defmodule EctoRole do
   alias EctoRole.Repo
 
   @moduledoc """
-  Documentation for EctoRole.
+  Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP
   """
 
   @doc """
-  ** Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP **
+  ** is?: checks if username is role **
 
   ## Examples
 
@@ -16,6 +16,19 @@ defmodule EctoRole do
 
   """
   def is?(key, role) do
+    :false
+  end
+
+  @doc """
+  ** filter: filters struct based on role/struct **
+
+  ## Examples
+
+      iex> EctoRole.filter "key", %{}
+      :false
+
+  """
+  def filter(key, struct) do
     :false
   end
 
