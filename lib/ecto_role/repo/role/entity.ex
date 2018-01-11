@@ -9,9 +9,7 @@ defmodule EctoRole.Entity do
 
 
   alias EctoRole.Role, as: Role
-  alias EctoRole.Permissions, as: Permissions
   alias EctoRole.Entity.Role, as: ER
-  alias EctoRole.RoleToPermission, as PR
 
 
   schema "entity" do
@@ -20,7 +18,6 @@ defmodule EctoRole.Entity do
     field :key, :string
 
     many_to_many :roles, Role, join_through: ER
-    many_to_many :permissions, Permissions, join_through: PR
   end
 
   @params ~w(name value key)a
