@@ -1,19 +1,23 @@
-defmodule EctoRole.Server do
+defmodule EctoEntity.Server do
 
   use GenServer
 
   require Logger
 
-  @moduledoc "A Simple Server to Store Your Roles."
+  @moduledoc "A Simple Server to Store Your Entitys."
 
-  alias EctoRole.Role
+  alias EctoEntity.Entity
 
 
-  @registry_name :ecto_role_registry
+  @registry_name :ecto_entity_registry
   @name __MODULE__
 
-  defstruct entites: [ ],
-            permissions: [ ]
+
+  defstruct name: nil,
+            value: nil,
+            key: nil,
+            uuid: nil,
+            roles: [ ]
 
 
   def start_link(id) do
@@ -51,20 +55,8 @@ defmodule EctoRole.Server do
     updated_state = case is_nil id do
       true -> state
       false -> params = %{key: id}
-               record = Role.get_role(params)
-
-               Enum.each(record.entities, fn(x) ->
-
-                 EctoRole.Entity.Supervisor.start(x.uuid)
-               end)
-
-
-               Enum.each(record.permissions, fn(x) ->
-
-                 EctoRole.Permission.Supervisor.start(x.key)
-               end)
-
-               %__MODULE__{  state | entites: record.entites, permissions: record.permissions }
+               record = Entity.get_entity(params)
+               %__MODULE__{  state | name: record.name, value: record.value, key: record.key, uuid: record.uuid, roles: record.roles }
     end
 
 

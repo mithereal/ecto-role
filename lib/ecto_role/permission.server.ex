@@ -8,6 +8,7 @@ defmodule EctoRole.Permission.Server do
 A Simple Server to Store Your Permissions.
 """
 
+  alias EctoEntity.Permission
 
   @registry_name :ecto_role_registry
   @name __MODULE__
@@ -26,6 +27,28 @@ A Simple Server to Store Your Permissions.
   defp via_tuple(id) do
 
     {:via, Registry, {@registry_name, id}}
+  end
+
+
+  def init([id]) do
+
+    send(self(), { :setup, id })
+
+    state = %__MODULE__{}
+    {:ok, state }
+  end
+
+  def handle_info( { :setup, id }, state) do
+
+    updated_state = case is_nil id do
+      true -> state
+      false -> params = %{key: id}
+               record = Permission.get_permissions(params)
+               %__MODULE__{  state | schema: record.name, permissions: record.value }
+    end
+
+
+    {:noreply, updated_state}
   end
 
 end

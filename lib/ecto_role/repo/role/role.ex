@@ -41,56 +41,66 @@ defmodule EctoRole.Role do
   Fetch the Entitys belonging to the Role by key
   """
   def get_entities(%{key: value}) do
-    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites)
-    role.entities
+    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites)
+    record.entities
   end
 
   @doc """
   Fetch the Entitys belonging to the Role by name
   """
   def get_entities(%{name: value}) do
-    role = Repo.get_by(Role, name: value) |> Repo.preload(:entites)
-    role.entities
+    record = Repo.get_by(Role, name: value) |> Repo.preload(:entites)
+    record.entities
   end
 
   @doc """
   Fetch the Permissions belonging to the Role by key
   """
   def get_permissions(%{key: value}) do
-    role = Repo.get_by(Role, key: value) |> Repo.preload(:permissions)
-    role.permissions
+    record = Repo.get_by(Role, key: value) |> Repo.preload(:permissions)
+    record.permissions
   end
 
   @doc """
   Fetch the Permissions belonging to the Role by name
   """
   def get_permissions(%{name: value}) do
-    role = Repo.get_by(Role, name: value) |> Repo.preload(:permissions)
-    role.permissions
+    record = Repo.get_by(Role, name: value) |> Repo.preload(:permissions)
+    record.permissions
   end
 
   @doc """
   Fetch the Complete Role by key
   """
   def get_role(%{key: value}) do
-    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
-    role
+    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record
   end
 
   @doc """
   Fetch the Complete Role by name
   """
   def get_role(%{name: value}) do
-    role = Repo.get_by(Role, name: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
-    role
+    record = Repo.get_by(Role, name: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record
   end
 
   @doc """
   Fetch the Complete Role by key
   """
   def get_role(%{key: value}) do
-    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
-    role
+    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record
+  end
+
+ @doc """
+  check if uuid has permission
+  """
+  def has_permission(id, permission) do
+    ##lookup uuid
+    ## get roles
+    ##check for permission
+    false
   end
 
 end

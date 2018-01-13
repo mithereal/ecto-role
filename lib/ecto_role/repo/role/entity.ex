@@ -58,4 +58,21 @@ the value is the expected value
   end
 
 
+  @doc """
+  Fetch the Complete Entity by name
+  """
+  def get_entity(%{name: value}) do
+    record = Repo.get_by(Entity, name: value) |> Repo.preload(:roles)
+    record
+  end
+
+  @doc """
+  Fetch the Complete Entity by key
+  """
+  def get_entity(%{key: value}) do
+    record = Repo.get_by(Entity, name: value) |> Repo.preload(:roles)
+    record
+  end
+
+
 end

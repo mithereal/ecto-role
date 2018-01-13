@@ -30,7 +30,7 @@ defmodule EctoRole.Permission do
     timestamps()
   end
 
-  @params ~w(name)a
+  @params ~w(name read write create delete key)a
   @required_fields ~w(name)a
 
 
@@ -43,5 +43,20 @@ defmodule EctoRole.Permission do
     |> validate_required(@required_fields)
   end
 
+  @doc """
+  Fetch the Complete Permsission set by schema
+  """
+  def get_permissions(%{key: value}) do
+    record = Repo.get_by(Permission, key: value) |> Repo.preload(:schema)
+    record
+  end
+
+  @doc """
+  Fetch the Complete Permsission set by schema
+  """
+  def get_permissions(%{name: value}) do
+    record = Repo.get_by(Permission, name: value) |> Repo.preload(:schema)
+    record
+  end
 
 end
