@@ -1,6 +1,10 @@
 defmodule EctoRole.Entity do
 
-  @moduledoc false
+  @moduledoc """
+  Entity: Represents a schema where the name is the name of the schema, the key is the column to select on and
+the value is the expected value
+  """
+
 
   use Ecto.Schema
 
@@ -13,9 +17,9 @@ defmodule EctoRole.Entity do
 
 
   schema "entity" do
-    field :name, :string
-    field :value, :string
-    field :key, :string
+    field :name, :string ## ex. users
+    field :value, :string  ## ex. mithereal
+    field :key, :string ## ex. username
 
     many_to_many :roles, Role, join_through: ER
   end
@@ -32,5 +36,15 @@ defmodule EctoRole.Entity do
     |> cast(params, @params)
     |> validate_required(@required_fields)
   end
+
+
+  @doc """
+  Fetch the Roles the Entity belongs to
+  """
+  def show_roles()do
+
+
+  end
+
 
 end

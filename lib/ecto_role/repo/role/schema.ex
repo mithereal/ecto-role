@@ -1,6 +1,8 @@
 defmodule EctoRole.Schema do
 
-  @moduledoc false
+  @moduledoc """
+  Schema: Represents a Schema and associated Fields
+"""
 
   use Ecto.Schema
 

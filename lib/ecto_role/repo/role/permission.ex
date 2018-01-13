@@ -1,6 +1,8 @@
 defmodule EctoRole.Permission do
 
-  @moduledoc false
+  @moduledoc """
+  Permission: Represents the permissions on a schema
+"""
 
   use Ecto.Schema
 

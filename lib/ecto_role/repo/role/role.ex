@@ -1,6 +1,8 @@
 defmodule EctoRole.Role do
 
-  @moduledoc false
+  @moduledoc """
+  Role: Represents a Role and Permissions for an associated Entity.
+"""
 
   use Ecto.Schema
 
@@ -35,5 +37,52 @@ defmodule EctoRole.Role do
     |> validate_required(@required_fields)
   end
 
+  @doc """
+  Fetch the Entitys belonging to the Role by key
+  """
+  def get_entities(%{key: value}) do
+    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites)
+    role.entities
+  end
+
+  @doc """
+  Fetch the Entitys belonging to the Role by name
+  """
+  def get_entities(%{name: value}) do
+    role = Repo.get_by(Role, name: value) |> Repo.preload(:entites)
+    role.entities
+  end
+
+  @doc """
+  Fetch the Permissions belonging to the Role by key
+  """
+  def get_permissions(%{key: value}) do
+    role = Repo.get_by(Role, key: value) |> Repo.preload(:permissions)
+    role.permissions
+  end
+
+  @doc """
+  Fetch the Permissions belonging to the Role by name
+  """
+  def get_permissions(%{name: value}) do
+    role = Repo.get_by(Role, name: value) |> Repo.preload(:permissions)
+    role.permissions
+  end
+
+  @doc """
+  Fetch the Complete Role by key
+  """
+  def get_role(%{key: value}) do
+    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    role
+  end
+
+  @doc """
+  Fetch the Complete Role by name
+  """
+  def get_role(%{name: value}) do
+    role = Repo.get_by(Role, name: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    role
+  end
 
 end

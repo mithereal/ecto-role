@@ -6,6 +6,8 @@ defmodule EctoRole.Server do
 
   @moduledoc "A Simple Server to Store Your Roles."
 
+  alias EctoRole.Role
+
 
   @registry_name :ecto_role_registry
   @name __MODULE__
@@ -25,5 +27,37 @@ defmodule EctoRole.Server do
 
     {:via, Registry, {@registry_name, id}}
   end
+
+  def get_entities (id) do
+
+    GenServer.call(via_tuple(id), :get_entities)
+  end
+
+  def get_permissions (id) do
+
+    GenServer.call(via_tuple(id), :get_permissions)
+  end
+
+  def init([id]) do
+
+    send(self(), { :setup, id })
+
+    state = %__MODULE__{}
+    {:ok, state }
+  end
+
+  def handle_info( { :setup, id }, state) do
+
+    updated_state = case is_nil id do
+      true -> state
+      false -> entites = Role.get_entities id
+               permissions = Role.get_permissions id
+               %__MODULE__{  state | entites: entites, permissions: permissions }
+    end
+
+
+    {:noreply, updated_state}
+  end
+
 
 end
