@@ -50,9 +50,9 @@ defmodule EctoRole.Server do
 
     updated_state = case is_nil id do
       true -> state
-      false -> entites = Role.get_entities id
-               permissions = Role.get_permissions id
-               %__MODULE__{  state | entites: entites, permissions: permissions }
+      false -> params = %{key: id}
+               role = Role.get_role(params)
+               %__MODULE__{  state | entites: role.entites, permissions: role.permissions }
     end
 
 

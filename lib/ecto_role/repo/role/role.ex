@@ -85,4 +85,12 @@ defmodule EctoRole.Role do
     role
   end
 
+  @doc """
+  Fetch the Complete Role by key
+  """
+  def get_role(%{key: value}) do
+    role = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    role
+  end
+
 end

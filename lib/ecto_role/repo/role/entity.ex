@@ -5,7 +5,6 @@ defmodule EctoRole.Entity do
 the value is the expected value
   """
 
-
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -21,6 +20,8 @@ the value is the expected value
     field :value, :string  ## ex. mithereal
     field :key, :string ## ex. username
 
+    field :uuid, :string ## this will represent the uniq user
+
     many_to_many :roles, Role, join_through: ER
   end
 
@@ -35,6 +36,25 @@ the value is the expected value
     struct
     |> cast(params, @params)
     |> validate_required(@required_fields)
+    |> generate_uuid()
+  end
+
+  @doc """
+  Builds an update changeset based on the `struct` and `params`.
+  """
+  def update_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @params)
+    |> validate_required(@required_fields)
+  end
+
+  defp generate_uuid(changeset) do
+
+    uuid = Ecto.UUID.generate
+
+    changeset
+    |> put_change(:uuid, uuid)
+
   end
 
 
