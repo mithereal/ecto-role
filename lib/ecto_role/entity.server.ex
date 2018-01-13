@@ -17,7 +17,8 @@ defmodule EctoEntity.Server do
             value: nil,
             key: nil,
             uuid: nil,
-            roles: [ ]
+            roles: [ ],
+            permissions: [ ]
 
 
   def start_link(id) do
@@ -32,14 +33,19 @@ defmodule EctoEntity.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_entities (id) do
+  def get_roles (id) do
 
-    GenServer.call(via_tuple(id), :get_entities)
+    GenServer.call(via_tuple(id), :get_roles)
   end
 
   def get_permissions (id) do
 
     GenServer.call(via_tuple(id), :get_permissions)
+  end
+
+  def has_permission (uuid, params) do
+
+    GenServer.call(via_tuple(uuid), { :has_permission, params })
   end
 
   def init([id]) do
@@ -56,7 +62,13 @@ defmodule EctoEntity.Server do
       true -> state
       false -> params = %{key: id}
                record = Entity.get_entity(params)
-               %__MODULE__{  state | name: record.name, value: record.value, key: record.key, uuid: record.uuid, roles: record.roles }
+               roles = Enum.map(record.roles, fn(x) ->
+                 Enum.map(x.permissions, fn(y) ->
+                   y.key
+                 end)
+                end)
+               permissions = []
+               %__MODULE__{  state | name: record.name, value: record.value, key: record.key, uuid: record.uuid, roles: record.roles, permissions: permissions }
     end
 
 
