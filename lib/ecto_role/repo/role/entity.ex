@@ -38,13 +38,4 @@ the value is the expected value
   end
 
 
-  @doc """
-  Fetch the Roles the Entity belongs to
-  """
-  def show_roles()do
-
-
-  end
-
-
 end
