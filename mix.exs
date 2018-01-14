@@ -2,6 +2,8 @@ defmodule EctoRole.Mixfile do
   use Mix.Project
 
   @version "0.1.0"
+  @source_url "https://github.com/mithereal/ecto-role"
+
 
   def project do
     [
@@ -10,11 +12,12 @@ defmodule EctoRole.Mixfile do
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      docs: docs(),
       build_embedded: Mix.env == :prod,
       description: description(),
       package: package(),
       name: "Ecto Role",
-      source_url: "https://github.com/mithereal/ecto-role"
+      source_url: @source_url
     ]
   end
 
@@ -31,7 +34,9 @@ defmodule EctoRole.Mixfile do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ecto, "~> 2.1"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:inch_ex, only: :docs}
     ]
   end
 
@@ -42,14 +47,32 @@ defmodule EctoRole.Mixfile do
   end
 
   defp package() do
-    [maintainers: ["Jason Clark"],
+    [
+      maintainers: ["Jason Clark"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/mithereal/ecto-role"}]
+      links:  %{GitHub: @source_url },
+      files: [
+        "lib",
+        "CHANGELOG.md",
+        "LICENSE",
+        "mix.exs",
+        "README.md",
+        "priv/templates"
+      ]
+    ]
   end
 
   defp aliases do
-    [c: "compile"]
+    [c: "compile", test: ["ecto.drop --quiet", "ecto.create --quiet", "ectorole.db.gen.migration", "ecto.migrate", "test"]]
   end
 
-
+  defp docs do
+    [
+      main: "readme",
+      homepage_url: @source_url,
+      source_ref: "v#{@version}",
+      source_url: @source_url,
+      extras: ["README.md"]
+    ]
+  end
 end

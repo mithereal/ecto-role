@@ -2,6 +2,11 @@
 
 ** Ecto-Role: Implement Table, Row and Column Locking via OTP  **
 
+
+[![Build Status](https://travis-ci.org/mithereal/ecto-role.svg?branch=master)](https://travis-ci.org/mithereal/ecto-role)
+
+[![Inline docs](http://inch-ci.org/github/mithereal/ecto-role.svg)](http://inch-ci.org/github/mithereal/ecto-role)
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed

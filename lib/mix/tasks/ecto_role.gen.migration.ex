@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.EctoRole.Install do
+defmodule Mix.Tasks.EctoRole.Gen.Migration do
   @shortdoc "Generates a migration for role based db locking"
 
   @moduledoc """

@@ -33,17 +33,17 @@ defmodule EctoEntity.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_roles (id) do
+  def get_roles(id) do
 
     GenServer.call(via_tuple(id), :get_roles)
   end
 
-  def get_permissions (id) do
+  def get_permissions(id) do
 
     GenServer.call(via_tuple(id), :get_permissions)
   end
 
-  def has_permission (uuid, params) do
+  def has_permission(uuid, params) do
 
     GenServer.call(via_tuple(uuid), { :has_permission, params })
   end

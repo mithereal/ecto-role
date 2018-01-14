@@ -4,8 +4,10 @@ defmodule EctoRole.Application do
   @moduledoc false
 
   use Application
+  use Supervisor
 
   alias EctoRole.Role
+  alias EctoRole.Repo
 
   def start(_type, _args) do
     # List all child processes to be supervised
@@ -18,8 +20,8 @@ defmodule EctoRole.Application do
       supervisor(EctoRole.Role.Supervisor, []),
       supervisor(EctoRole.Schema.Supervisor, []),
 
-      worker(Task, [&load_roles/0], restart: :transient),
-      worker(Task, [&load_schema/0], restart: :transient),
+      worker(Task, [&init/0], restart: :transient),
+
       # Starts a worker by calling: EctoRole.Worker.start_link(arg)
       # {EctoRole.Worker, arg},
     ]
@@ -42,7 +44,7 @@ defmodule EctoRole.Application do
   end
 
   # load the schema
-  defp load_schema do
+  defp load_schemas do
 
     schemas = EctoRole.Schema.fetch()
 
@@ -50,6 +52,13 @@ defmodule EctoRole.Application do
       EctoRole.Schema.Supervisor.start x
     end)
 
+  end
+
+  # init the initial state of the otp app
+  defp init do
+
+    load_schemas
+    load_roles
   end
 
 end
