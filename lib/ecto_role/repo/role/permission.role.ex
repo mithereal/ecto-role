@@ -9,7 +9,7 @@ defmodule EctoRole.Permission.Role do
 
   alias EctoRole.Permission.Role
 
-  schema "role_to_permission" do
+  schema "er.role_to_permission" do
     field :role_id, :integer
     field :permission_id, :integer
 

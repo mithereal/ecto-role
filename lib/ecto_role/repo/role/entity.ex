@@ -15,7 +15,7 @@ the value is the expected value
   alias EctoRole.Entity.Role, as: ER
 
 
-  schema "entity" do
+  schema "er.entity" do
     field :name, :string ## ex. users
     field :value, :string  ## ex. mithereal
     field :key, :string ## ex. username

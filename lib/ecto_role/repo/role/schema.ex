@@ -12,7 +12,7 @@ defmodule EctoRole.Schema do
   alias EctoRole.Permission
 
 
-  schema "schema" do
+  schema "er.schema" do
     field :name, :string
     field :fields, :string
 

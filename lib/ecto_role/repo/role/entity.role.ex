@@ -10,7 +10,7 @@ defmodule EctoRole.Entity.Role do
   alias EctoRole.Entity.Role
 
 
-  schema "role_to_entity" do
+  schema "er.role_to_entity" do
     field :role_id, :integer
     field :entity_id, :integer
 

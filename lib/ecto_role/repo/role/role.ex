@@ -15,7 +15,7 @@ defmodule EctoRole.Role do
   alias EctoRole.Permission.Role, as: PR
   alias EctoRole.Entity.Role, as ER
 
-  schema "role" do
+  schema "er.role" do
     field :name, :string
     field :value, :string
     field :key, :string
