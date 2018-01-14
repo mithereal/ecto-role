@@ -62,12 +62,12 @@ defmodule EctoEntity.Server do
       true -> state
       false -> params = %{key: id}
                record = Entity.get_entity(params)
-               roles = Enum.map(record.roles, fn(x) ->
+               permissions = Enum.map(record.roles, fn(x) ->
                  Enum.map(x.permissions, fn(y) ->
                    y.key
                  end)
                 end)
-               permissions = []
+
                %__MODULE__{  state | name: record.name, value: record.value, key: record.key, uuid: record.uuid, roles: record.roles, permissions: permissions }
     end
 

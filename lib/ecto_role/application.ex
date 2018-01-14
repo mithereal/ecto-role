@@ -16,8 +16,10 @@ defmodule EctoRole.Application do
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(EctoRole.Permission.Supervisor, []),
       supervisor(EctoRole.Role.Supervisor, []),
+      supervisor(EctoRole.Schema.Supervisor, []),
 
       worker(Task, [&load_roles/0], restart: :transient),
+      worker(Task, [&load_schema/0], restart: :transient),
       # Starts a worker by calling: EctoRole.Worker.start_link(arg)
       # {EctoRole.Worker, arg},
     ]
@@ -35,6 +37,17 @@ defmodule EctoRole.Application do
 
     Enum.each(roles, fn(x) ->
       EctoRole.Role.Supervisor.start x.key
+    end)
+
+  end
+
+  # load the schema
+  defp load_schema do
+
+    schemas = EctoRole.Schema.fetch()
+
+    Enum.each(schemas, fn(x) ->
+      EctoRole.Schema.Supervisor.start x
     end)
 
   end

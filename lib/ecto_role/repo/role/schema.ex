@@ -34,5 +34,11 @@ defmodule EctoRole.Schema do
     |> validate_required(@required_fields)
   end
 
+  @doc """
+  Fetch the entire schema from the db
+  """
+  def fetch() do
+  []
+  end
 
 end
