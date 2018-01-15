@@ -25,11 +25,11 @@ defmodule EctoRole do
   ## Examples
 
       iex> EctoRole.filter "key", %{}
-      :false
+      %{}
 
   """
   def filter(key, struct) do
-    :false
+    struct
   end
 
 

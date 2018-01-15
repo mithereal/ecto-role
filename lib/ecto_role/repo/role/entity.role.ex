@@ -7,6 +7,8 @@ defmodule EctoRole.Entity.Role do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Repo, as: Repo
+
   alias EctoRole.Entity.Role
 
 

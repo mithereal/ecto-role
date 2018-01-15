@@ -6,7 +6,7 @@ defmodule EctoEntity.Server do
 
   @moduledoc "A Simple Server to Store Your Entitys."
 
-  alias EctoEntity.Entity
+  alias EctoRole.Entity
 
 
   @registry_name :ecto_entity_registry

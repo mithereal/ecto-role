@@ -8,6 +8,7 @@ defmodule EctoRole.Repo.Migrations.SetupEctoRoleTables do
       add :key, :string, null: false
 
     end
+
     create index(:entity, [:key])
 
 
@@ -31,7 +32,9 @@ defmodule EctoRole.Repo.Migrations.SetupEctoRoleTables do
       add :key, :string, null: false
 
     end
+
     create index(:role, [:key])
+
 
     create table(:schema) do
       add :name, :string, null: false
@@ -40,7 +43,7 @@ defmodule EctoRole.Repo.Migrations.SetupEctoRoleTables do
       timestamps
     end
 
-
-
   end
+
+
 end

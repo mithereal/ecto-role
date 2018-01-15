@@ -40,7 +40,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.EctoRole do
       timestamps
     end
 
-
-
   end
+
+
 end

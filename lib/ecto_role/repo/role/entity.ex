@@ -2,7 +2,7 @@ defmodule EctoRole.Entity do
 
   @moduledoc """
   Entity: Represents a schema where the name is the name of the schema, the key is the column to select on and
-the value is the expected value
+the value is the expected value, the uuid is the generated key representing this entity/schema combination
   """
 
   use Ecto.Schema
@@ -10,6 +10,7 @@ the value is the expected value
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Repo, as: Repo
 
   alias EctoRole.Role, as: Role
   alias EctoRole.Entity.Role, as: ER

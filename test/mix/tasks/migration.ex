@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
+defmodule Mix.Tasks.EctoRole.Gen.Migration do
   use ExUnit.Case, async: true
   import Mix.Tasks.EctoRole.Gen.Migration, only: [run: 1]
   import EctoRole.Test.Support.FileHelpers
@@ -7,7 +7,7 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
   @tmp_path Path.join(tmp_path(), inspect(EctoRole.Gen.Migration))
   @migrations_path Path.join(@tmp_path, "migrations")
 
-  defmodule My.Repo do
+  defmodule Setup.Repo do
     def __adapter__ do
       true
     end
@@ -23,8 +23,10 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
   end
 
   test "generates a new migration" do
-    run(["-r", to_string(My.Repo)])
+    run(["-r", to_string(Setup.Repo)])
     assert [name] = File.ls!(@migrations_path)
     assert String.match?(name, ~r/^\d{14}_ectorole\.exs$/)
   end
+
+
 end
