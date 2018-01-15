@@ -9,6 +9,8 @@ defmodule EctoRole.Schema do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Repo, as: Repo
+
   alias EctoRole.Permission
 
 
