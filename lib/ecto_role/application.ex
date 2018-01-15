@@ -46,7 +46,7 @@ defmodule EctoRole.Application do
   # load the schema
   defp load_schemas do
 
-    schemas = EctoRole.Schema.fetch()
+    schemas = EctoRole.Schema.all
 
     Enum.each(schemas, fn(x) ->
       EctoRole.Schema.Supervisor.start x

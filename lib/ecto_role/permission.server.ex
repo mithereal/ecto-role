@@ -8,7 +8,7 @@ defmodule EctoRole.Permission.Server do
 A Simple Server to Store Your Permissions.
 """
 
-  alias EctoEntity.Permission
+  alias EctoRole.Permission
 
   @registry_name :ecto_role_registry
   @name __MODULE__

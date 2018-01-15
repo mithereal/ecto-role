@@ -39,8 +39,13 @@ defmodule EctoRole.Schema do
   @doc """
   Fetch the entire schema from the db
   """
-  def fetch() do
+  def all() do
   []
   end
+
+  def get_schema(name) do
+    []
+  end
+
 
 end
