@@ -23,17 +23,15 @@ defmodule EctoRole.Mixfile do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [applications: applications(Mix.env)]
+    [applications: applications(Mix.env),
+      extra_applications: [:logger],
+      mod: {EctoRole.Application, []}
+    ]
   end
 
   defp applications(:test), do: [:logger, :postgrex]
 
-  defp applications(_) do
-     [
-     extra_applications: [:logger],
-     mod: {EctoRole.Application, []}
-     ]
-  end
+  defp applications(_), do: [:logger]
 
 
   # Run "mix help deps" to learn about dependencies.
