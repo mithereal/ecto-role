@@ -25,7 +25,7 @@ notifications:
 sudo: false
 
 before_script:
-  - psql -c 'create database ecto_role_test;' -U postgres
+  - psql -c 'create database ecto_role_test;' -U travis
 
 script:
   - mix test
