@@ -26,7 +26,6 @@ sudo: false
 
 before_script:
   - psql -c 'create database ecto_role_test;' -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ecto_role_test TO travis;" -U postgres
 
 script:
   - mix test
