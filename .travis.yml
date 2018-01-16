@@ -18,6 +18,7 @@ env:
   global:
     - DB=pgsql
     - MIX_ENV=test
+    - ECTO_ROLE_REPO='EctoRole.Test.Repo'
 
 notifications:
   email: false
