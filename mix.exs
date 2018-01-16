@@ -64,7 +64,7 @@ defmodule EctoRole.Mixfile do
   end
 
   defp aliases do
-    [c: "compile", test: ["ecto.drop --quiet", "ecto.create --quiet", "ectorole.db.gen.migration", "ecto.migrate", "test"]]
+    [c: "compile", test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto_role.gen.migration", "ecto.migrate", "test"]]
   end
 
   defp docs do
