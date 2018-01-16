@@ -13,6 +13,7 @@ defmodule EctoRole.Application do
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
+      supervisor(EctoRole.repo(), []),
       supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(EctoRole.Permission.Supervisor, []),
@@ -34,7 +35,7 @@ defmodule EctoRole.Application do
   # load the available roles
   defp load_roles do
 
-    roles = EctoRole.Repo.all(Role)
+    roles = EctoRole.repo().all(Role)
 
     Enum.each(roles, fn(x) ->
       EctoRole.Role.Supervisor.start x.key

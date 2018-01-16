@@ -32,5 +32,9 @@ defmodule EctoRole do
     struct
   end
 
+  def repo do
+    :ecto_role
+    |> Application.fetch_env!(ECTO_ROLE_REPO)
+  end
 
 end
