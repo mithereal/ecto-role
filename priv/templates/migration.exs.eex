@@ -1,4 +1,4 @@
-defmodule <%= module_prefix %>.Repo.Migrations.EctoRole do
+defmodule Ectorole.Repo.Migrations.EctoRole do
   use Ecto.Migration
 
   def change do

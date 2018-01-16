@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.EctoRole.Gen.Migration do
+defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
   use ExUnit.Case, async: true
   import Mix.Tasks.EctoRole.Gen.Migration, only: [run: 1]
   import EctoRole.Test.Support.FileHelpers
