@@ -9,7 +9,6 @@ defmodule EctoRole.Role do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Repo, as: Repo
 
   alias EctoRole.Role
   alias EctoRole.Permission
@@ -39,11 +38,17 @@ defmodule EctoRole.Role do
     |> validate_required(@required_fields)
   end
 
+  def repo do
+    :ecto_role
+    |> Application.fetch_env!(EctoRole)
+    |> Keyword.fetch!(:repo)
+  end
+
   @doc """
   Fetch the Entitys belonging to the Role by key
   """
   def get_entities(%{key: value}) do
-    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites)
+    record = EctoRole.repo().get_by(Role, key: value) |> EctoRole.repo().preload(:entites)
     record.entities
   end
 
@@ -51,7 +56,7 @@ defmodule EctoRole.Role do
   Fetch the Entitys belonging to the Role by name
   """
   def get_entities(%{name: value}) do
-    record = Repo.get_by(Role, name: value) |> Repo.preload(:entites)
+    record = EctoRole.repo().get_by(Role, name: value) |> EctoRole.repo().preload(:entites)
     record.entities
   end
 
@@ -59,7 +64,7 @@ defmodule EctoRole.Role do
   Fetch the Permissions belonging to the Role by key
   """
   def get_permissions(%{key: value}) do
-    record = Repo.get_by(Role, key: value) |> Repo.preload(:permissions)
+    record = EctoRole.repo().get_by(Role, key: value) |> EctoRole.repo().preload(:permissions)
     record.permissions
   end
 
@@ -67,7 +72,7 @@ defmodule EctoRole.Role do
   Fetch the Permissions belonging to the Role by name
   """
   def get_permissions(%{name: value}) do
-    record = Repo.get_by(Role, name: value) |> Repo.preload(:permissions)
+    record = EctoRole.repo().get_by(Role, name: value) |> EctoRole.repo().preload(:permissions)
     record.permissions
   end
 
@@ -75,7 +80,7 @@ defmodule EctoRole.Role do
   Fetch the Complete Role by key
   """
   def get_role(%{key: value}) do
-    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record = EctoRole.repo().get_by(Role, key: value) |> EctoRole.repo().preload(:entites) |> EctoRole.repo().preload(permissions: :schema)
     record
   end
 
@@ -83,7 +88,7 @@ defmodule EctoRole.Role do
   Fetch the Complete Role by name
   """
   def get_role(%{name: value}) do
-    record = Repo.get_by(Role, name: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record = EctoRole.repo().get_by(Role, name: value) |> EctoRole.repo().preload(:entites) |> EctoRole.repo().preload(permissions: :schema)
     record
   end
 
@@ -91,7 +96,7 @@ defmodule EctoRole.Role do
   Fetch the Complete Role by key
   """
   def get_role(%{key: value}) do
-    record = Repo.get_by(Role, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
+    record = EctoRole.repo().get_by(Role, key: value) |> EctoRole.repo().preload(:entites) |> EctoRole.repo().preload(permissions: :schema)
     record
   end
 

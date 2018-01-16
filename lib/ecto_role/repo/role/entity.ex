@@ -12,7 +12,6 @@ the value is the expected value, the uuid is the generated key representing this
 
   alias EctoRole.Repo, as: Repo
 
-  alias EctoRole.Role, as: Role
   alias EctoRole.Entity.Role, as: ER
 
 
@@ -63,7 +62,7 @@ the value is the expected value, the uuid is the generated key representing this
   Fetch the Complete Entity by name
   """
   def get_entity(%{name: value}) do
-    record = Repo.get_by(Entity, name: value) |> Repo.preload(:roles)
+    record = EctoRole.repo().get_by(Entity, name: value) |> EctoRole.repo().preload(:roles)
     record
   end
 
@@ -71,7 +70,7 @@ the value is the expected value, the uuid is the generated key representing this
   Fetch the Complete Entity by key
   """
   def get_entity(%{key: value}) do
-    record = Repo.get_by(Entity, name: value) |> Repo.preload(:roles)
+    record = EctoRole.repo().get_by(Entity, name: value) |> EctoRole.repo().preload(:roles)
     record
   end
 

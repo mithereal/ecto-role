@@ -9,7 +9,6 @@ defmodule EctoRole.Permission do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Repo, as: Repo
 
   alias EctoRole.Permission
   alias EctoRole.Role
@@ -49,7 +48,7 @@ defmodule EctoRole.Permission do
   Fetch the Complete Permsission set by schema
   """
   def get_permissions(%{key: value}) do
-    record = Repo.get_by(Permission, key: value) |> Repo.preload(:schema)
+    record = EctoRole.repo().get_by(Permission, key: value) |> EctoRole.repo().preload(:schema)
     record
   end
 
@@ -57,7 +56,7 @@ defmodule EctoRole.Permission do
   Fetch the Complete Permsission set by schema
   """
   def get_permissions(%{name: value}) do
-    record = Repo.get_by(Permission, name: value) |> Repo.preload(:schema)
+    record = EctoRole.repo().get_by(Permission, name: value) |> EctoRole.repo().preload(:schema)
     record
   end
 
