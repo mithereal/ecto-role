@@ -7,17 +7,19 @@ defmodule EctoRole.Mixfile do
 
   def project do
     [
+      name: "Ecto Role",
       app: :ecto_role,
       version: @version,
+      description: description(),
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
-      deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env()),
+      package: package(),
       docs: docs(),
       build_embedded: Mix.env == :prod,
-      description: description(),
-      package: package(),
-      name: "Ecto Role",
-      source_url: @source_url
+      start_permanent: Mix.env == :prod,
+      preferred_cli_env: [guardian_db: :test],
+      aliases: aliases(),
+      deps: deps()
     ]
   end
 
@@ -33,12 +35,12 @@ defmodule EctoRole.Mixfile do
 
   defp applications(_), do: [:logger]
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       {:ecto, "~> 2.1"},
       {:postgrex, "~> 0.13", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
