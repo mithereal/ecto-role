@@ -4,9 +4,8 @@ defmodule EctoRole.Permission.Server do
 
   require Logger
 
-  @moduledoc """
-A Simple Server to Store Your Permissions.
-"""
+  @moduledoc false
+
 
   alias EctoRole.Permission
 

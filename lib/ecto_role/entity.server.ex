@@ -4,7 +4,7 @@ defmodule EctoEntity.Server do
 
   require Logger
 
-  @moduledoc "A Simple Server to Store Your Entitys."
+  @moduledoc false
 
   alias EctoRole.Entity
 

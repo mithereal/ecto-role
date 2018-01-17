@@ -4,9 +4,7 @@ defmodule EctoRole.Entity.Supervisor do
 
   require Logger
 
-  @moduledoc """
-  A Supervisor to Start and Manage your Entitys.
-  """
+  @moduledoc false
 
   @registry_name :ecto_role_entity_registry
 

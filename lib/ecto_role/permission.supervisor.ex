@@ -4,9 +4,7 @@ defmodule EctoRole.Permission.Supervisor do
 
   require Logger
 
-  @moduledoc """
-  A Supervisor to Start and Manage your Permissions.
-  """
+  @moduledoc false
 
   @registry_name :ecto_role_permission_registry
 
