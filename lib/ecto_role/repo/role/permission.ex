@@ -10,9 +10,9 @@ defmodule EctoRole.Permission do
   import Ecto.Query
 
 
-  alias EctoRole.Permission
-  alias EctoRole.Role
-  alias EctoRole.Schema, as: Schema
+  alias EctoRole.Permission, as: PERMISSION
+  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Permission.Role, as: PR
 
 
@@ -24,9 +24,9 @@ defmodule EctoRole.Permission do
     field :delete, :boolean
     field :key, :string
 
-    belongs_to :schema, Schema
+    belongs_to :schema, SCHEMA
 
-    many_to_many :roles, Role, join_through: PR
+    many_to_many :roles, ROLE, join_through: PR
 
     timestamps()
   end
@@ -48,7 +48,7 @@ defmodule EctoRole.Permission do
   Fetch the Complete Permsission set by schema
   """
   def get_permissions(%{key: value}) do
-    record = EctoRole.repo().get_by(Permission, key: value) |> EctoRole.repo().preload(:schema)
+    record = EctoRole.repo().get_by(PERMISSION, key: value) |> EctoRole.repo().preload(:schema)
     record
   end
 
@@ -56,7 +56,7 @@ defmodule EctoRole.Permission do
   Fetch the Complete Permsission set by schema
   """
   def get_permissions(%{name: value}) do
-    record = EctoRole.repo().get_by(Permission, name: value) |> EctoRole.repo().preload(:schema)
+    record = EctoRole.repo().get_by(PERMISSION, name: value) |> EctoRole.repo().preload(:schema)
     record
   end
 

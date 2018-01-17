@@ -10,10 +10,8 @@ the value is the expected value, the uuid is the generated key representing this
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Repo, as: Repo
 
   alias EctoRole.Entity.Role, as: ER
-
 
   schema "er.entity" do
     field :name, :string ## ex. users

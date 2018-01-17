@@ -3,6 +3,9 @@ defmodule EctoRole.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  config = Application.get_env(:ecto_role, EctoRole, [])
+  @repo Keyword.get(config, :repo)
+
   use Application
   use Supervisor
 
@@ -13,14 +16,14 @@ defmodule EctoRole.Application do
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(EctoRole.repo(), []),
+      #supervisor(EctoRole.repo(), []),
       supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(EctoRole.Permission.Supervisor, []),
       supervisor(EctoRole.Role.Supervisor, []),
       supervisor(EctoRole.Schema.Supervisor, []),
 
-      worker(Task, [&init/0], restart: :transient),
+      #worker(Task, [&init/0], restart: :transient),
 
       # Starts a worker by calling: EctoRole.Worker.start_link(arg)
       # {EctoRole.Worker, arg},
@@ -34,8 +37,9 @@ defmodule EctoRole.Application do
 
   # load the available roles
   defp load_roles do
-
-    roles = EctoRole.repo().all(Role)
+   repo = EctoRole.repo()
+   IO.inspect repo
+    roles = repo.all(Role)
 
     Enum.each(roles, fn(x) ->
       EctoRole.Role.Supervisor.start x.key

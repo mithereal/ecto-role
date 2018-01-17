@@ -2,6 +2,7 @@ defmodule EctoRole do
 
   alias EctoRole.Repo
 
+
   @moduledoc """
   Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP
   """
@@ -34,7 +35,7 @@ defmodule EctoRole do
 
   def repo do
     :ecto_role
-    |> Application.fetch_env!(ECTO_ROLE_REPO)
+    |> Application.fetch_env!(EctoRole)
   end
 
 end
