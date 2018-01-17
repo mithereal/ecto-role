@@ -20,7 +20,7 @@ defmodule Mix.Tasks.EctoRole.Gen.Migration do
       path = migrations_path(repo)
 
       source_path =
-        :guardian_db
+        :ecto_role
         |> Application.app_dir()
         |> Path.join("priv/templates/migration.exs.eex")
 

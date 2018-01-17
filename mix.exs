@@ -17,7 +17,7 @@ defmodule EctoRole.Mixfile do
       docs: docs(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      preferred_cli_env: [guardian_db: :test],
+      preferred_cli_env: [ecto_role: :test],
       aliases: aliases(),
       deps: deps()
     ]
