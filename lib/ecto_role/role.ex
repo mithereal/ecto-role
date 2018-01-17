@@ -1,8 +1,6 @@
 defmodule EctoRole.Role do
 
-  @moduledoc """
-  Role: Represents a Role and Permissions for an associated Entity.
-"""
+  @moduledoc false
 
   use Ecto.Schema
 
