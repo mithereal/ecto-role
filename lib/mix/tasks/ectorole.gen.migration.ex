@@ -1,8 +1,8 @@
 defmodule Mix.Tasks.EctoRole.Gen.Migration do
-  @shortdoc "Generates Guardian.DB's migration"
+  @shortdoc "Generates EctoRole's migration"
 
   @moduledoc """
-  Generates the required GuardianDb's database migration
+  Generates the required EctoRole's database migration
   """
   use Mix.Task
 
