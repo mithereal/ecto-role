@@ -52,7 +52,7 @@ defmodule EctoRole.Schema do
   end
 
   @doc """
-  Fetch the entire schema for specified table from the db
+  Fetch the entire schema for specified table from the public db
   """
   @spec get_schema(String.t) :: Map.t
   def get_schema(name) when is_binary(name), do: get_schema(name)
@@ -65,6 +65,22 @@ defmodule EctoRole.Schema do
       """
 
       Ecto.Adapters.SQL.query!(Repo, query, ["public", name])
+  end
+
+  @doc """
+  Fetch the entire schema from specified db
+  """
+  @spec get_schema(String.t,String.t) :: Map.t
+  def get_schema(schema, name) when is_binary(name) and is_binary(schema), do: get_schema(schema, name)
+  def get_schema(schema, name) do
+    query = """
+        SELECT *
+        FROM information_schema.columns
+        WHERE table_schema = $1
+        AND table_name   = $2
+      """
+
+      Ecto.Adapters.SQL.query!(Repo, query, [schema,  name])
   end
 
 
