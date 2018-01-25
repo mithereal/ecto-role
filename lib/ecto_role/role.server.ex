@@ -6,7 +6,7 @@ defmodule EctoRole.Server do
 
   @moduledoc "A Simple Server to Store Your Roles."
 
-  alias EctoRole.Role
+  alias EctoRole.Role.Role
 
 
   @registry_name :ecto_role_registry

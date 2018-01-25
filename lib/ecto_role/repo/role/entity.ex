@@ -11,6 +11,7 @@ defmodule EctoRole.Entity do
 
 
   alias EctoRole.Entity.Role, as: ER
+  alias Ecto.Repo, as: Repo
 
   schema "er.entity" do
 
@@ -56,7 +57,7 @@ defmodule EctoRole.Entity do
   Fetch the Complete Entity by uuid
   """
   def get_entity(%{uuid: uuid}) do
-    record = EctoRole.repo().get_by(Entity, uuid: uuid) |> EctoRole.repo().preload(:roles)
+    record = Repo.get_by(Entity, uuid: uuid) |> Repo.preload(:roles)
     record
   end
 
