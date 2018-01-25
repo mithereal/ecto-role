@@ -1,4 +1,4 @@
-defmodule EctoEntity.Server do
+defmodule EctoRole.Entity.Server do
 
   use GenServer
 
@@ -35,17 +35,31 @@ defmodule EctoEntity.Server do
 
   def get_roles(id) do
 
-    GenServer.call(via_tuple(id), :get_roles)
+    try do
+      GenServer.call(via_tuple(id), :get_roles)
+    catch
+      :exit, _ -> {:error, "entity_doesnt_exist"}
+    end
   end
 
   def get_permissions(id) do
 
-    GenServer.call(via_tuple(id), :get_permissions)
+    try do
+      GenServer.call(via_tuple(id), :get_permissions)
+    catch
+      :exit, _ -> {:error, "entity_doesnt_exist"}
+    end
+
   end
 
   def has_permission(uuid, params) do
 
-    GenServer.call(via_tuple(uuid), { :has_permission, params })
+    try do
+      GenServer.call(via_tuple(uuid), { :has_permission, params })
+    catch
+      :exit, _ -> {:error, "entity_doesnt_exist"}
+    end
+
   end
 
   def init([id]) do

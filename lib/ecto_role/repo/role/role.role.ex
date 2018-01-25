@@ -99,7 +99,7 @@ defmodule EctoRole.Role.Role do
   check if uuid has permission
   """
   @spec has_permission(String.t, String.t) :: Map.t
-  def has_permission(id, permission) when is_binary(id) and is_integer(permission), do: is_binary(id, permission)
+  def has_permission(id, permission) when is_binary(id) and is_binary(permission), do: has_permission(id, permission)
   def has_permission(id, permission) do
 
     status = EctoRole.Entity.Supervisor.start(id)

@@ -30,12 +30,20 @@ defmodule EctoRole.Server do
 
   def get_entities (id) do
 
-    GenServer.call(via_tuple(id), :get_entities)
+    try do
+      GenServer.call(via_tuple(id), :get_entities)
+    catch
+      :exit, _ -> {:error, "role_doesnt_exist"}
+    end
   end
 
   def get_permissions (id) do
 
-    GenServer.call(via_tuple(id), :get_permissions)
+    try do
+      GenServer.call(via_tuple(id), :get_permissions)
+    catch
+      :exit, _ -> {:error, "role_doesnt_exist"}
+     end
   end
 
   def init([id]) do
