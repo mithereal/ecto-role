@@ -2,7 +2,9 @@ defmodule EctoRole.Entity do
 
   @moduledoc """
   Entity: Represents a schema where the name is the name of the schema, the key is the column to select on and
-the value is the expected value, the uuid is the generated key representing this entity/schema combination
+the value is the expected value, the uuid is the generated key representing this entity/schema combination,
+this allows different strategies to be used for role authenication, either by tracking the uuid in a schema like user_to_entity,
+creating a row containing the uuid in the user schema or by storing query parameters in the entity relating to schema, key/value pair combinations.
   """
 
   use Ecto.Schema
