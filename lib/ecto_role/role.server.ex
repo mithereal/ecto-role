@@ -95,9 +95,9 @@ defmodule EctoRole.Server do
   end
 
   @doc "queries the server for entities"
-  def handle_call(:get_entities, _from,  %__MODULE__{ entities: entities } = state) do
+  def handle_call(:get_entities, _from,  %__MODULE__{ entites: entites } = state) do
 
-    {:reply, entities, state}
+    {:reply, entites, state}
   end
 
 

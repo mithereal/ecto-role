@@ -10,16 +10,16 @@ defmodule EctoRole.Application do
   use Supervisor
 
   alias EctoRole.Role
-  # alias EctoRole.Repo
+  alias EctoRole.Repo
 
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      #supervisor(EctoRole.Repo, []),
+      supervisor(Repo, []),
       supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
-      supervisor(Registry, [:unique, :ecto_entity_registry], id: :ecto_entity_registry),
+      supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
       supervisor(EctoRole.Entity.Supervisor, []),
       supervisor(EctoRole.Permission.Supervisor, []),
       supervisor(EctoRole.Role.Supervisor, []),

@@ -32,7 +32,7 @@ defmodule EctoRole.Permission.Server do
   def get_permissions(id) do
 
     try do
-      GenServer.call(via_tuple(uuid), :get_permissions)
+      GenServer.call(via_tuple(id), :get_permissions)
     catch
       :exit, _ -> {:error, 'invalid_permission'}
     end

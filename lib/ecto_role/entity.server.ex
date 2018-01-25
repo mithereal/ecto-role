@@ -10,7 +10,7 @@ defmodule EctoRole.Entity.Server do
   alias EctoRole.Entity
 
 
-  @registry_name :ecto_entity_registry
+  @registry_name :ecto_role_entity_registry
 
 
   defstruct name: nil,
