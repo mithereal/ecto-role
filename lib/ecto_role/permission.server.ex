@@ -29,6 +29,16 @@ defmodule EctoRole.Permission.Server do
   end
 
 
+  def get_permissions(id) do
+
+    try do
+      GenServer.call(via_tuple(uuid), :get_permissions)
+    catch
+      :exit, _ -> {:error, 'invalid_permission'}
+    end
+
+  end
+
   def init([id]) do
 
     send(self(), { :setup, id })
@@ -48,6 +58,13 @@ defmodule EctoRole.Permission.Server do
 
 
     {:noreply, updated_state}
+  end
+
+
+  @doc "queries the server for permissions"
+  def handle_call(:get_permissions, _from,  state) do
+
+    {:reply, state, state}
   end
 
 end

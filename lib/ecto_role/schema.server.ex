@@ -36,6 +36,15 @@ defmodule EctoRole.Schema.Server do
     {:ok, state }
   end
 
+  def get_schema(id) do
+
+    try do
+      GenServer.call(via_tuple(id), :get_schema)
+    catch
+      :exit, msg -> {:error, 'invalid_schema'}
+    end
+  end
+
   def handle_info( { :setup, id }, state) do
 
     updated_state = case is_nil id do
@@ -52,5 +61,12 @@ defmodule EctoRole.Schema.Server do
     {:noreply, updated_state}
   end
 
+
+  @doc "queries the server for permissions"
+  def handle_call(:get_schema, _from, %__MODULE__{ fields: fields } = state) do
+
+
+    {:reply, fields, state}
+  end
 
 end

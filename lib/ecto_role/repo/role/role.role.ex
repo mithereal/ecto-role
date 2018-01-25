@@ -7,7 +7,6 @@ defmodule EctoRole.Role.Role do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
 
 
   alias EctoRole.Role.Role, as: ROLE
@@ -106,7 +105,7 @@ defmodule EctoRole.Role.Role do
 
     case status do
     {:error, message} -> %{error: message}
-    _ ->  EctoRole.Entity.Server.has_permission(permission)
+    _ ->  EctoRole.Entity.Server.has_permission(id, permission)
 
     end
 

@@ -4,13 +4,13 @@ defmodule EctoRole.Entity.Server do
 
   require Logger
 
+
   @moduledoc false
 
   alias EctoRole.Entity
 
 
   @registry_name :ecto_entity_registry
-  @name __MODULE__
 
 
   defstruct name: nil,
@@ -38,7 +38,7 @@ defmodule EctoRole.Entity.Server do
     try do
       GenServer.call(via_tuple(id), :get_roles)
     catch
-      :exit, _ -> {:error, "entity_doesnt_exist"}
+      :exit, msg -> {:error, msg}
     end
   end
 
@@ -47,7 +47,7 @@ defmodule EctoRole.Entity.Server do
     try do
       GenServer.call(via_tuple(id), :get_permissions)
     catch
-      :exit, _ -> {:error, "entity_doesnt_exist"}
+      :exit, _ -> {:error, 'invalid_entity'}
     end
 
   end
@@ -55,9 +55,9 @@ defmodule EctoRole.Entity.Server do
   def has_permission(uuid, params) do
 
     try do
-      GenServer.call(via_tuple(uuid), { :has_permission, params })
+      GenServer.call(via_tuple(uuid), { :has_permission,  params })
     catch
-      :exit, _ -> {:error, "entity_doesnt_exist"}
+      :exit, _ -> {:error, 'invalid_entity'}
     end
 
   end
@@ -89,5 +89,24 @@ defmodule EctoRole.Entity.Server do
     {:noreply, updated_state}
   end
 
+
+
+def handle_call( { :has_permission, permission }, _from, %__MODULE__{ permissions: permissions } = state) do
+
+    result = Enum.find(permissions, fn(element) -> match?(%{name: _, read: _, write: _, create: _, delete: _, key: ^permission}, element) end)
+
+    reply = case result do
+            nil ->  false
+            _->  true
+            end
+    {:reply, reply, state}
+  end
+
+  @doc "queries the server for permissions"
+  def handle_call(:get_permission, _from, %__MODULE__{ permissions: permissions } = state) do
+
+
+    {:reply, permissions, state}
+  end
 
 end

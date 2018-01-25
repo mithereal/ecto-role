@@ -33,7 +33,7 @@ defmodule EctoRole.Server do
     try do
       GenServer.call(via_tuple(id), :get_entities)
     catch
-      :exit, _ -> {:error, "role_doesnt_exist"}
+      :exit, _ -> {:error, "invalid_role"}
     end
   end
 
@@ -42,7 +42,16 @@ defmodule EctoRole.Server do
     try do
       GenServer.call(via_tuple(id), :get_permissions)
     catch
-      :exit, _ -> {:error, "role_doesnt_exist"}
+      :exit, _ -> {:error, "invalid_role"}
+     end
+  end
+
+  def get_entities (id) do
+
+    try do
+      GenServer.call(via_tuple(id), :get_entities)
+    catch
+      :exit, _ -> {:error, "invalid_role"}
      end
   end
 
@@ -78,6 +87,19 @@ defmodule EctoRole.Server do
 
     {:noreply, updated_state}
   end
+
+  @doc "queries the server for permissions"
+  def handle_call(:get_permissions, _from,  %__MODULE__{ permissions: permissions } = state) do
+
+    {:reply, permissions, state}
+  end
+
+  @doc "queries the server for entities"
+  def handle_call(:get_entities, _from,  %__MODULE__{ entities: entities } = state) do
+
+    {:reply, entities, state}
+  end
+
 
 
 end
