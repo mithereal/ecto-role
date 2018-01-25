@@ -49,6 +49,7 @@ defmodule EctoRole.Permission do
   @doc """
   Fetch the Complete Permsission set by schema
   """
+  @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{key: value}) do
     record = Repo.get_by(PERMISSION, key: value) |> Repo.preload(:schema)
     record
@@ -57,6 +58,7 @@ defmodule EctoRole.Permission do
   @doc """
   Fetch the Complete Permsission set by schema
   """
+  @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{name: value}) do
     record = Repo.get_by(PERMISSION, name: value) |> Repo.preload(:schema)
     record

@@ -56,6 +56,7 @@ defmodule EctoRole.Entity do
   @doc """
   Fetch the Complete Entity by uuid
   """
+  @spec get_entity(Map.t) :: Map.t
   def get_entity(%{uuid: uuid}) do
     record = Repo.get_by(Entity, uuid: uuid) |> Repo.preload(:roles)
     record
