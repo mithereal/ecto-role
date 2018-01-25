@@ -11,7 +11,7 @@ defmodule EctoRole.Entity do
 
 
   alias EctoRole.Entity.Role, as: ER
-  alias Ecto.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
   schema "er.entity" do
 

@@ -15,7 +15,7 @@ defmodule EctoRole.Permission do
   alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Permission.Role, as: PR
 
-  alias Ecto.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
 
   schema "er.permission" do

@@ -1,7 +1,5 @@
 defmodule EctoRole do
 
-  alias EctoRole.Repo
-
 
   @moduledoc """
   Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP
