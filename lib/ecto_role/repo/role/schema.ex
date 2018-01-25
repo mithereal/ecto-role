@@ -55,6 +55,7 @@ defmodule EctoRole.Schema do
   Fetch the entire schema for specified table from the db
   """
   @spec get_schema(String.t) :: Map.t
+  def get_schema(name) when is_binary(name), do: get_schema(name)
   def get_schema(name) do
     query = """
         SELECT *
