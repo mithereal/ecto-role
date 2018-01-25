@@ -38,7 +38,7 @@ defmodule EctoRole.Application do
   # load the available roles
   defp load_roles do
    repo = EctoRole.repo()
-   IO.inspect repo
+   
     roles = repo.all(Role)
 
     Enum.each(roles, fn(x) ->
@@ -61,8 +61,8 @@ defmodule EctoRole.Application do
   # init the initial state of the otp app
   defp init do
 
-    load_schemas
-    load_roles
+    load_schemas()
+    load_roles()
   end
 
 end
