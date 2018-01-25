@@ -3,22 +3,24 @@ defmodule EctoRole.Application do
   # for more information on OTP Applications
   @moduledoc false
 
-  config = Application.get_env(:ecto_role, EctoRole, [])
-  @repo Keyword.get(config, :repo)
+ # config = Application.get_env(:ecto_role, EctoRole, [])
+ # @repo Keyword.get(config, :repo)
 
   use Application
   use Supervisor
 
   alias EctoRole.Role
-  alias EctoRole.Repo
+  # alias EctoRole.Repo
 
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      #supervisor(EctoRole.repo(), []),
+      #supervisor(EctoRole.Repo, []),
       supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
+      supervisor(Registry, [:unique, :ecto_entity_registry], id: :ecto_entity_registry),
+      supervisor(EctoRole.Entity.Supervisor, []),
       supervisor(EctoRole.Permission.Supervisor, []),
       supervisor(EctoRole.Role.Supervisor, []),
       supervisor(EctoRole.Schema.Supervisor, []),

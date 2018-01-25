@@ -6,9 +6,9 @@ defmodule EctoRole.Schema do
 
   use Ecto.Schema
 
+  import Ecto
   import Ecto.Changeset
   import Ecto.Query
-
 
   alias EctoRole.Permission, as: PERMISSION
 
@@ -41,11 +41,28 @@ defmodule EctoRole.Schema do
   Fetch the entire schema from the db
   """
   def all() do
-  []
+  query = """
+    SELECT table_name
+    FROM information_schema.tables
+    where table_schema = $1
+    ORDER BY table_name;
+  """
+
+  Ecto.Adapters.SQL.query!(Repo, query, ["public"])
   end
 
+  @doc """
+  Fetch the entire schema for specified table from the db
+  """
   def get_schema(name) do
-    []
+    query = """
+        SELECT *
+        FROM information_schema.columns
+        WHERE table_schema = $1
+        AND table_name   = $2
+      """
+
+      Ecto.Adapters.SQL.query!(Repo, query, ["public", name])
   end
 
 

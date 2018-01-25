@@ -8,6 +8,9 @@ defmodule EctoRole.Entity.Supervisor do
 
   @registry_name :ecto_role_entity_registry
 
+  alias EctoRole.Entity, as: ENTITY
+  alias EctoRole.Repo, as: Repo
+
   def start_link do
 
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
@@ -20,8 +23,14 @@ defmodule EctoRole.Entity.Supervisor do
       "%{}"
   """
   def start(id) do
+  ## check if is actually an entity
+    e = Repo.get_by(ENTITY, uuid: id)
 
-    Supervisor.start_child(__MODULE__, [ id ])
+    case e do
+    {:ok,_} -> Supervisor.start_child(__MODULE__, [ id ])
+    _ -> {:error, "Unknown Entity"}
+    end
+
   end
 
   @doc """
