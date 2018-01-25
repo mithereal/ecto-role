@@ -10,7 +10,7 @@ Add Role based authentication to your otp app. Ecto-Role Provides a simple way t
 
 Ecto-Role creates a few schemas to track roles and entities,
 
-Entities are a db table/row/key select statement we are assiging the role to, entities have a uuid to represent the relation.
+Entities are a object we are assiging the role to, entities have a uuid.
 
 Schemas represent the schema and its fields/permissions -- permissions is a list of all permissions relating to the schema
 
@@ -23,7 +23,7 @@ we have a few different ways of looking at this:
 * Schemas have fields (row_names) and permissions
 * Permissions explain how to filter data/actions
 
-By using the entity instead of user we can have many different permissions/filters for different table/row/col combinations and by holding this information in an otp app we can easily query for the permissions on the entity with no need to hit the database 
+By using the entity instead of user we can have many different permissions/filters for different objects and by holding this information in an otp app we can easily query for the permissions on the entity with no need to hit the database 
 
 
 ## Installation

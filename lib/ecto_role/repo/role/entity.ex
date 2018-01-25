@@ -1,10 +1,7 @@
 defmodule EctoRole.Entity do
 
   @moduledoc """
-  Entity: Represents a schema where the name is the name of the schema, the key is the column to select on and
-the value is the expected value, the uuid is the generated key representing this entity/schema combination,
-this allows different strategies to be used for role authenication, either by tracking the uuid in a schema like user_to_entity,
-creating a row containing the uuid in the user schema or by storing query parameters in the entity relating to schema, key/value pair combinations.
+  Entity: Represents a Object That has a Role.
   """
 
   use Ecto.Schema
@@ -16,17 +13,14 @@ creating a row containing the uuid in the user schema or by storing query parame
   alias EctoRole.Entity.Role, as: ER
 
   schema "er.entity" do
-    field :name, :string ## ex. users
-    field :value, :string  ## ex. mithereal
-    field :key, :string ## ex. username
 
-    field :uuid, :string ## this will represent the uniq user
+    field :uuid, :string
 
     many_to_many :roles, Role, join_through: ER
   end
 
-  @params ~w(name value key)a
-  @required_fields ~w(name value)a
+  @params ~w()a
+  @required_fields ~w()a
 
 
   @doc """
@@ -59,18 +53,10 @@ creating a row containing the uuid in the user schema or by storing query parame
 
 
   @doc """
-  Fetch the Complete Entity by name
+  Fetch the Complete Entity by uuid
   """
-  def get_entity(%{name: value}) do
-    record = EctoRole.repo().get_by(Entity, name: value) |> EctoRole.repo().preload(:roles)
-    record
-  end
-
-  @doc """
-  Fetch the Complete Entity by key
-  """
-  def get_entity(%{key: value}) do
-    record = EctoRole.repo().get_by(Entity, name: value) |> EctoRole.repo().preload(:roles)
+  def get_entity(%{uuid: uuid}) do
+    record = EctoRole.repo().get_by(Entity, uuid: uuid) |> EctoRole.repo().preload(:roles)
     record
   end
 
