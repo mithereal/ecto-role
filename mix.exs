@@ -11,7 +11,7 @@ defmodule EctoRole.Mixfile do
       app: :ecto_role,
       version: @version,
       description: description(),
-      elixir: "~> 1.5",
+      elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       docs: docs(),
