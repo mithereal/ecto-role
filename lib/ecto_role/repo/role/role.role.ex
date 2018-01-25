@@ -100,7 +100,7 @@ defmodule EctoRole.Role.Role do
  @doc """
   check if uuid has permission
   """
-  @spec has_permission(id, permission) :: {id, permission} when id: String.t, permission: String.t :: map
+  @spec has_permission(String.t, String.t) :: Map.t
   def has_permission(id, permission) do
 
     status = EctoRole.Entity.Supervisor.start(id)
