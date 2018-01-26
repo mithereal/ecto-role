@@ -1,3 +1,3 @@
 
-{:ok, _pid} = EctoRole.Test.Repo.start_link()
+{:ok, _pid} = EctoRole.Repo.start_link()
 ExUnit.start()
