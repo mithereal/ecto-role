@@ -12,7 +12,8 @@ defmodule EctoRole.Server do
   @registry_name :ecto_role_registry
   @name __MODULE__
 
-  defstruct entites: [ ],
+  defstruct key: nil,
+            entites: [ ],
             permissions: [ ]
 
 
@@ -72,7 +73,7 @@ defmodule EctoRole.Server do
 
                Enum.each(record.entities, fn(x) ->
 
-                 EctoRole.Entity.Supervisor.start(x.uuid)
+                 EctoRole.Entity.Supervisor.start(x.key)
                end)
 
 
@@ -81,7 +82,7 @@ defmodule EctoRole.Server do
                  EctoRole.Permission.Supervisor.start(x.key)
                end)
 
-               %__MODULE__{  state | entites: record.entites, permissions: record.permissions }
+               %__MODULE__{  state | key: id, entites: record.entites, permissions: record.permissions }
     end
 
 
