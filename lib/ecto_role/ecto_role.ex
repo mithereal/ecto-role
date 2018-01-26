@@ -1,5 +1,10 @@
 defmodule EctoRole do
 
+  config = Application.get_env(:ecto_role, EctoRole, [])
+  @repo Keyword.get(config, :repo)
+
+  if config == [], do: raise("EctoRole configuration is required")
+  if is_nil(@repo), do: raise("EctoRole requires a repo")
 
   @moduledoc """
   Ecto-Role: Implement Table, Row and Column Locking(ish) via OTP
