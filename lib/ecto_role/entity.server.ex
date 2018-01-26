@@ -79,6 +79,8 @@ defmodule EctoRole.Entity.Server do
                  end)
                 end)
 
+               permissions = Enum.uniq(permissions)
+
                %__MODULE__{  state |  key: id, roles: record.roles, permissions: permissions }
     end
 
@@ -104,6 +106,13 @@ def handle_call( { :has_permission, permission_key }, _from, %__MODULE__{ permis
 
 
     {:reply, permissions, state}
+  end
+
+  @doc "queries the server for roles"
+  def handle_call(:get_roles, _from, %__MODULE__{ roles: roles } = state) do
+
+
+    {:reply, roles, state}
   end
 
 end

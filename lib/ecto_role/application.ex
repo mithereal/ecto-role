@@ -7,7 +7,7 @@ defmodule EctoRole.Application do
  # @repo Keyword.get(config, :repo)
 
   use Application
-  use Supervisor
+  #use Supervisor
 
   alias EctoRole.Role, as: APP
   alias EctoRole.Role.Role, as: ROLE
@@ -22,6 +22,7 @@ defmodule EctoRole.Application do
   alias EctoRole.Repo
 
   def start(_type, _args) do
+    import Supervisor.Spec
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
