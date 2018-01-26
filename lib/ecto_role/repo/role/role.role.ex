@@ -111,4 +111,11 @@ defmodule EctoRole.Role.Role do
 
   end
 
+  @doc """
+  Fetch all roles
+  """
+  def all() do
+    Repo.all(ROLE)
+  end
+
 end

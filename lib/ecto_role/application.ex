@@ -9,7 +9,10 @@ defmodule EctoRole.Application do
   use Application
   use Supervisor
 
-  alias EctoRole.Role
+  alias EctoRole.Role, as: APP
+  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Schema, as: SCHEMA
+
   alias EctoRole.Repo
 
   def start(_type, _args) do
@@ -17,9 +20,9 @@ defmodule EctoRole.Application do
     children = [
       # Start the Ecto repository
       supervisor(Repo, []),
+      supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
       supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
-      supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
       supervisor(EctoRole.Entity.Supervisor, []),
       supervisor(EctoRole.Permission.Supervisor, []),
       supervisor(EctoRole.Role.Supervisor, []),
@@ -40,8 +43,8 @@ defmodule EctoRole.Application do
   # load the available roles
   defp load_roles do
    repo = EctoRole.repo()
-   
-    roles = repo.all(Role)
+
+    roles = ROLE.all
 
     Enum.each(roles, fn(x) ->
       EctoRole.Role.Supervisor.start x.key
@@ -52,7 +55,7 @@ defmodule EctoRole.Application do
   # load the schema
   defp load_schemas do
 
-    schemas = EctoRole.Schema.all
+    schemas = SCHEMA.all
 
     Enum.each(schemas, fn(x) ->
       EctoRole.Schema.Supervisor.start x
