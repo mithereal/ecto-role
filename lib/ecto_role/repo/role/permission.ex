@@ -64,4 +64,35 @@ defmodule EctoRole.Permission do
     record
   end
 
+  @doc """
+  delete Permission from the list of permissions
+  """
+  def delete(permission) when is_map(permission),  do: delete(permission)
+  def delete(permission) do
+    from(x in PERMISSION, where: x.key == ^permission ) |> Repo.delete_all
+
+
+  end
+
+  @doc """
+  delete all from the list of permissions
+  """
+  def delete_all(permissions) when is_list(permissions),  do: delete_all(permissions)
+  def delete_all(permissions) do
+  Enum.each(permissions, fn(p) ->
+    from(x in PERMISSION, where: x.key == ^p ) |> Repo.delete_all
+  end)
+
+  end
+
+  @doc """
+  create a new permission
+  """
+  def new(attrs \\ %{}) do
+    PERMISSION
+      |> PERMISSION.changeset(attrs)
+      |> Repo.insert()
+
+  end
+
 end

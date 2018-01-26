@@ -26,6 +26,7 @@ defmodule EctoRole.Schema do
 
   @params ~w(name fields)a
   @required_fields ~w(name)a
+  @ignored_schemas ~w(er.entity er.role_to_entity er.permission er.role_to_permission er.role er.schema)a
 
 
   @doc """
@@ -80,8 +81,11 @@ defmodule EctoRole.Schema do
         AND table_name   = $2
       """
 
-      Ecto.Adapters.SQL.query!(Repo, query, [schema,  name])
+       Ecto.Adapters.SQL.query!(Repo, query, [schema,  name])
   end
 
+  def filter_schema(schema) do
+
+  end
 
 end

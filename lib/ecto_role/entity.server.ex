@@ -38,7 +38,7 @@ defmodule EctoRole.Entity.Server do
     try do
       GenServer.call(via_tuple(id), :get_roles)
     catch
-      :exit, msg -> {:error, msg}
+      :exit, _ -> {:error, 'invalid_entity'}
     end
   end
 
@@ -91,9 +91,9 @@ defmodule EctoRole.Entity.Server do
 
 
 
-def handle_call( { :has_permission, permission }, _from, %__MODULE__{ permissions: permissions } = state) do
+def handle_call( { :has_permission, permission_key }, _from, %__MODULE__{ permissions: permissions } = state) do
 
-    result = Enum.find(permissions, fn(element) -> match?(%{name: _, read: _, write: _, create: _, delete: _, key: ^permission}, element) end)
+    result = Enum.find(permissions, fn(element) -> match?(%{name: _, read: _, write: _, create: _, delete: _, key: ^permission_key}, element) end)
 
     reply = case result do
             nil ->  false
@@ -103,7 +103,7 @@ def handle_call( { :has_permission, permission }, _from, %__MODULE__{ permission
   end
 
   @doc "queries the server for permissions"
-  def handle_call(:get_permission, _from, %__MODULE__{ permissions: permissions } = state) do
+  def handle_call(:get_permissions, _from, %__MODULE__{ permissions: permissions } = state) do
 
 
     {:reply, permissions, state}

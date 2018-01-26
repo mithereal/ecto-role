@@ -66,5 +66,26 @@ defmodule EctoRole.Permission.Server do
 
     {:reply, state, state}
   end
+  @doc "add a permission"
+  def handle_call({:add, permission}, _from,  state) do
+
+    {:reply, state, state}
+  end
+
+
+  @doc "save the permission"
+  def handle_call({:save}, _from,  %__MODULE__{ schema: schema , permissions: permissions } = state) do
+
+    Enum.each(permissions, fn(p)->
+      Permission.delete(p)
+    end)
+
+    Enum.each(permissions, fn(p)->
+      Permission.new(p)
+    end)
+
+
+    {:reply, state, state}
+  end
 
 end
