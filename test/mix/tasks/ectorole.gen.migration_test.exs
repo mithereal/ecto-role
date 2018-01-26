@@ -18,7 +18,9 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
 
   setup do
     create_dir(@migrations_path)
-    on_exit(fn -> destroy_tmp_dir("priv/temp/EctoRole.Gen.Migration") end)
+    on_exit(fn -> destroy_tmp_dir("priv/temp/EctoRole.Gen.Migration")
+                  destroy_tmp_dir("priv/temp/ecto_role_test/migrations")
+            end)
     :ok
   end
 
