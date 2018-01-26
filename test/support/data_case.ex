@@ -20,6 +20,4 @@ defmodule EctoRole.Test.DataCase do
     Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self()})
     :ok
   end
-
-
 end

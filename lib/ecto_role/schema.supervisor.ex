@@ -1,5 +1,4 @@
 defmodule EctoRole.Schema.Supervisor do
-
   use Supervisor
 
   require Logger
@@ -11,7 +10,6 @@ defmodule EctoRole.Schema.Supervisor do
   @registry_name :ecto_schema_registry
 
   def start_link do
-
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
@@ -22,8 +20,7 @@ defmodule EctoRole.Schema.Supervisor do
       "%{}"
   """
   def start(id) do
-
-    Supervisor.start_child(__MODULE__, [ id ])
+    Supervisor.start_child(__MODULE__, [id])
   end
 
   @doc """
@@ -33,10 +30,10 @@ defmodule EctoRole.Schema.Supervisor do
       ":ok"
   """
   def stop(id) do
+    case Registry.lookup(@registry_name, id) do
+      [] ->
+        :ok
 
-    case Registry.lookup(@registry_name,  id) do
-
-      [] -> :ok
       [{pid, _}] ->
         Process.exit(pid, :shutdown)
         :ok
@@ -44,9 +41,8 @@ defmodule EctoRole.Schema.Supervisor do
   end
 
   def init(_) do
-
     children = [worker(EctoRole.Server, [], restart: :transient)]
-    supervise(children, [strategy: :simple_one_for_one])
+    supervise(children, strategy: :simple_one_for_one)
   end
 
   @doc """
@@ -55,10 +51,8 @@ defmodule EctoRole.Schema.Supervisor do
       iex> EctoRole.Supervisor.find_or_create_process("google")
       "{}"
   """
-  def find_or_create_process(id)  do
-
+  def find_or_create_process(id) do
     if process_exists?(id) do
-
       {:ok, id}
     else
       id |> start
@@ -71,8 +65,7 @@ defmodule EctoRole.Schema.Supervisor do
       iex> EctoRole.Supervisor.process_exists("google")
       "true"
   """
-  def process_exists?(id)  do
-
+  def process_exists?(id) do
     case Registry.lookup(@registry_name, id) do
       [] -> false
       _ -> true
@@ -86,14 +79,11 @@ defmodule EctoRole.Schema.Supervisor do
       "[]"
   """
   def key_ids do
-
     Supervisor.which_children(__MODULE__)
     |> Enum.map(fn {_, account_proc_pid, _, _} ->
       Registry.keys(@registry_name, account_proc_pid)
-      |> List.first
+      |> List.first()
     end)
-    |> Enum.sort
+    |> Enum.sort()
   end
-
-
 end

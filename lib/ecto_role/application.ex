@@ -4,7 +4,7 @@ defmodule EctoRole.Application do
   @moduledoc false
 
   use Application
-  #use Supervisor
+  # use Supervisor
 
   alias EctoRole.Role, as: APP
   alias EctoRole.Role.Role, as: ROLE
@@ -25,14 +25,18 @@ defmodule EctoRole.Application do
       # Start the Ecto repository
       supervisor(Repo, []),
       supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
-      supervisor(Registry, [:unique, :ecto_role_permission_registry], id: :ecto_role_permission_registry),
+      supervisor(
+        Registry,
+        [:unique, :ecto_role_permission_registry],
+        id: :ecto_role_permission_registry
+      ),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(ES, []),
       supervisor(PS, []),
       supervisor(RS, []),
-      supervisor(SS, []),
+      supervisor(SS, [])
 
-      #worker(Task, [&init/0], restart: :transient),
+      # worker(Task, [&init/0], restart: :transient),
 
       # Starts a worker by calling: EctoRole.Worker.start_link(arg)
       # {EctoRole.Worker, arg},
@@ -46,31 +50,25 @@ defmodule EctoRole.Application do
 
   # load the available roles
   defp load_roles do
+    roles = ROLE.all()
 
-    roles = ROLE.all
-
-    Enum.each(roles, fn(x) ->
-      RS.start x.key
+    Enum.each(roles, fn x ->
+      RS.start(x.key)
     end)
-
   end
 
   # load the schema
   defp load_schemas do
+    schemas = SCHEMA.all()
 
-    schemas = SCHEMA.all
-
-    Enum.each(schemas, fn(x) ->
-      SS.start x
+    Enum.each(schemas, fn x ->
+      SS.start(x)
     end)
-
   end
 
   # init the initial state of the otp app
   defp init do
-
     load_schemas()
     load_roles()
   end
-
 end

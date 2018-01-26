@@ -1,5 +1,4 @@
 defmodule EctoRole do
-
   config = Application.get_env(:ecto_role, EctoRole, [])
   @repo Keyword.get(config, :repo)
 
@@ -20,7 +19,7 @@ defmodule EctoRole do
 
   """
   def is?(key, role) do
-    :false
+    false
   end
 
   @doc """
@@ -40,5 +39,4 @@ defmodule EctoRole do
     :ecto_role
     |> Application.fetch_env!(EctoRole)
   end
-
 end

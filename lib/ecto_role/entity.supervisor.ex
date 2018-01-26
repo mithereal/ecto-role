@@ -1,5 +1,4 @@
 defmodule EctoRole.Entity.Supervisor do
-
   use Supervisor
 
   require Logger
@@ -12,7 +11,6 @@ defmodule EctoRole.Entity.Supervisor do
   alias EctoRole.Repo, as: Repo
 
   def start_link do
-
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
@@ -23,14 +21,13 @@ defmodule EctoRole.Entity.Supervisor do
       "%{}"
   """
   def start(id) do
-  ## check if is actually an entity
+    ## check if is actually an entity
     e = Repo.get_by(ENTITY, key: id)
 
     case e do
-    {:ok,_} -> Supervisor.start_child(__MODULE__, [ id ])
-    _ -> {:error, "Unknown Entity"}
+      {:ok, _} -> Supervisor.start_child(__MODULE__, [id])
+      _ -> {:error, "Unknown Entity"}
     end
-
   end
 
   @doc """
@@ -40,10 +37,10 @@ defmodule EctoRole.Entity.Supervisor do
       ":ok"
   """
   def stop(id) do
+    case Registry.lookup(@registry_name, id) do
+      [] ->
+        :ok
 
-    case Registry.lookup(@registry_name,  id) do
-
-      [] -> :ok
       [{pid, _}] ->
         Process.exit(pid, :shutdown)
         :ok
@@ -51,9 +48,8 @@ defmodule EctoRole.Entity.Supervisor do
   end
 
   def init(_) do
-
     children = [worker(EctoRole.Entity.Server, [], restart: :transient)]
-    supervise(children, [strategy: :simple_one_for_one])
+    supervise(children, strategy: :simple_one_for_one)
   end
 
   @doc """
@@ -62,10 +58,8 @@ defmodule EctoRole.Entity.Supervisor do
       iex> EctoRole.Entity.Supervisor.find_or_create_process("xxx")
       "{}"
   """
-  def find_or_create_process(id)  do
-
+  def find_or_create_process(id) do
     if process_exists?(id) do
-
       {:ok, id}
     else
       id |> start
@@ -78,8 +72,7 @@ defmodule EctoRole.Entity.Supervisor do
       iex> EctoRole.Entity.Supervisor.process_exists("xxx")
       "true"
   """
-  def process_exists?(id)  do
-
+  def process_exists?(id) do
     case Registry.lookup(@registry_name, id) do
       [] -> false
       _ -> true
@@ -93,14 +86,11 @@ defmodule EctoRole.Entity.Supervisor do
       "[]"
   """
   def key_ids do
-
     Supervisor.which_children(__MODULE__)
     |> Enum.map(fn {_, account_proc_pid, _, _} ->
       Registry.keys(@registry_name, account_proc_pid)
-      |> List.first
+      |> List.first()
     end)
-    |> Enum.sort
+    |> Enum.sort()
   end
-
-
 end

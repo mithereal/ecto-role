@@ -1,7 +1,6 @@
 defmodule EctoRole.Repo do
   use Ecto.Repo, otp_app: :ecto_role
 
-
   @doc """
   Dynamically loads the repository url from the
   DATABASE_URL environment variable.

@@ -4,7 +4,6 @@ defmodule EctoRole.Mixfile do
   @version "0.1.0"
   @source_url "https://github.com/mithereal/ecto-role"
 
-
   def project do
     [
       name: "Ecto Role",
@@ -15,8 +14,8 @@ defmodule EctoRole.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       docs: docs(),
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       preferred_cli_env: [ecto_role: :test],
       aliases: aliases(),
       deps: deps()
@@ -25,7 +24,8 @@ defmodule EctoRole.Mixfile do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [applications: applications(Mix.env),
+    [
+      applications: applications(Mix.env()),
       extra_applications: [:logger, :runtime_tools],
       mod: {EctoRole.Application, []}
     ]
@@ -58,7 +58,7 @@ defmodule EctoRole.Mixfile do
     [
       maintainers: ["Jason Clark"],
       licenses: ["MIT"],
-      links:  %{GitHub: @source_url },
+      links: %{GitHub: @source_url},
       files: [
         "lib",
         "CHANGELOG.md",
@@ -71,7 +71,16 @@ defmodule EctoRole.Mixfile do
   end
 
   defp aliases do
-    [c: "compile", test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto_role.gen.migration", "ecto.migrate", "test"]]
+    [
+      c: "compile",
+      test: [
+        "ecto.drop --quiet",
+        "ecto.create --quiet",
+        "ecto_role.gen.migration",
+        "ecto.migrate",
+        "test"
+      ]
+    ]
   end
 
   defp docs do

@@ -3,7 +3,6 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
   import Mix.Tasks.EctoRole.Gen.Migration, only: [run: 1]
   import EctoRole.Test.Support.FileHelpers
 
-
   @tmp_path Path.join(tmp_path(), inspect(EctoRole.Gen.Migration))
   @migrations_path Path.join(@tmp_path, "migrations")
 
@@ -11,6 +10,7 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
     def __adapter__ do
       true
     end
+
     def config do
       [priv: Path.join("priv/temp", inspect(EctoRole.Gen.Migration)), otp_app: :ecto_role]
     end
@@ -18,9 +18,12 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
 
   setup do
     create_dir(@migrations_path)
-    on_exit(fn -> destroy_tmp_dir("priv/temp/EctoRole.Gen.Migration")
-                  destroy_tmp_dir("priv/temp/ecto_role_test/migrations")
-            end)
+
+    on_exit(fn ->
+      destroy_tmp_dir("priv/temp/EctoRole.Gen.Migration")
+      destroy_tmp_dir("priv/temp/ecto_role_test/migrations")
+    end)
+
     :ok
   end
 
@@ -29,6 +32,4 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
     assert [name] = File.ls!(@migrations_path)
     assert String.match?(name, ~r/^\d{14}_ectorole\.exs$/)
   end
-
-
 end

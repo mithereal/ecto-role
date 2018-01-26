@@ -2,16 +2,15 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
   use Ecto.Migration
 
   def change do
-    create table(:entity) do
-      add :name, :string, null: false
-      add :value, :string, null: false
+    create table(:er.entity) do
       add :key, :string, null: false
 
     end
-    create index(:entity, [:key])
+
+    create index(:er.entity, [:key])
 
 
-    create table(:permission) do
+    create table(:er.permission) do
       add :name, :string, null: false
       add :read, :string, null: false
       add :write, :string, null: false
@@ -19,25 +18,30 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
       add :delete, :boolean, null: false
       add :key, :string, null: false
 
-      timestamps
+      timestamps()
     end
 
-    create index(:permission, [:key])
+    create index(:er.permission, [:key])
 
 
-    create table(:role) do
+    create table(:er.role) do
       add :name, :string, null: false
       add :value, :string, null: false
       add :key, :string, null: false
-
     end
-    create index(:role, [:key])
 
-    create table(:schema) do
-      add :name, :string, null: false
-      add :fields, :string, null: false
+    create index(:er.role, [:key])
 
-      timestamps
+
+    create table(:er.role_to_entity) do
+      add :role_id, :integer, null: false
+      add :entity_id, :integer, null: false
+    end
+
+
+    create table(:er.role_to_permission) do
+      add :role_id, :integer, null: false
+      add :permission_id, :integer, null: false
     end
 
   end

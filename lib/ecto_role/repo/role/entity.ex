@@ -1,5 +1,4 @@
 defmodule EctoRole.Entity do
-
   @moduledoc """
   Entity: Represents a Object That has a Role.
   """
@@ -14,15 +13,13 @@ defmodule EctoRole.Entity do
   alias EctoRole.Repo, as: Repo
 
   schema "er.entity" do
+    field(:key, :string)
 
-    field :key, :string
-
-    many_to_many :roles, ROLE, join_through: ER
+    many_to_many(:roles, ROLE, join_through: ER)
   end
 
   @params ~w()a
   @required_fields ~w()a
-
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -44,25 +41,19 @@ defmodule EctoRole.Entity do
   end
 
   defp generate_uuid(changeset) do
-
-    uuid = Ecto.UUID.generate
+    uuid = Ecto.UUID.generate()
 
     changeset
     |> put_change(:key, uuid)
-
   end
-
 
   @doc """
   Fetch the Complete Entity by key
   """
-  @spec get_entity(Map.t) :: Map.t
+  @spec get_entity(Map.t()) :: Map.t()
 
   def get_entity(%{key: key}) do
-
     record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
     record
   end
-
-
 end
