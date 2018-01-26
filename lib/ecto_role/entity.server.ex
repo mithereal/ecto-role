@@ -13,10 +13,7 @@ defmodule EctoRole.Entity.Server do
   @registry_name :ecto_role_entity_registry
 
 
-  defstruct name: nil,
-            value: nil,
-            key: nil,
-            uuid: nil,
+  defstruct key: nil,
             roles: [ ],
             permissions: [ ]
 
@@ -52,10 +49,10 @@ defmodule EctoRole.Entity.Server do
 
   end
 
-  def has_permission(uuid, params) do
+  def has_permission(key, params) do
 
     try do
-      GenServer.call(via_tuple(uuid), { :has_permission,  params })
+      GenServer.call(via_tuple(key), { :has_permission,  params })
     catch
       :exit, _ -> {:error, 'invalid_entity'}
     end
@@ -82,7 +79,7 @@ defmodule EctoRole.Entity.Server do
                  end)
                 end)
 
-               %__MODULE__{  state | name: record.name, value: record.value, key: record.key, uuid: record.uuid, roles: record.roles, permissions: permissions }
+               %__MODULE__{  state |  key: id, roles: record.roles, permissions: permissions }
     end
 
 

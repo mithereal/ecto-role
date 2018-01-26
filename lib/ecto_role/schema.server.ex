@@ -12,7 +12,8 @@ defmodule EctoRole.Schema.Server do
   @registry_name :ecto_schema_registry
   @name __MODULE__
 
-  defstruct fields: [ ]
+  defstruct name: nil,
+            fields: [ ]
 
 
   def start_link(id) do
@@ -36,7 +37,7 @@ defmodule EctoRole.Schema.Server do
     {:ok, state }
   end
 
-  def get_schema(id) do
+  def get_fields(id) do
 
     try do
       GenServer.call(via_tuple(id), :get_schema)
@@ -49,10 +50,9 @@ defmodule EctoRole.Schema.Server do
 
     updated_state = case is_nil id do
       true -> state
-      false -> params = %{key: id}
-               record = Schema.get_schema(params)
+      false -> record = Schema.get_schema(id)
 
-               fields = []
+               fields = ["test","t2est","t3est","t4est","t5est"]
 
                %__MODULE__{  state | fields: fields}
     end
@@ -63,7 +63,7 @@ defmodule EctoRole.Schema.Server do
 
 
   @doc "queries the server for permissions"
-  def handle_call(:get_schema, _from, %__MODULE__{ fields: fields } = state) do
+  def handle_call(:get_fields, _from, %__MODULE__{ fields: fields } = state) do
 
 
     {:reply, fields, state}

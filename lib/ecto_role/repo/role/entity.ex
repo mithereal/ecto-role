@@ -7,17 +7,16 @@ defmodule EctoRole.Entity do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
 
-
+  alias EctoRole.Role.Role, as: ROLE
   alias EctoRole.Entity.Role, as: ER
   alias EctoRole.Repo, as: Repo
 
   schema "er.entity" do
 
-    field :uuid, :string
+    field :key, :string
 
-    many_to_many :roles, Role, join_through: ER
+    many_to_many :roles, ROLE, join_through: ER
   end
 
   @params ~w()a
@@ -48,18 +47,18 @@ defmodule EctoRole.Entity do
     uuid = Ecto.UUID.generate
 
     changeset
-    |> put_change(:uuid, uuid)
+    |> put_change(:key, uuid)
 
   end
 
 
   @doc """
-  Fetch the Complete Entity by uuid
+  Fetch the Complete Entity by key
   """
   @spec get_entity(Map.t) :: Map.t
 
-  def get_entity(%{uuid: uuid}) do
-    record = Repo.get_by(Entity, uuid: uuid) |> Repo.preload(:roles)
+  def get_entity(%{key: key}) do
+    record = Repo.get_by(Entity, key: key) |> Repo.preload(:roles)
     record
   end
 
