@@ -12,7 +12,7 @@ defmodule EctoRole.Schema do
 
   alias EctoRole.Permission, as: PERMISSION
 
-#  alias EctoRole.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
 
   schema "er.schema" do
@@ -49,7 +49,7 @@ defmodule EctoRole.Schema do
     ORDER BY table_name;
   """
 
-  Ecto.Adapters.SQL.query!(EctoRole.repo(), query, ["public"])
+  Ecto.Adapters.SQL.query!(Repo, query, ["public"])
   end
 
   @doc """
@@ -65,7 +65,7 @@ defmodule EctoRole.Schema do
         AND table_name   = $2
       """
 
-      Ecto.Adapters.SQL.query!(EctoRole.repo(), query, ["public", name])
+      Ecto.Adapters.SQL.query!(Repo, query, ["public", name])
   end
 
   @doc """
@@ -81,7 +81,7 @@ defmodule EctoRole.Schema do
         AND table_name   = $2
       """
 
-       Ecto.Adapters.SQL.query!(EctoRole.repo(), query, [schema,  name])
+       Ecto.Adapters.SQL.query!(Repo, query, [schema,  name])
   end
 
   def filter_schema(schema) do

@@ -15,7 +15,7 @@ defmodule EctoRole.Role.Role do
   alias EctoRole.Permission.Role, as: PR
   alias EctoRole.Entity.Role, as: ER
 
-#  alias EctoRole.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
   schema "er.role" do
     field :name, :string
@@ -45,7 +45,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_entities(Map.t) :: Map.t
   def get_entities(%{key: value}) do
-    record = EctoRole.repo().get_by(ROLE, key: value) |> EctoRole.repo().preload(:entites)
+    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:entites)
     record.entities
   end
 
@@ -54,7 +54,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_entities(Map.t) :: Map.t
   def get_entities(%{name: value}) do
-    record = EctoRole.repo().get_by(ROLE, name: value) |> EctoRole.repo().preload(:entites)
+    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:entites)
     record.entities
   end
 
@@ -63,7 +63,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{key: value}) do
-    record = EctoRole.repo().get_by(ROLE, key: value) |> EctoRole.repo().preload(:permissions)
+    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:permissions)
     record.permissions
   end
 
@@ -72,7 +72,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{name: value}) do
-    record = EctoRole.repo().get_by(ROLE, name: value) |> EctoRole.repo().preload(:permissions)
+    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:permissions)
     record.permissions
   end
 
@@ -81,7 +81,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_role(Map.t) :: Map.t
   def get_role(%{key: value}) do
-    record = EctoRole.repo().get_by(ROLE, key: value) |> EctoRole.repo().preload(:entites) |> EctoRole.repo().preload(permissions: :schema)
+    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
     record
   end
 
@@ -90,7 +90,7 @@ defmodule EctoRole.Role.Role do
   """
   @spec get_role(Map.t) :: Map.t
   def get_role(%{name: value}) do
-    record = EctoRole.repo().get_by(ROLE, name: value) |> EctoRole.repo().preload(:entites) |> EctoRole.repo().preload(permissions: :schema)
+    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:entites) |> Repo.preload(permissions: :schema)
     record
   end
 
@@ -115,7 +115,7 @@ defmodule EctoRole.Role.Role do
   Fetch all roles
   """
   def all() do
-    EctoRole.repo().all(ROLE)
+    Repo.all(ROLE)
   end
 
 end

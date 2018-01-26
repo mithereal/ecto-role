@@ -15,7 +15,7 @@ defmodule EctoRole.Permission do
   alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Permission.Role, as: PR
 
- # alias EctoRole.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
 
   schema "er.permission" do
@@ -51,7 +51,7 @@ defmodule EctoRole.Permission do
   """
   @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{key: value}) do
-    record = EctoRole.repo().get_by(PERMISSION, key: value) |> EctoRole.repo().preload(:schema)
+    record = Repo.get_by(PERMISSION, key: value) |> Repo.preload(:schema)
     record
   end
 
@@ -60,7 +60,7 @@ defmodule EctoRole.Permission do
   """
   @spec get_permissions(Map.t) :: Map.t
   def get_permissions(%{name: value}) do
-    record = EctoRole.repo().get_by(PERMISSION, name: value) |> EctoRole.repo().preload(:schema)
+    record = Repo.get_by(PERMISSION, name: value) |> Repo.preload(:schema)
     record
   end
 
@@ -69,7 +69,7 @@ defmodule EctoRole.Permission do
   """
   def delete(permission) when is_map(permission),  do: delete(permission)
   def delete(permission) do
-    from(x in PERMISSION, where: x.key == ^permission ) |> EctoRole.repo().delete_all
+    from(x in PERMISSION, where: x.key == ^permission ) |> Repo.delete_all
 
 
   end
@@ -80,7 +80,7 @@ defmodule EctoRole.Permission do
   def delete_all(permissions) when is_list(permissions),  do: delete_all(permissions)
   def delete_all(permissions) do
   Enum.each(permissions, fn(p) ->
-    from(x in PERMISSION, where: x.key == ^p ) |> EctoRole.repo().delete_all
+    from(x in PERMISSION, where: x.key == ^p ) |> Repo.delete_all
   end)
 
   end
@@ -91,7 +91,7 @@ defmodule EctoRole.Permission do
   def new(attrs \\ %{}) do
     PERMISSION
       |> PERMISSION.changeset(attrs)
-      |> EctoRole.repo().insert()
+      |> Repo.insert()
 
   end
 

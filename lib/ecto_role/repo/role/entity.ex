@@ -11,7 +11,7 @@ defmodule EctoRole.Entity do
   alias EctoRole.Role.Role, as: ROLE
   alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Entity.Role, as: ER
-  #alias EctoRole.Repo, as: Repo
+  alias EctoRole.Repo, as: Repo
 
   schema "er.entity" do
 
@@ -60,7 +60,7 @@ defmodule EctoRole.Entity do
 
   def get_entity(%{key: key}) do
 
-    record = EctoRole.repo().get_by(ENTITY, key: key) |> EctoRole.repo().preload(:roles)
+    record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
     record
   end
 

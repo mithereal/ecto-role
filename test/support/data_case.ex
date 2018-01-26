@@ -1,12 +1,12 @@
 defmodule EctoRole.Test.DataCase do
   use ExUnit.CaseTemplate
-  alias EctoRole.Test.Repo
+  alias EctoRole.Repo
   import EctoRole.Test.Support.FileHelpers
 
   using _opts do
     quote do
       import EctoRole.Test.DataCase
-      alias EctoRole.Test.Repo
+      alias EctoRole.Repo
     end
   end
 
