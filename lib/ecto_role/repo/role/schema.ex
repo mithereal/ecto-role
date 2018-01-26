@@ -13,7 +13,7 @@ defmodule EctoRole.Schema do
 
   alias EctoRole.Repo, as: Repo
 
-  schema "er.schema" do
+  schema "er_schema" do
     field(:name, :string)
     field(:fields, :string)
 
@@ -24,7 +24,7 @@ defmodule EctoRole.Schema do
 
   @params ~w(name fields)a
   @required_fields ~w(name)a
-  @ignored_schemas ~w(er.entity er.role_to_entity er.permission er.role_to_permission er.role er.schema schema_migrations)
+  @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_role er.schema schema_migrations)
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -49,7 +49,7 @@ defmodule EctoRole.Schema do
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public"])
 
     List.flatten(result.rows)
-    |> filter_schema
+    #|> filter_schema
   end
 
   @doc """
@@ -60,13 +60,14 @@ defmodule EctoRole.Schema do
 
   def get_schema(name) do
     query = """
-      SELECT *
+      SELECT column_name
       FROM information_schema.columns
       WHERE table_schema = $1
       AND table_name   = $2
     """
-
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public", name])
+
+    List.flatten(result.rows)
   end
 
   @doc """
@@ -85,6 +86,8 @@ defmodule EctoRole.Schema do
     """
 
     result = Ecto.Adapters.SQL.query!(Repo, query, [schema, name])
+
+    List.flatten(result.rows)
   end
 
   def filter_schema(schema) do

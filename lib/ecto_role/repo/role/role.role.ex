@@ -1,4 +1,4 @@
-defmodule EctoRole.Role.Role do
+defmodule EctoRole.Role do
   @moduledoc """
     Role: Represents a Role and Permissions for an associated Entity.
   """
@@ -7,7 +7,7 @@ defmodule EctoRole.Role.Role do
 
   import Ecto.Changeset
 
-  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Role, as: ROLE
   alias EctoRole.Permission, as: PERMISSION
   alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Permission.Role, as: PR
@@ -15,7 +15,7 @@ defmodule EctoRole.Role.Role do
 
   alias EctoRole.Repo, as: Repo
 
-  schema "er.role" do
+  schema "er_role" do
     field(:name, :string)
     field(:value, :string)
     field(:key, :string)

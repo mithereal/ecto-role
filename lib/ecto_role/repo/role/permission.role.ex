@@ -5,7 +5,7 @@ defmodule EctoRole.Permission.Role do
 
   import Ecto.Changeset
 
-  schema "er.role_to_permission" do
+  schema "er_role_to_permission" do
     field(:role_id, :integer)
     field(:permission_id, :integer)
   end

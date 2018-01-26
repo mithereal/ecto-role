@@ -7,12 +7,12 @@ defmodule EctoRole.Entity do
 
   import Ecto.Changeset
 
-  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Role, as: ROLE
   alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Entity.Role, as: ER
   alias EctoRole.Repo, as: Repo
 
-  schema "er.entity" do
+  schema "er_entity" do
     field(:key, :string)
 
     many_to_many(:roles, ROLE, join_through: ER)

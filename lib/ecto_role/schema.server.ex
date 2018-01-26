@@ -7,10 +7,10 @@ defmodule EctoRole.Schema.Server do
 
   alias EctoRole.Schema, as: SCHEMA
 
-  @registry_name :ecto_schema_registry
+  @registry_name :ecto_role_schema_registry
   @name __MODULE__
 
-  defstruct name: nil,
+  defstruct schema: nil,
             fields: []
 
   def start_link(id) do
@@ -45,11 +45,11 @@ defmodule EctoRole.Schema.Server do
           state
 
         false ->
-          record = SCHEMA.get_schema(id)
+         record = SCHEMA.get_schema(id)
 
-          fields = ["test", "t2est", "t3est", "t4est", "t5est"]
+         fields = ["test", "t2est", "t3est", "t4est", "t5est"]
 
-          %__MODULE__{state | fields: fields}
+          %__MODULE__{state | schema: id, fields: fields}
       end
 
     {:noreply, updated_state}

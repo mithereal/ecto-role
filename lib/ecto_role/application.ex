@@ -6,8 +6,7 @@ defmodule EctoRole.Application do
   use Application
   # use Supervisor
 
-  alias EctoRole.Role, as: APP
-  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Role, as: ROLE
   alias EctoRole.Schema, as: SCHEMA
 
   alias EctoRole.Supervisor, as: SUP
@@ -24,12 +23,9 @@ defmodule EctoRole.Application do
     children = [
       # Start the Ecto repository
       supervisor(Repo, []),
+      supervisor(Registry, [:unique, :ecto_role_schema_registry], id: :ecto_role_schema_registry),
       supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
-      supervisor(
-        Registry,
-        [:unique, :ecto_role_permission_registry],
-        id: :ecto_role_permission_registry
-      ),
+      supervisor(Registry, [:unique, :ecto_role_permission_registry],id: :ecto_role_permission_registry),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(ES, []),
       supervisor(PS, []),

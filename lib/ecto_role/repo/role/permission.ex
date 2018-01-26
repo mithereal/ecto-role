@@ -9,13 +9,13 @@ defmodule EctoRole.Permission do
   import Ecto.Query
 
   alias EctoRole.Permission, as: PERMISSION
-  alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Role, as: ROLE
   alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Permission.Role, as: PR
 
   alias EctoRole.Repo, as: Repo
 
-  schema "er.permission" do
+  schema "er_permission" do
     field(:name, :string)
     field(:read, :string)
     field(:write, :string)

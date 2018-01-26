@@ -5,7 +5,7 @@ defmodule EctoRole.Entity.Role do
 
   import Ecto.Changeset
 
-  schema "er.role_to_entity" do
+  schema "er_role_to_entity" do
     field(:role_id, :integer)
     field(:entity_id, :integer)
   end

@@ -7,7 +7,7 @@ defmodule EctoRole.Schema.Supervisor do
   A Supervisor to Start and Manage your Schemas.
   """
 
-  @registry_name :ecto_schema_registry
+  @registry_name :ecto_role_schema_registry
 
   def start_link do
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
@@ -41,7 +41,7 @@ defmodule EctoRole.Schema.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.Server, [], restart: :transient)]
+    children = [worker(EctoRole.Schema.Server, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 
