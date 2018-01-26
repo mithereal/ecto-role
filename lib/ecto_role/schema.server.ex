@@ -6,7 +6,7 @@ defmodule EctoRole.Schema.Server do
 
   @moduledoc "A Simple Server to Store Your Schemas."
 
-  alias EctoRole.Schema
+  alias EctoRole.Schema, as: SCHEMA
 
 
   @registry_name :ecto_schema_registry
@@ -50,7 +50,7 @@ defmodule EctoRole.Schema.Server do
 
     updated_state = case is_nil id do
       true -> state
-      false -> record = Schema.get_schema(id)
+      false -> record = SCHEMA.get_schema(id)
 
                fields = ["test","t2est","t3est","t4est","t5est"]
 

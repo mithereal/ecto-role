@@ -7,7 +7,7 @@ defmodule EctoRole.Permission.Server do
   @moduledoc false
 
 
-  alias EctoRole.Permission
+  alias EctoRole.Permission, as: PERMISSION
 
   @registry_name :ecto_role_registry
   @name __MODULE__
@@ -53,7 +53,7 @@ defmodule EctoRole.Permission.Server do
     updated_state = case is_nil id do
       true -> state
       false -> params = %{key: id}
-               record = Permission.get_permissions(params)
+               record = PERMISSION.get_permissions(params)
                %__MODULE__{  state | key: id, schema: record.name, permissions: record.value }
     end
 
@@ -73,11 +73,11 @@ defmodule EctoRole.Permission.Server do
   def handle_call({:save}, _from,  %__MODULE__{ schema: schema , permissions: permissions } = state) do
 
     Enum.each(permissions, fn(p)->
-      Permission.delete(p)
+      PERMISSION.delete(p)
     end)
 
     Enum.each(permissions, fn(p)->
-      Permission.new(p)
+      PERMISSION.new(p)
     end)
 
 

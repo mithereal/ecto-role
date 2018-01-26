@@ -5,10 +5,6 @@ defmodule EctoRole.Entity.Role do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
-
-
-  alias EctoRole.Entity.Role
 
 
   schema "er.role_to_entity" do

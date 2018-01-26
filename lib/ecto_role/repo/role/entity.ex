@@ -9,6 +9,7 @@ defmodule EctoRole.Entity do
   import Ecto.Changeset
 
   alias EctoRole.Role.Role, as: ROLE
+  alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Entity.Role, as: ER
   alias EctoRole.Repo, as: Repo
 
@@ -58,7 +59,7 @@ defmodule EctoRole.Entity do
   @spec get_entity(Map.t) :: Map.t
 
   def get_entity(%{key: key}) do
-    record = Repo.get_by(Entity, key: key) |> Repo.preload(:roles)
+    record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
     record
   end
 

@@ -7,7 +7,7 @@ defmodule EctoRole.Entity.Server do
 
   @moduledoc false
 
-  alias EctoRole.Entity
+  alias EctoRole.Entity, as: ENTITY
 
 
   @registry_name :ecto_role_entity_registry
@@ -72,7 +72,7 @@ defmodule EctoRole.Entity.Server do
     updated_state = case is_nil id do
       true -> state
       false -> params = %{key: id}
-               record = Entity.get_entity(params)
+               record = ENTITY.get_entity(params)
                permissions = Enum.map(record.roles, fn(x) ->
                  Enum.map(x.permissions, fn(y) ->
                    y.key

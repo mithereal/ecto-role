@@ -6,7 +6,7 @@ defmodule EctoRole.Server do
 
   @moduledoc "A Simple Server to Store Your Roles."
 
-  alias EctoRole.Role.Role
+  alias EctoRole.Role.Role, as: ROLE
 
 
   @registry_name :ecto_role_registry
@@ -69,7 +69,7 @@ defmodule EctoRole.Server do
     updated_state = case is_nil id do
       true -> state
       false -> params = %{key: id}
-               record = Role.get_role(params)
+               record = ROLE.get_role(params)
 
                Enum.each(record.entities, fn(x) ->
 
