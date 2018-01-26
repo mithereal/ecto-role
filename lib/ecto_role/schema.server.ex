@@ -47,9 +47,7 @@ defmodule EctoRole.Schema.Server do
         false ->
          record = SCHEMA.get_schema(id)
 
-         fields = ["test", "t2est", "t3est", "t4est", "t5est"]
-
-          %__MODULE__{state | schema: id, fields: fields}
+          %__MODULE__{state | schema: id, fields: record}
       end
 
     {:noreply, updated_state}
