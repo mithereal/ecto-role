@@ -95,7 +95,7 @@ defmodule EctoRole.Role.Role do
   end
 
  @doc """
-  check if uuid has permission
+  check if key has permission
   """
   @spec has_permission(String.t, String.t) :: Map.t
   def has_permission(id, permission) when is_binary(id) and is_binary(permission), do: has_permission(id, permission)
