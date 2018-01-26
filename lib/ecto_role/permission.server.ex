@@ -12,7 +12,8 @@ defmodule EctoRole.Permission.Server do
   @registry_name :ecto_role_registry
   @name __MODULE__
 
-  defstruct schema: nil,
+  defstruct key: nil,
+            schema: nil,
             permissions: []
 
 
@@ -53,7 +54,7 @@ defmodule EctoRole.Permission.Server do
       true -> state
       false -> params = %{key: id}
                record = Permission.get_permissions(params)
-               %__MODULE__{  state | schema: record.name, permissions: record.value }
+               %__MODULE__{  state | key: id, schema: record.name, permissions: record.value }
     end
 
 
@@ -63,11 +64,6 @@ defmodule EctoRole.Permission.Server do
 
   @doc "queries the server for permissions"
   def handle_call(:get_permissions, _from,  state) do
-
-    {:reply, state, state}
-  end
-  @doc "add a permission"
-  def handle_call({:add, permission}, _from,  state) do
 
     {:reply, state, state}
   end
