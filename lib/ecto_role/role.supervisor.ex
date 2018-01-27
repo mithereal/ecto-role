@@ -3,6 +3,8 @@ defmodule EctoRole.Role.Supervisor do
 
   require Logger
 
+  alias EctoRole.Server, as: RS
+
   @moduledoc """
   A Supervisor to Start and Manage your EctoRoles.
   """
@@ -41,7 +43,7 @@ defmodule EctoRole.Role.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.Server, [], restart: :transient)]
+    children = [worker(RS, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 

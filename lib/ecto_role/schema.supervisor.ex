@@ -3,6 +3,8 @@ defmodule EctoRole.Schema.Supervisor do
 
   require Logger
 
+  alias EctoRole.Schema.Server, as: ES
+
   @moduledoc """
   A Supervisor to Start and Manage your Schemas.
   """
@@ -41,7 +43,7 @@ defmodule EctoRole.Schema.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.Schema.Server, [], restart: :transient)]
+    children = [worker(ES, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 

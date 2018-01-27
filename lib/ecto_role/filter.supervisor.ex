@@ -3,6 +3,8 @@ defmodule EctoRole.Filter.Supervisor do
 
   require Logger
 
+  alias EctoRole.Filter.Server, as: FS
+
   @moduledoc false
 
   @registry_name :ecto_role_filter_registry
@@ -39,7 +41,7 @@ defmodule EctoRole.Filter.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.filter().Server, [], restart: :transient)]
+    children = [worker(FS, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 

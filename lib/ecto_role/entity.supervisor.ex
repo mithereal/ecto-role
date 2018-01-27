@@ -9,6 +9,7 @@ defmodule EctoRole.Entity.Supervisor do
 
   alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Repo, as: Repo
+  alias EctoRole.Entity.Server, as: ES
 
   def start_link do
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
@@ -49,7 +50,7 @@ defmodule EctoRole.Entity.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.Entity.Server, [], restart: :transient)]
+    children = [worker(ES, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 
