@@ -121,7 +121,7 @@ defmodule EctoRole.Entity.Server do
     ##calculate an int value for each sorted permission
     ## sort by int
     ## pop the highest
-#    {y.key, y}
+#    [{schema.name, filter}]
     return = permissions
   end
 end
