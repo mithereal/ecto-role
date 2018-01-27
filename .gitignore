@@ -20,7 +20,7 @@ erl_crash.dump
 *.ez
 # Also ignore ide files.
 /.idea
-/config/test.exs
-/config/dev.exs
+#/config/test.exs
+#/config/dev.exs
 /priv/repo/migrations/
 /passwords.txt
