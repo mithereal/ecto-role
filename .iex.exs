@@ -1,5 +1,4 @@
-alias EctoRole.Role, as: APP
-alias EctoRole.Role.Role, as: ROLE
+alias EctoRole.Role, as: ROLE
 alias EctoRole.Schema, as: SCHEMA
 alias EctoRole.Entity, as: ENTITY
 alias EctoRole.Permission, as: PERMISSION
