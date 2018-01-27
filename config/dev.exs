@@ -8,6 +8,6 @@ config :ecto_role, EctoRole.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "ecto_role_test",
   username: "mithereal",
-  password: "***REMOVED***",
+  password: "",
   hostname: "localhost",
   port: "5432"
