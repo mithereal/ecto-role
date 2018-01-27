@@ -1,6 +1,6 @@
-defmodule EctoRole.Permission do
+defmodule EctoRole.Filter do
   @moduledoc """
-    Permission: Represents the permissions on a schema
+    filter: Represents the filters on a schema
   """
 
   use Ecto.Schema
@@ -8,14 +8,14 @@ defmodule EctoRole.Permission do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Permission, as: PERMISSION
+  alias EctoRole.Filter, as: FILTER
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Schema, as: SCHEMA
-  alias EctoRole.Permission.Role, as: PR
+  alias EctoRole.Filter.Role, as: FR
 
   alias EctoRole.Repo, as: Repo
 
-  schema "er_permission" do
+  schema "er_filter" do
     field(:name, :string)
     field(:read, :string)
     field(:write, :string)
@@ -28,8 +28,8 @@ defmodule EctoRole.Permission do
     many_to_many(
       :roles,
       ROLE,
-      join_through: PR,
-      join_keys: [permission_key: :key, role_key: :key]
+      join_through: FR,
+      join_keys: [filter_key: :key, role_key: :key]
     )
 
     timestamps()
@@ -51,47 +51,47 @@ defmodule EctoRole.Permission do
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get_permissions(Map.t()) :: Map.t()
-  def get_permissions(%{key: value}) do
-    record = Repo.get_by!(PERMISSION, key: value) |> Repo.preload(:schema)
+  @spec get_filters(Map.t()) :: Map.t()
+  def get_filters(%{key: value}) do
+    record = Repo.get_by!(FILTER, key: value) |> Repo.preload(:schema)
     record
   end
 
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get_permissions(Map.t()) :: Map.t()
-  def get_permissions(%{name: value}) do
-    record = Repo.get_by!(PERMISSION, name: value) |> Repo.preload(:schema)
+  @spec get_filters(Map.t()) :: Map.t()
+  def get_filters(%{name: value}) do
+    record = Repo.get_by!(FILTER, name: value) |> Repo.preload(:schema)
     record
   end
 
   @doc """
-  delete Permission from the list of permissions
+  delete filter from the list of filters
   """
-  def delete(permission) when is_map(permission), do: delete(permission)
+  def delete(filter) when is_map(filter), do: delete(filter)
 
-  def delete(permission) do
-    from(x in PERMISSION, where: x.key == ^permission) |> Repo.delete_all()
+  def delete(filter) do
+    from(x in FILTER, where: x.key == ^filter) |> Repo.delete_all()
   end
 
   @doc """
-  delete all from the list of permissions
+  delete all from the list of filters
   """
-  def delete_all(permissions) when is_list(permissions), do: delete_all(permissions)
+  def delete_all(filters) when is_list(filters), do: delete_all(filters)
 
-  def delete_all(permissions) do
-    Enum.each(permissions, fn p ->
-      from(x in PERMISSION, where: x.key == ^p) |> Repo.delete_all()
+  def delete_all(filters) do
+    Enum.each(filters, fn p ->
+      from(x in FILTER, where: x.key == ^p) |> Repo.delete_all()
     end)
   end
 
   @doc """
-  create a new permission
+  create a new filter
   """
   def new(attrs \\ %{}) do
-    PERMISSION
-    |> PERMISSION.changeset(attrs)
+    FILTER
+    |> FILTER.changeset(attrs)
     |> Repo.insert()
   end
 

@@ -10,7 +10,7 @@ defmodule EctoRole.Application do
 
   alias EctoRole.Supervisor, as: SUP
   alias EctoRole.Role.Supervisor, as: RS
-  alias EctoRole.Permission.Supervisor, as: PS
+  alias EctoRole.Filter.Supervisor, as: FS
   alias EctoRole.Entity.Supervisor, as: ES
   alias EctoRole.Schema.Supervisor, as: SS
 
@@ -31,7 +31,7 @@ defmodule EctoRole.Application do
       ),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(ES, []),
-      supervisor(PS, []),
+      supervisor(FS, []),
       supervisor(RS, []),
       supervisor(SS, []),
       worker(Task, [&init/0], restart: :transient)

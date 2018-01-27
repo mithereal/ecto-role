@@ -12,18 +12,18 @@ Ecto-Role creates a few schemas to track roles and entities,
 
 Entities are a object we are assiging the role to, entities have a uuid.
 
-Schemas represent the schema and its fields/permissions -- permissions is a list of all permissions relating to the schema
+Schemas represent the schema and its fields/filters -- filters is a list of all filters relating to the schema
 
-a Permission has a name, which fields are filtered in the result and if create/delete actions can/not happen
+a filter has a name, which fields are filtered in the result and if create/delete actions can/not happen
 
 we have a few different ways of looking at this:
 
-* Entities have roles which have permissions
-* Roles have entities and permissions
-* Schemas have fields (row_names) and permissions
-* Permissions explain how to filter data/actions
+* Entities have roles which have filters
+* Roles have entities and filters
+* Schemas have fields (row_names) and filters
+* filters explain how to filter data/actions
 
-By using the entity instead of user we can have many different permissions/filters for different objects and by holding this information in an otp app we can easily query for the permissions on the entity with no need to hit the database 
+By using the entity instead of user we can have many different filters/filters for different objects and by holding this information in an otp app we can easily query for the filters on the entity with no need to hit the database 
 
 
 ## Installation

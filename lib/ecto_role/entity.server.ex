@@ -23,30 +23,7 @@ defmodule EctoRole.Entity.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_roles(id) do
-    try do
-      GenServer.call(via_tuple(id), :get_roles)
-    catch
-      :exit, _ -> {:error, 'invalid_entity'}
-    end
-  end
-
-  def get_permissions(id) do
-    try do
-      GenServer.call(via_tuple(id), :get_permissions)
-    catch
-      :exit, _ -> {:error, 'invalid_entity'}
-    end
-  end
-
-  def has_permission(key, params) do
-    try do
-      GenServer.call(via_tuple(key), {:has_permission, params})
-    catch
-      :exit, _ -> {:error, 'invalid_entity'}
-    end
-  end
-
+  ### Server
   def init([id]) do
     send(self(), {:setup, id})
 
@@ -72,6 +49,8 @@ defmodule EctoRole.Entity.Server do
             end)
 
           permissions = Enum.uniq(permissions)
+
+          permissions = calculate_permissions(permissions)
 
           %__MODULE__{state | key: id, roles: record.roles, permissions: permissions}
       end
@@ -106,5 +85,40 @@ defmodule EctoRole.Entity.Server do
   @doc "queries the server for roles"
   def handle_call(:get_roles, _from, %__MODULE__{roles: roles} = state) do
     {:reply, roles, state}
+  end
+
+  @doc "builds the entitys active permission set based on the filters in use"
+  def handle_call(:init_permission, _from, %__MODULE__{roles: roles} = state) do
+    {:reply, roles, state}
+  end
+
+  ### Client
+  def get_roles(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_roles)
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  def get_permissions(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_permissions)
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  def has_permission(key, params) do
+    try do
+      GenServer.call(via_tuple(key), {:has_permission, params})
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  @doc "calculates the active permissions based on a list of permissions"
+  defp calculate_permissions(permissions) do
+    permissions = permissions
   end
 end

@@ -1,18 +1,18 @@
-defmodule EctoRole.Permission.Server do
+defmodule EctoRole.Filter.Server do
   use GenServer
 
   require Logger
 
   @moduledoc false
 
-  alias EctoRole.Permission, as: PERMISSION
+  alias EctoRole.filter(), as: filter
 
   @registry_name :ecto_role_registry
   @name __MODULE__
 
   defstruct key: nil,
             schema: nil,
-            permissions: []
+            filters: []
 
   def start_link(id) do
     name = via_tuple(id)
@@ -24,11 +24,11 @@ defmodule EctoRole.Permission.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_permissions(id) do
+  def get_filters(id) do
     try do
-      GenServer.call(via_tuple(id), :get_permissions)
+      GenServer.call(via_tuple(id), :get_filters)
     catch
-      :exit, _ -> {:error, 'invalid_permission'}
+      :exit, _ -> {:error, 'invalid_filter'}
     end
   end
 
@@ -47,26 +47,26 @@ defmodule EctoRole.Permission.Server do
 
         false ->
           params = %{key: id}
-          record = PERMISSION.get_permissions(params)
-          %__MODULE__{state | key: id, schema: record.schema.name, permissions: record}
+          record = filter.get_filters(params)
+          %__MODULE__{state | key: id, schema: record.schema.name, filters: record}
       end
 
     {:noreply, updated_state}
   end
 
-  @doc "queries the server for permissions"
-  def handle_call(:get_permissions, _from, state) do
+  @doc "queries the server for filters"
+  def handle_call(:get_filters, _from, state) do
     {:reply, state, state}
   end
 
-  @doc "save the permission"
-  def handle_call({:save}, _from, %__MODULE__{schema: schema, permissions: permissions} = state) do
-    Enum.each(permissions, fn p ->
-      PERMISSION.delete(p)
+  @doc "save the filter"
+  def handle_call({:save}, _from, %__MODULE__{schema: schema, filters: filters} = state) do
+    Enum.each(filters, fn p ->
+      filter.delete(p)
     end)
 
-    Enum.each(permissions, fn p ->
-      PERMISSION.new(p)
+    Enum.each(filters, fn p ->
+      filter.new(p)
     end)
 
     {:reply, state, state}

@@ -1,6 +1,6 @@
 # Sample script for populating the database. You can run it as:
 #
-#     mix run priv/repo/seeds.exs
+#     mix run FRiv/repo/seeds.exs
 #
 # Inside the script, you can read and write to any of your
 # Repositories directly:
@@ -10,9 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias EctoRole.{Entity, Permission, Role, Schema, Repo}
+alias EctoRole.{Entity, Filter, Role, Schema, Repo}
 alias EctoRole.Entity.Role, as: ER
-alias EctoRole.Permission.Role, as: PR
+alias EctoRole.Filter.Role, as: FR
 
 ### entity
 
@@ -60,10 +60,10 @@ changeset =
 
 schema1 = Repo.insert!(changeset)
 
-### Permission
+### filter
 
 changeset =
-  Permission.changeset(%Permission{}, %{
+  filter.changeset(%filter{}, %{
     name: "user account (users table)",
     read: "username, email",
     write: "username, email",
@@ -72,10 +72,10 @@ changeset =
     schema_id: 1
   })
 
-permission1 = Repo.insert!(changeset)
+filter1 = Repo.insert!(changeset)
 
 changeset =
-  Permission.changeset(%Permission{}, %{
+  filter.changeset(%filter{}, %{
     name: "operator account (users table)",
     read: "username, email",
     write: "username, email",
@@ -84,10 +84,10 @@ changeset =
     schema_id: 1
   })
 
-permission2 = Repo.insert!(changeset)
+filter2 = Repo.insert!(changeset)
 
 changeset =
-  Permission.changeset(%Permission{}, %{
+  filter.changeset(%filter{}, %{
     name: "admin account (users table)",
     read: "username, email",
     write: "username, email",
@@ -96,7 +96,7 @@ changeset =
     schema_id: 1
   })
 
-permission3 = Repo.insert!(changeset)
+filter3 = Repo.insert!(changeset)
 
 ## Joins
 
@@ -117,17 +117,17 @@ changeset =
 Repo.insert!(changeset)
 
 changeset =
-  PR.changeset(%PR{}, %{
+  FR.changeset(%FR{}, %{
     role_key: role1.key,
-    permission_key: permission1.key
+    filter_key: filter1.key
   })
 
 Repo.insert!(changeset)
 
 changeset =
-  PR.changeset(%PR{}, %{
+  FR.changeset(%FR{}, %{
     role_key: role2.key,
-    permission_key: permission2.key
+    filter_key: filter2.key
   })
 
 Repo.insert!(changeset)

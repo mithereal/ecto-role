@@ -1,6 +1,6 @@
 defmodule EctoRole.Role do
   @moduledoc """
-    Role: Represents a Role and Permissions for an associated Entity.
+    Role: Represents a Role and filters for an associated Entity.
   """
 
   use Ecto.Schema
@@ -8,9 +8,9 @@ defmodule EctoRole.Role do
   import Ecto.Changeset
 
   alias EctoRole.Role, as: ROLE
-  alias EctoRole.Permission, as: PERMISSION
+  alias EctoRole.Filter, as: FILTER
   alias EctoRole.Entity, as: ENTITY
-  alias EctoRole.Permission.Role, as: PR
+  alias EctoRole.Filter.Role, as: FR
   alias EctoRole.Entity.Role, as: ER
 
   alias EctoRole.Repo, as: Repo
@@ -27,10 +27,10 @@ defmodule EctoRole.Role do
     )
 
     many_to_many(
-      :permissions,
-      PERMISSION,
-      join_through: PR,
-      join_keys: [permission_key: :key, role_key: :key]
+      :filters,
+      FILTER,
+      join_through: FR,
+      join_keys: [filter_key: :key, role_key: :key]
     )
   end
 
@@ -66,21 +66,21 @@ defmodule EctoRole.Role do
   end
 
   @doc """
-  Fetch the Permissions belonging to the Role by key
+  Fetch the filters belonging to the Role by key
   """
-  @spec get_permissions(Map.t()) :: Map.t()
-  def get_permissions(%{key: value}) do
-    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:permissions)
-    record.permissions
+  @spec get_filters(Map.t()) :: Map.t()
+  def get_filters(%{key: value}) do
+    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:filters)
+    record.filters
   end
 
   @doc """
-  Fetch the Permissions belonging to the Role by name
+  Fetch the filters belonging to the Role by name
   """
-  @spec get_permissions(Map.t()) :: Map.t()
-  def get_permissions(%{name: value}) do
-    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:permissions)
-    record.permissions
+  @spec get_filters(Map.t()) :: Map.t()
+  def get_filters(%{name: value}) do
+    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:filters)
+    record.filters
   end
 
   @doc """
@@ -90,7 +90,7 @@ defmodule EctoRole.Role do
   def get_role(%{key: value}) do
     record =
       Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
-      |> Repo.preload(permissions: :schema)
+      |> Repo.preload(filters: :schema)
 
     record
   end
@@ -102,24 +102,23 @@ defmodule EctoRole.Role do
   def get_role(%{name: value}) do
     record =
       Repo.get_by(ROLE, name: value) |> Repo.preload(:entities)
-      |> Repo.preload(permissions: :schema)
+      |> Repo.preload(filters: :schema)
 
     record
   end
 
   @doc """
-  check if key has permission
+  check if key has filter
   """
-  @spec has_permission(String.t(), String.t()) :: Map.t()
-  def has_permission(id, permission) when is_binary(id) and is_binary(permission),
-    do: has_permission(id, permission)
+  @spec has_filter(String.t(), String.t()) :: Map.t()
+  def has_filter(id, filter) when is_binary(id) and is_binary(filter), do: has_filter(id, filter)
 
-  def has_permission(id, permission) do
+  def has_filter(id, filter) do
     status = EctoRole.Entity.Supervisor.start(id)
 
     case status do
       {:error, message} -> %{error: message}
-      _ -> EctoRole.Entity.Server.has_permission(id, permission)
+      _ -> EctoRole.Entity.Server.has_filter(id, filter)
     end
   end
 

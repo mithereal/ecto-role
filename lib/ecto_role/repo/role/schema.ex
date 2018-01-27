@@ -10,7 +10,7 @@ defmodule EctoRole.Schema do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias EctoRole.Permission, as: PERMISSION
+  alias EctoRole.Filter, as: FILTER
 
   alias EctoRole.Repo, as: Repo
 
@@ -18,7 +18,7 @@ defmodule EctoRole.Schema do
     field(:name, :string)
     field(:fields, :string)
 
-    has_many(:permissions, PERMISSION)
+    has_many(:filters, FILTER)
 
     timestamps()
   end
@@ -50,7 +50,7 @@ defmodule EctoRole.Schema do
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public"])
 
     List.flatten(result.rows)
-    # |> filter_schema
+    # |> filter_ignored_schemas
   end
 
   @doc """
@@ -92,7 +92,7 @@ defmodule EctoRole.Schema do
     List.flatten(result.rows)
   end
 
-  def filter_schema(schema) do
+  def filter_ignored_schemas(schema) do
     ignored_schemas = @ignored_schemas
 
     schema

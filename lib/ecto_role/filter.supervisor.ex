@@ -1,20 +1,20 @@
-defmodule EctoRole.Permission.Supervisor do
+defmodule EctoRole.Filter.Supervisor do
   use Supervisor
 
   require Logger
 
   @moduledoc false
 
-  @registry_name :ecto_role_permission_registry
+  @registry_name :ecto_role_filter_registry
 
   def start_link do
     Supervisor.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
   @doc """
-  Start a Permission server.
+  Start a filter server.
   ## Examples
-      iex> EctoRole.Permission.Supervisor.start("xxx")
+      iex> EctoRole.filter.Supervisor.start("xxx")
       "%{}"
   """
   def start(id) do
@@ -24,7 +24,7 @@ defmodule EctoRole.Permission.Supervisor do
   @doc """
   Stop the EctoRole server.
   ## Examples
-      iex> EctoRole.Permission.Supervisor.stop("xxx")
+      iex> EctoRole.filter.Supervisor.stop("xxx")
       ":ok"
   """
   def stop(id) do
@@ -39,14 +39,14 @@ defmodule EctoRole.Permission.Supervisor do
   end
 
   def init(_) do
-    children = [worker(EctoRole.Permission.Server, [], restart: :transient)]
+    children = [worker(EctoRole.filter().Server, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
   end
 
   @doc """
   Create a new process if it doesnt exist else return the process.
   ## Examples
-      iex> EctoRole.Permission.Supervisor.find_or_create_process("xxx")
+      iex> EctoRole.filter.Supervisor.find_or_create_process("xxx")
       "{}"
   """
   def find_or_create_process(id) do
@@ -60,7 +60,7 @@ defmodule EctoRole.Permission.Supervisor do
   @doc """
   Check if process exists.
   ## Examples
-      iex> EctoRole.Permission.Supervisor.process_exists("xxx")
+      iex> EctoRole.filter.Supervisor.process_exists("xxx")
       "true"
   """
   def process_exists?(id) do
@@ -73,7 +73,7 @@ defmodule EctoRole.Permission.Supervisor do
   @doc """
   Get the ids of all processes in the registry.
   ## Examples
-      iex> EctoRole.Permission.Supervisor.key_ids("xxx")
+      iex> EctoRole.filter.Supervisor.key_ids("xxx")
       "[]"
   """
   def key_ids do
