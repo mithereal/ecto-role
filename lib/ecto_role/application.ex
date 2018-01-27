@@ -26,8 +26,8 @@ defmodule EctoRole.Application do
       supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
       supervisor(
         Registry,
-        [:unique, :ecto_role_permission_registry],
-        id: :ecto_role_permission_registry
+        [:unique, :ecto_role_filter_registry],
+        id: :ecto_role_filter_registry
       ),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(ES, []),

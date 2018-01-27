@@ -5,9 +5,9 @@ defmodule EctoRole.Filter.Server do
 
   @moduledoc false
 
-  alias EctoRole.filter(), as: filter
+  alias EctoRole.Filter, as: FILTER
 
-  @registry_name :ecto_role_registry
+  @registry_name :ecto_role_filter_registry
   @name __MODULE__
 
   defstruct key: nil,
@@ -47,7 +47,7 @@ defmodule EctoRole.Filter.Server do
 
         false ->
           params = %{key: id}
-          record = filter.get_filters(params)
+          record = FILTER.get_filters(params)
           %__MODULE__{state | key: id, schema: record.schema.name, filters: record}
       end
 
@@ -62,11 +62,11 @@ defmodule EctoRole.Filter.Server do
   @doc "save the filter"
   def handle_call({:save}, _from, %__MODULE__{schema: schema, filters: filters} = state) do
     Enum.each(filters, fn p ->
-      filter.delete(p)
+      FILTER.delete(p)
     end)
 
     Enum.each(filters, fn p ->
-      filter.new(p)
+      FILTER.new(p)
     end)
 
     {:reply, state, state}
