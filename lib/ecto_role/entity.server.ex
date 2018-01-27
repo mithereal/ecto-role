@@ -43,12 +43,10 @@ defmodule EctoRole.Entity.Server do
 
           permissions =
             Enum.map(record.roles, fn x ->
-              Enum.map(x.permissions, fn y ->
-                y.key
+              Enum.map(x.filters, fn y ->
+                 y
               end)
             end)
-
-          permissions = Enum.uniq(permissions)
 
           permissions = calculate_permissions(permissions)
 
@@ -119,6 +117,11 @@ defmodule EctoRole.Entity.Server do
 
   @doc "calculates the active permissions based on a list of permissions"
   defp calculate_permissions(permissions) do
-    permissions = permissions
+    ## sort by schema name
+    ##calculate an int value for each sorted permission
+    ## sort by int
+    ## pop the highest
+#    {y.key, y}
+    return = permissions
   end
 end
