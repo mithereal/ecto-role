@@ -25,7 +25,7 @@ defmodule EctoRole.Permission do
 
     belongs_to(:schema, SCHEMA)
 
-    many_to_many(:roles, ROLE, join_through: PR, join_keys: [{permission_key: :key, role_key: :key}])
+    many_to_many(:roles, ROLE, join_through: PR, join_keys: [permission_key: :key, role_key: :key])
 
     timestamps()
   end

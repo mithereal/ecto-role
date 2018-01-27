@@ -11,7 +11,7 @@ defmodule EctoRole.Permission.Role do
   end
 
   @params ~w(role_key permission_key)a
-  @required_fields ~w(role_key permission_key)a
+  @required_fields ~w()a
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

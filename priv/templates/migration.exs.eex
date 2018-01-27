@@ -33,14 +33,14 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
 
     create table(:er_role_to_entity) do
-      add :role_key, :string, null: false
-      add :entity_key, :string, null: false
+      add :role_key, :string, null: true
+      add :entity_key, :string, null: true
     end
 
 
     create table(:er_role_to_permission) do
-      add :role_key, :string, null: false
-      add :permission_key, :string, null: false
+      add :role_key, :string, null: true
+      add :permission_key, :string, null: true
     end
 
   end
