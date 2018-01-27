@@ -27,7 +27,7 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+
 
 config :ecto_role, EctoRole, repo: EctoRole.Repo
 
@@ -38,3 +38,5 @@ config :ecto_role, EctoRole.Repo,
   database: "ecto_role_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   priv: "priv/temp/ecto_role_test"
+
+import_config "#{Mix.env}.exs"

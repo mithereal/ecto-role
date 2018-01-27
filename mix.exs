@@ -78,6 +78,7 @@ defmodule EctoRole.Mixfile do
         "ecto.create --quiet",
         "ecto_role.gen.migration",
         "ecto.migrate",
+        "run priv/repo/seeds.exs",
         "test"
       ]
     ]

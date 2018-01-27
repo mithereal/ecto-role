@@ -6,12 +6,12 @@ defmodule EctoRole.Entity.Role do
   import Ecto.Changeset
 
   schema "er_role_to_entity" do
-    field(:role_id, :integer)
-    field(:entity_id, :integer)
+    field(:role_key, :string)
+    field(:entity_key, :string)
   end
 
-  @params ~w(role_id entity_id)a
-  @required_fields ~w(role_id entity_id)a
+  @params ~w(role_key entity_key)a
+  @required_fields ~w(role_key entity_key)a
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

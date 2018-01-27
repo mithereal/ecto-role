@@ -6,12 +6,12 @@ defmodule EctoRole.Permission.Role do
   import Ecto.Changeset
 
   schema "er_role_to_permission" do
-    field(:role_id, :integer)
-    field(:permission_id, :integer)
+    field(:role_key, :string)
+    field(:permission_key, :string)
   end
 
-  @params ~w(role_id permission_id)a
-  @required_fields ~w(role_id permission_id)a
+  @params ~w(role_key permission_key)a
+  @required_fields ~w(role_key permission_key)a
 
   @doc """
   Builds a changeset based on the `struct` and `params`.

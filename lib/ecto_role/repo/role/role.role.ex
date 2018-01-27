@@ -17,15 +17,14 @@ defmodule EctoRole.Role do
 
   schema "er_role" do
     field(:name, :string)
-    field(:value, :string)
     field(:key, :string)
 
     many_to_many(:entites, ENTITY, join_through: ER)
     many_to_many(:permissions, PERMISSION, join_through: PR)
   end
 
-  @params ~w(name value key)a
-  @required_fields ~w(name value)a
+  @params ~w(name key)a
+  @required_fields ~w(name)a
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -34,6 +33,7 @@ defmodule EctoRole.Role do
     struct
     |> cast(params, @params)
     |> validate_required(@required_fields)
+    |> generate_uuid()
   end
 
   @doc """
@@ -110,6 +110,14 @@ defmodule EctoRole.Role do
       {:error, message} -> %{error: message}
       _ -> EctoRole.Entity.Server.has_permission(id, permission)
     end
+  end
+
+
+  defp generate_uuid(changeset) do
+    uuid = Ecto.UUID.generate()
+
+    changeset
+    |> put_change(:key, uuid)
   end
 
   @doc """

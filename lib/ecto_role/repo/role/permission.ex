@@ -25,7 +25,7 @@ defmodule EctoRole.Permission do
 
     belongs_to(:schema, SCHEMA)
 
-    many_to_many(:roles, ROLE, join_through: PR)
+    many_to_many(:roles, ROLE, join_through: PR, join_keys: [{permission_key: :key, role_key: :key}])
 
     timestamps()
   end
@@ -40,6 +40,7 @@ defmodule EctoRole.Permission do
     struct
     |> cast(params, @params)
     |> validate_required(@required_fields)
+    |> generate_uuid()
   end
 
   @doc """
@@ -88,4 +89,12 @@ defmodule EctoRole.Permission do
     |> PERMISSION.changeset(attrs)
     |> Repo.insert()
   end
+
+  defp generate_uuid(changeset) do
+    uuid = Ecto.UUID.generate()
+
+    changeset
+    |> put_change(:key, uuid)
+  end
+
 end
