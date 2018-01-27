@@ -7,6 +7,11 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
     end
 
+    create table(:er_schema) do
+      add :key, :string, null: false
+
+    end
+
     create index(:er_entity, [:key])
 
 
@@ -33,17 +38,20 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
 
     create table(:er_role_to_entity) do
-      add :role_key, :string, null: true
-      add :entity_key, :string, null: true
+      add :role_key, references(:er_role, column: :key, type: :string)
+      add :entity_key, references(:er_entity, column: :key, type: :string)
     end
 
 
     create table(:er_role_to_permission) do
-      add :role_key, :string, null: true
-      add :permission_key, :string, null: true
+      add :role_key, references(:er_role, column: :key, type: :string)
+      add :permission_key, references(:er_permission, column: :key, type: :string)
     end
 
-  end
+  alter table(:er_permission) do
+     add :schema_id,  references(:er_schema)
+     end
 
+  end
 
 end

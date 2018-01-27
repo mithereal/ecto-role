@@ -30,7 +30,7 @@ defmodule EctoRole.Permission do
     timestamps()
   end
 
-  @params ~w(name read write create delete key)a
+  @params ~w(name read write create delete key schema_id)a
   @required_fields ~w(name)a
 
   @doc """

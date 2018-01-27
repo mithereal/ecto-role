@@ -10,7 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
- alias EctoRole.{Entity, Permission, Role, Entry.Role, Permission.Role, Schema, Repo}
+ alias EctoRole.{Entity, Permission, Role, Schema, Repo}
+ alias EctoRole.Entry.Role, as: ER
+ alias EctoRole.Permission.Role, as: PR
 
 ### entity
 
@@ -48,27 +50,52 @@ Repo.insert!(changeset)
 
 Repo.insert!(changeset)
 
+## schema
+
+changeset = Schema.changeset(%Schema{}, %{
+  name: "user",
+  fields: "username, email"
+})
+
+Repo.insert!(changeset)
 
 ### Permission
 
 changeset = Permission.changeset(%Permission{}, %{
-            name: "user",
+            name: "user account (users table)",
             read: "username, email",
             write: "username, email",
             create: true,
             delete: false,
+            schema_id 1
 
 })
 
 Repo.insert!(changeset)
 
 changeset = Permission.changeset(%Permission{}, %{
-            name: "settings",
-            read: "name, value",
-            write: "name",
+            name: "operator account (users table)",
+            read: "username, email",
+            write: "username, email",
             create: true,
             delete: false,
+           schema_id 1
 
 })
 
 Repo.insert!(changeset)
+
+changeset = Permission.changeset(%Permission{}, %{
+  name: "admin account (users table)",
+  read: "username, email",
+  write: "username, email",
+  create: true,
+  delete: false,
+schema_id 1
+
+
+})
+
+Repo.insert!(changeset)
+
+
