@@ -20,3 +20,5 @@ erl_crash.dump
 *.ez
 # Also ignore ide files.
 /.idea
+/config/test.exs
+/config/dev.exs
