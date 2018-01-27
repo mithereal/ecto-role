@@ -19,10 +19,10 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
     create table(:er_filter) do
       add :name, :string, null: false
-      add :read, :string, null: false
-      add :write, :string, null: false
-      add :create, :boolean, null: false
-      add :delete, :boolean, null: false
+      add :read, :string, null: true
+      add :write, :string, null: true
+      add :create, :boolean
+      add :delete, :boolean
       add :key, :string, null: false
 
       timestamps()
