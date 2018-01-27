@@ -6,8 +6,15 @@ defmodule EctoRole.Permission.Role do
   import Ecto.Changeset
 
   schema "er_role_to_permission" do
-    field(:role_key, :string)
-    field(:permission_key, :string)
+    belongs_to(:role, EctoRole.Role, foreign_key: :role_key, references: :key, type: :string)
+
+    belongs_to(
+      :permission,
+      EctoRole.Permission,
+      foreign_key: :permission_key,
+      references: :key,
+      type: :string
+    )
   end
 
   @params ~w(role_key permission_key)a

@@ -19,8 +19,19 @@ defmodule EctoRole.Role do
     field(:name, :string)
     field(:key, :string)
 
-    many_to_many(:entites, ENTITY, join_through: ER)
-    many_to_many(:permissions, PERMISSION, join_through: PR)
+    many_to_many(
+      :entities,
+      ENTITY,
+      join_through: ER,
+      join_keys: [entity_key: :key, role_key: :key]
+    )
+
+    many_to_many(
+      :permissions,
+      PERMISSION,
+      join_through: PR,
+      join_keys: [permission_key: :key, role_key: :key]
+    )
   end
 
   @params ~w(name key)a
@@ -41,7 +52,7 @@ defmodule EctoRole.Role do
   """
   @spec get_entities(Map.t()) :: Map.t()
   def get_entities(%{key: value}) do
-    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:entites)
+    record = Repo.get_by(ROLE, key: value) |> Repo.preload(:entities)
     record.entities
   end
 
@@ -50,7 +61,7 @@ defmodule EctoRole.Role do
   """
   @spec get_entities(Map.t()) :: Map.t()
   def get_entities(%{name: value}) do
-    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:entites)
+    record = Repo.get_by(ROLE, name: value) |> Repo.preload(:entities)
     record.entities
   end
 
@@ -78,7 +89,7 @@ defmodule EctoRole.Role do
   @spec get_role(Map.t()) :: Map.t()
   def get_role(%{key: value}) do
     record =
-      Repo.get_by(ROLE, key: value) |> Repo.preload(:entites)
+      Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
       |> Repo.preload(permissions: :schema)
 
     record
@@ -90,7 +101,7 @@ defmodule EctoRole.Role do
   @spec get_role(Map.t()) :: Map.t()
   def get_role(%{name: value}) do
     record =
-      Repo.get_by(ROLE, name: value) |> Repo.preload(:entites)
+      Repo.get_by(ROLE, name: value) |> Repo.preload(:entities)
       |> Repo.preload(permissions: :schema)
 
     record
@@ -111,7 +122,6 @@ defmodule EctoRole.Role do
       _ -> EctoRole.Entity.Server.has_permission(id, permission)
     end
   end
-
 
   defp generate_uuid(changeset) do
     uuid = Ecto.UUID.generate()

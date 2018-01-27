@@ -45,7 +45,7 @@ defmodule EctoRole.Schema.Server do
           state
 
         false ->
-         record = SCHEMA.get_schema(id)
+          record = SCHEMA.get_schema(id)
 
           %__MODULE__{state | schema: id, fields: record}
       end

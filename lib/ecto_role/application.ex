@@ -4,7 +4,6 @@ defmodule EctoRole.Application do
   @moduledoc false
 
   use Application
-  # use Supervisor
 
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Schema, as: SCHEMA
@@ -25,12 +24,17 @@ defmodule EctoRole.Application do
       supervisor(Repo, []),
       supervisor(Registry, [:unique, :ecto_role_schema_registry], id: :ecto_role_schema_registry),
       supervisor(Registry, [:unique, :ecto_role_entity_registry], id: :ecto_role_entity_registry),
-      supervisor(Registry, [:unique, :ecto_role_permission_registry],id: :ecto_role_permission_registry),
+      supervisor(
+        Registry,
+        [:unique, :ecto_role_permission_registry],
+        id: :ecto_role_permission_registry
+      ),
       supervisor(Registry, [:unique, :ecto_role_registry], id: :ecto_role_registry),
       supervisor(ES, []),
       supervisor(PS, []),
       supervisor(RS, []),
-      supervisor(SS, [])
+      supervisor(SS, []),
+      worker(Task, [&init/0], restart: :transient)
 
       # worker(Task, [&init/0], restart: :transient),
 
@@ -42,6 +46,12 @@ defmodule EctoRole.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: SUP]
     Supervisor.start_link(children, opts)
+  end
+
+  # init the initial state of the otp app
+  defp init() do
+    load_schemas()
+    load_roles()
   end
 
   # load the available roles
@@ -60,11 +70,5 @@ defmodule EctoRole.Application do
     Enum.each(schemas, fn x ->
       SS.start(x)
     end)
-  end
-
-  # init the initial state of the otp app
-  defp init do
-    load_schemas()
-    load_roles()
   end
 end

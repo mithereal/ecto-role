@@ -23,9 +23,10 @@ defmodule EctoRole.Entity.Supervisor do
   def start(id) do
     ## check if is actually an entity
     e = Repo.get_by(ENTITY, key: id)
+    IO.inspect(e)
 
     case e do
-      {:ok, _} -> Supervisor.start_child(__MODULE__, [id])
+      %{} -> Supervisor.start_child(__MODULE__, [id])
       _ -> {:error, "Unknown Entity"}
     end
   end

@@ -6,8 +6,15 @@ defmodule EctoRole.Entity.Role do
   import Ecto.Changeset
 
   schema "er_role_to_entity" do
-    field(:role_key, :string)
-    field(:entity_key, :string)
+    belongs_to(:role, EctoRole.Role, foreign_key: :role_key, references: :key, type: :string)
+
+    belongs_to(
+      :entity,
+      EctoRole.Entity,
+      foreign_key: :entity_key,
+      references: :key,
+      type: :string
+    )
   end
 
   @params ~w(role_key entity_key)a

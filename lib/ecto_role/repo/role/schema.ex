@@ -50,14 +50,14 @@ defmodule EctoRole.Schema do
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public"])
 
     List.flatten(result.rows)
-    #|> filter_schema
+    # |> filter_schema
   end
 
   @doc """
   Fetch the entire schema for specified table from the public db
   """
   @spec get_schema(String.t()) :: Map.t()
-  #def get_schema(name) when is_binary(name), do: get_schema(name)
+  # def get_schema(name) when is_binary(name), do: get_schema(name)
 
   def get_schema(name) do
     query = """
@@ -66,6 +66,7 @@ defmodule EctoRole.Schema do
       WHERE table_schema = $1
       AND table_name   = $2
     """
+
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public", name])
 
     List.flatten(result.rows)

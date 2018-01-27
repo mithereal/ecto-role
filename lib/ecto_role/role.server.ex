@@ -11,7 +11,7 @@ defmodule EctoRole.Server do
   @name __MODULE__
 
   defstruct key: nil,
-            entites: [],
+            entities: [],
             permissions: []
 
   def start_link(id) do
@@ -65,15 +65,29 @@ defmodule EctoRole.Server do
           params = %{key: id}
           record = ROLE.get_role(params)
 
-          Enum.each(record.entities, fn x ->
-            EctoRole.Entity.Supervisor.start(x.key)
-          end)
+          case record do
+            nil ->
+              %__MODULE__{state | key: id}
 
-          Enum.each(record.permissions, fn x ->
-            EctoRole.Permission.Supervisor.start(x.key)
-          end)
+            %{} ->
+              Enum.each(record.entities, fn x ->
+                EctoRole.Entity.Supervisor.start(x.key)
+              end)
 
-          %__MODULE__{state | key: id, entites: record.entites, permissions: record.permissions}
+              Enum.each(record.permissions, fn x ->
+                EctoRole.Permission.Supervisor.start(x.key)
+              end)
+
+              %__MODULE__{
+                state
+                | key: id,
+                  entities: record.entities,
+                  permissions: record.permissions
+              }
+
+            _ ->
+              %__MODULE__{state | key: id}
+          end
       end
 
     {:noreply, updated_state}
@@ -85,7 +99,7 @@ defmodule EctoRole.Server do
   end
 
   @doc "queries the server for entities"
-  def handle_call(:get_entities, _from, %__MODULE__{entites: entites} = state) do
-    {:reply, entites, state}
+  def handle_call(:get_entities, _from, %__MODULE__{entities: entities} = state) do
+    {:reply, entities, state}
   end
 end

@@ -10,92 +10,124 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
- alias EctoRole.{Entity, Permission, Role, Schema, Repo}
- alias EctoRole.Entry.Role, as: ER
- alias EctoRole.Permission.Role, as: PR
+alias EctoRole.{Entity, Permission, Role, Schema, Repo}
+alias EctoRole.Entity.Role, as: ER
+alias EctoRole.Permission.Role, as: PR
 
 ### entity
 
-changeset = Entity.changeset(%Entity{}, %{
-})
+changeset = Entity.changeset(%Entity{}, %{})
 
-Repo.insert!(changeset)
+entity1 = Repo.insert!(changeset)
 
-changeset = Entity.changeset(%Entity{}, %{
-})
+changeset = Entity.changeset(%Entity{}, %{})
 
-Repo.insert!(changeset)
+entity2 = Repo.insert!(changeset)
 
-changeset = Entity.changeset(%Entity{}, %{
-})
+changeset = Entity.changeset(%Entity{}, %{})
 
-Repo.insert!(changeset)
+entity3 = Repo.insert!(changeset)
 
 ## role
- changeset = Role.changeset(%Role{}, %{
-   name: "Admin"
-   })
+changeset =
+  Role.changeset(%Role{}, %{
+    name: "Admin"
+  })
 
-Repo.insert!(changeset)
+role1 = Repo.insert!(changeset)
 
-changeset = Role.changeset(%Role{}, %{
-  name: "Operator"
-})
+changeset =
+  Role.changeset(%Role{}, %{
+    name: "Operator"
+  })
 
-Repo.insert!(changeset)
+role2 = Repo.insert!(changeset)
 
- changeset = Role.changeset(%Role{}, %{
-   name: "User"
-   })
+changeset =
+  Role.changeset(%Role{}, %{
+    name: "User"
+  })
 
-Repo.insert!(changeset)
+role3 = Repo.insert!(changeset)
 
 ## schema
 
-changeset = Schema.changeset(%Schema{}, %{
-  name: "user",
-  fields: "username, email"
-})
+changeset =
+  Schema.changeset(%Schema{}, %{
+    name: "user",
+    fields: "username, email"
+  })
 
-Repo.insert!(changeset)
+schema1 = Repo.insert!(changeset)
 
 ### Permission
 
-changeset = Permission.changeset(%Permission{}, %{
-            name: "user account (users table)",
-            read: "username, email",
-            write: "username, email",
-            create: true,
-            delete: false,
-            schema_id 1
+changeset =
+  Permission.changeset(%Permission{}, %{
+    name: "user account (users table)",
+    read: "username, email",
+    write: "username, email",
+    create: true,
+    delete: false,
+    schema_id: 1
+  })
 
-})
+permission1 = Repo.insert!(changeset)
+
+changeset =
+  Permission.changeset(%Permission{}, %{
+    name: "operator account (users table)",
+    read: "username, email",
+    write: "username, email",
+    create: true,
+    delete: false,
+    schema_id: 1
+  })
+
+permission2 = Repo.insert!(changeset)
+
+changeset =
+  Permission.changeset(%Permission{}, %{
+    name: "admin account (users table)",
+    read: "username, email",
+    write: "username, email",
+    create: true,
+    delete: false,
+    schema_id: 1
+  })
+
+permission3 = Repo.insert!(changeset)
+
+## Joins
+
+changeset =
+  ER.changeset(%ER{}, %{
+    role_key: role1.key,
+    entity_key: entity1.key
+  })
 
 Repo.insert!(changeset)
 
-changeset = Permission.changeset(%Permission{}, %{
-            name: "operator account (users table)",
-            read: "username, email",
-            write: "username, email",
-            create: true,
-            delete: false,
-           schema_id 1
-
-})
+changeset =
+  ER.changeset(%ER{}, %{
+    role_key: role2.key,
+    entity_key: entity2.key
+  })
 
 Repo.insert!(changeset)
 
-changeset = Permission.changeset(%Permission{}, %{
-  name: "admin account (users table)",
-  read: "username, email",
-  write: "username, email",
-  create: true,
-  delete: false,
-schema_id 1
-
-
-})
+changeset =
+  PR.changeset(%PR{}, %{
+    role_key: role1.key,
+    permission_key: permission1.key
+  })
 
 Repo.insert!(changeset)
 
+changeset =
+  PR.changeset(%PR{}, %{
+    role_key: role2.key,
+    permission_key: permission2.key
+  })
 
+Repo.insert!(changeset)

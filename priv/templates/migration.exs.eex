@@ -8,11 +8,13 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
     end
 
     create table(:er_schema) do
-      add :key, :string, null: false
+      add :name, :string, null: false
+      add :fields, :string, null: false
 
+      timestamps()
     end
 
-    create index(:er_entity, [:key])
+    create index(:er_entity, [:key],[unique: true])
 
 
     create table(:er_permission) do
@@ -26,7 +28,7 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
       timestamps()
     end
 
-    create index(:er_permission, [:key])
+    create index(:er_permission, [:key],[unique: true])
 
 
     create table(:er_role) do
@@ -34,7 +36,7 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
       add :key, :string, null: false
     end
 
-    create index(:er_role, [:key])
+    create index(:er_role, [:key],[unique: true])
 
 
     create table(:er_role_to_entity) do

@@ -48,7 +48,7 @@ defmodule EctoRole.Permission.Server do
         false ->
           params = %{key: id}
           record = PERMISSION.get_permissions(params)
-          %__MODULE__{state | key: id, schema: record.name, permissions: record.value}
+          %__MODULE__{state | key: id, schema: record.schema.name, permissions: record}
       end
 
     {:noreply, updated_state}

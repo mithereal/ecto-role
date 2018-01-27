@@ -15,7 +15,7 @@ defmodule EctoRole.Entity do
   schema "er_entity" do
     field(:key, :string)
 
-    many_to_many(:roles, ROLE, join_through: ER)
+    many_to_many(:roles, ROLE, join_through: ER, join_keys: [entity_key: :key, role_key: :key])
   end
 
   @params ~w()a

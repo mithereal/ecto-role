@@ -19,7 +19,7 @@ a Permission has a name, which fields are filtered in the result and if create/d
 we have a few different ways of looking at this:
 
 * Entities have roles which have permissions
-* Roles have entites and permissions
+* Roles have entities and permissions
 * Schemas have fields (row_names) and permissions
 * Permissions explain how to filter data/actions
 

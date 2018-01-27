@@ -17,6 +17,11 @@ defmodule EctoRole.Test.Support.FileHelpers do
     run_if_abs_path(&File.rm_rf!/1, path)
   end
 
+  def destroy_files(path) do
+    path = path <> "/*"
+    run_if_abs_path(&File.rm_rf!/1, path)
+  end
+
   defp run_if_abs_path(fun, path) do
     if path == Path.absname(path) do
       fun.(path)
