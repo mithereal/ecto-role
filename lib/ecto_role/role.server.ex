@@ -69,14 +69,13 @@ defmodule EctoRole.Server do
             nil ->
               %__MODULE__{state | key: id}
 
-            %{} ->
-              Enum.each(record.entities, fn x ->
-                EctoRole.Entity.Supervisor.start(x.key)
-              end)
-
-              Enum.each(record.permissions, fn x ->
+            %{} -> Enum.each(record.permissions, fn x ->
                 EctoRole.Permission.Supervisor.start(x.key)
               end)
+
+#              Enum.each(record.entities, fn x ->
+#                EctoRole.Entity.Supervisor.start(x.key)
+#              end)
 
               %__MODULE__{
                 state
