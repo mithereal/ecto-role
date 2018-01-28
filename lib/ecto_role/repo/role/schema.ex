@@ -50,7 +50,7 @@ defmodule EctoRole.Schema do
     result = Ecto.Adapters.SQL.query!(Repo, query, ["public"])
 
     List.flatten(result.rows)
-    # |> filter_ignored_schemas
+    |> filter_ignored_schemas
   end
 
   @doc """
