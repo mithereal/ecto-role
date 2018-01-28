@@ -1,5 +1,5 @@
-defmodule Mix.Tasks.EctoRole.Gen.Migration do
-  @shortdoc "Generates EctoRole's migration"
+defmodule Mix.Tasks.EctoRole.Gen.Test.Migration do
+  @shortdoc "Generates EctoRole's testing migration"
 
   @moduledoc """
   Generates the required EctoRole's database migration
@@ -24,7 +24,7 @@ defmodule Mix.Tasks.EctoRole.Gen.Migration do
       source_path =
         :ecto_role
         |> Application.app_dir()
-        |> Path.join("priv/templates/migration.exs.eex")
+        |> Path.join("priv/templates/test_migration.exs.eex")
 
       generated_file = EEx.eval_file(source_path, module_prefix: app_module())
       target_file = Path.join(path, "#{timestamp()}_ectorole.exs")

@@ -58,25 +58,6 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Entity server save a entity" do
-    test "create an entity" do
-      entity = ENTITY.all()
-
-      first = List.first(entity)
-
-      ES.start(first.key)
-
-      result = ES.new(first.key)
-
-      assert =
-        case result do
-          {:error, _} -> false
-          _ -> true
-        end
-
-      assert true == assert
-    end
-  end
 
   describe "Entity server soft delete an entity" do
     test "soft delete an entity" do

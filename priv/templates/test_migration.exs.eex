@@ -1,0 +1,33 @@
+defmodule Ectorole.Repo.Migrations.EctoRole do
+  use Ecto.Migration
+
+  def change do
+    create table(:users) do
+      add :username, :string, null: false
+      add :email, :string, null: true
+      add :er_key, :string, null: true
+
+    end
+
+    create index(:users, [:er_key],[unique: true])
+
+       create table(:posts) do
+          add :title, :string, null: false
+          add :body, :string, null: true
+
+end
+
+create table(:categories) do
+          add :title, :string, null: false
+          add :sort_order, :integer, null: true
+end
+
+create table(:tags) do
+          add :title, :string, null: false
+
+end
+
+
+
+
+end
