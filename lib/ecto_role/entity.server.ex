@@ -214,22 +214,28 @@ defmodule EctoRole.Entity.Server do
     calculated_permissions =
       Map.merge(permissions, fn x ->
         {_, filter} = x
-        read_count = Enum.count(filter.read)
-        write_count = Enum.count(filter.write)
+        read_count = case Enum.count(filter.read) > 0 do
+          true -> Enum.count(filter.read)
+          false -> 9999
+        end
+        write_count = case Enum.count(filter.write) > 0 do
+          true -> Enum.count(filter.read)
+          false -> 9999
+        end
 
-        read_perm =
-          case filter.read do
+        create_perm =
+          case filter.create do
             true -> 1
             false -> 0
           end
 
-        write_perm =
-          case filter.read do
+        delete_perm =
+          case filter.delete do
             true -> 1
             false -> 0
           end
 
-        value = read_count + write_count + read_perm + write_perm
+        value = read_count + write_count + create_perm + delete_perm
         filter = x
 
         Map.put(x, :permission_value, value)
