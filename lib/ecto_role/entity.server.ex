@@ -211,8 +211,44 @@ defmodule EctoRole.Entity.Server do
 
   @doc "calculates the active permissions based on a list of permissions"
   defp calculate_permissions(permissions) do
-    ## sort by schema name
-    ## calculate an int value for each sorted permission
+    calculated_permissions =
+      Map.merge(sorted_by_key, fn x ->
+        {_, filter} = x
+        read_count = Enum.count(filter.read)
+        write_count = Enum.count(filter.write)
+
+        read_perm =
+          case filter.read do
+            true -> 1
+            false -> 0
+          end
+
+        write_perm =
+          case filter.read do
+            true -> 1
+            false -> 0
+          end
+
+        value = read_count + write_count + read_perm + write_perm
+        filter = x
+
+        Map.put(x, :permission_value, value)
+      end)
+
+    sorted_by_key =
+      Enum.reduce(calculated_permissions, %{}, fn m, acc ->
+        Map.merge(acc, m, fn
+          _k, e when is_map(e) ->
+            [e]
+
+          _k, e ->
+            [e]
+        end)
+      end)
+
+    IO.inspect(calculated_permissions, label: "calculated_permissions")
+    IO.inspect(sorted_by_key, label: "sorted_by_key")
+
     ## sort by int
     ## pop the highest
     [{'user', %FILTER{}}]
