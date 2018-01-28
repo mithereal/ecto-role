@@ -6,13 +6,14 @@ defmodule EctoRole.Server do
   @moduledoc "A Simple Server to Store Your Roles."
 
   alias EctoRole.Role, as: ROLE
+  alias EctoRole.Filter.Supervisor, as: FS
 
   @registry_name :ecto_role_registry
   @name __MODULE__
 
   defstruct key: nil,
             entities: [],
-            permissions: []
+            filters: []
 
   def start_link(id) do
     name = via_tuple(id)
@@ -69,8 +70,8 @@ defmodule EctoRole.Server do
             nil ->
               %__MODULE__{state | key: id}
 
-            %{} -> Enum.each(record.permissions, fn x ->
-                EctoRole.Permission.Supervisor.start(x.key)
+            %{} -> Enum.each(record.filters, fn x ->
+                FS.start(x.key)
               end)
 
 #              Enum.each(record.entities, fn x ->
@@ -81,7 +82,7 @@ defmodule EctoRole.Server do
                 state
                 | key: id,
                   entities: record.entities,
-                  permissions: record.permissions
+                     filters: record.filters
               }
 
             _ ->
@@ -93,8 +94,8 @@ defmodule EctoRole.Server do
   end
 
   @doc "queries the server for permissions"
-  def handle_call(:get_permissions, _from, %__MODULE__{permissions: permissions} = state) do
-    {:reply, permissions, state}
+  def handle_call(:get_permissions, _from, %__MODULE__{filters: filters} = state) do
+    {:reply, filters, state}
   end
 
   @doc "queries the server for entities"

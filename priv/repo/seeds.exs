@@ -63,7 +63,7 @@ schema1 = Repo.insert!(changeset)
 ### filter
 
 changeset =
-  filter.changeset(%filter{}, %{
+  Filter.changeset(%Filter{}, %{
     name: "user account (users table)",
     read: "username, email",
     write: "username, email",
@@ -75,7 +75,7 @@ changeset =
 filter1 = Repo.insert!(changeset)
 
 changeset =
-  filter.changeset(%filter{}, %{
+  Filter.changeset(%Filter{}, %{
     name: "operator account (users table)",
     read: "username, email",
     write: "username, email",
@@ -87,7 +87,7 @@ changeset =
 filter2 = Repo.insert!(changeset)
 
 changeset =
-  filter.changeset(%filter{}, %{
+  Filter.changeset(%Filter{}, %{
     name: "admin account (users table)",
     read: "username, email",
     write: "username, email",

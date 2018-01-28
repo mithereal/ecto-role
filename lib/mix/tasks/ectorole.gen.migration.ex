@@ -8,9 +8,13 @@ defmodule Mix.Tasks.EctoRole.Gen.Migration do
 
   import Mix.Ecto
   import Mix.Generator
+  import EctoRole.Test.Support.FileHelpers
 
   @doc false
   def run(args) do
+
+    destroy_tmp_dir("priv/repo/migrations")
+
     no_umbrella!("ecto.gen.migration")
 
     repos = parse_repo(args)

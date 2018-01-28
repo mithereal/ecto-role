@@ -44,7 +44,8 @@ defmodule EctoRole.Mixfile do
       {:ecto, "~> 2.1"},
       {:postgrex, "~> 0.13", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:inch_ex, ">= 0.0.0", only: :docs}
+      {:inch_ex, ">= 0.0.0", only: :docs},
+      {:dialyxir, "~> 0.5", only: :dev, runtime: false}
     ]
   end
 

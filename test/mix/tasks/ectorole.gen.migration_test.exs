@@ -12,16 +12,17 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
     end
 
     def config do
+
       [priv: Path.join("priv/temp", inspect(EctoRole.Gen.Migration)), otp_app: :ecto_role]
     end
   end
 
   setup do
+
     create_dir(@migrations_path)
 
     on_exit(fn ->
       destroy_tmp_dir("priv/temp/EctoRole.Gen.Migration")
-      destroy_tmp_dir("priv/temp/ecto_role_test/migrations")
     end)
 
     :ok

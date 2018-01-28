@@ -6,6 +6,7 @@ defmodule EctoRole.Entity.Server do
   @moduledoc false
 
   alias EctoRole.Entity, as: ENTITY
+  alias EctoRole.Filter, as: FILTER
 
   @registry_name :ecto_role_entity_registry
 
@@ -41,15 +42,15 @@ defmodule EctoRole.Entity.Server do
           params = %{key: id}
           record = ENTITY.get_entity(params)
 
-          permissions =
-            Enum.map(record.roles, fn x ->
-              Enum.map(x.filters, fn y ->
-                 y
-              end)
-            end)
-
-          permissions = calculate_permissions(permissions)
-
+#          permissions =
+#            Enum.map(record.roles, fn x ->
+#              Enum.map(x.filters, fn y ->
+#                 y
+#              end)
+#            end)
+#
+#          permissions = calculate_permissions(permissions)
+    permissions = [{'user', %FILTER{}}]
           %__MODULE__{state | key: id, roles: record.roles, permissions: permissions}
       end
 

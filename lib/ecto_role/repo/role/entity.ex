@@ -56,4 +56,11 @@ defmodule EctoRole.Entity do
     record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
     record
   end
+
+  @doc """
+  Fetch all Entity
+  """
+  def all() do
+    Repo.all(ENTITY)
+  end
 end
