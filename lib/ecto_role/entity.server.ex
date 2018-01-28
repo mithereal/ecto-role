@@ -141,7 +141,8 @@ defmodule EctoRole.Entity.Server do
 
   @doc "remove the entity"
   def handle_call(:remove, _from, %__MODULE__{status: status, key: key} = state) do
-    updated_state = %__MODULE__{state | status: status}
+    new_status  = 'inactive'
+    updated_state = %__MODULE__{state | status: new_status}
 
     send(self(), :save)
 
@@ -150,7 +151,7 @@ defmodule EctoRole.Entity.Server do
 
   @doc "delete the entity, then shutdown"
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
-    entity = %ENTITY{status: status, key: key}
+    entity = ENTITY.get(%{key: key})
     Repo.delete(entity)
 
     send(self(), :shutdown)
