@@ -212,7 +212,7 @@ defmodule EctoRole.Entity.Server do
   @doc "calculates the active permissions based on a list of permissions"
   defp calculate_permissions(permissions) do
     calculated_permissions =
-      Map.merge(sorted_by_key, fn x ->
+      Map.merge(permissions, fn x ->
         {_, filter} = x
         read_count = Enum.count(filter.read)
         write_count = Enum.count(filter.write)
