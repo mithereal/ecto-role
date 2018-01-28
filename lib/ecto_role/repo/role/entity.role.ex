@@ -5,12 +5,15 @@ defmodule EctoRole.Entity.Role do
 
   import Ecto.Changeset
 
+  alias EctoRole.Role, as: ROLE
+  alias EctoRole.Entity, as: ENTITY
+
   schema "er_role_to_entity" do
-    belongs_to(:role, EctoRole.Role, foreign_key: :role_key, references: :key, type: :string)
+    belongs_to(:role, ROLE, foreign_key: :role_key, references: :key, type: :string)
 
     belongs_to(
       :entity,
-      EctoRole.Entity,
+      ENTITY,
       foreign_key: :entity_key,
       references: :key,
       type: :string
