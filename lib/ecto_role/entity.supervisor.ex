@@ -95,4 +95,44 @@ defmodule EctoRole.Entity.Supervisor do
     end)
     |> Enum.sort()
   end
+
+
+  @doc """
+  Create a new entity and save it to the db
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.add("xxx")
+      "%{}"
+  """
+  def add(id) do
+    Supervisor.start_child(__MODULE__, [id])
+    result = ES.save(id)
+    case result do
+      :ok -> {:ok, "new entity was created"}
+      _-> {:error, "could not create a new entity"}
+    end
+
+  end
+
+
+  @doc """
+  Soft Delete a entity from the db
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def remove(id) do
+    Supervisor.start_child(__MODULE__, [id])
+    {:error, "could not soft delete entity"}
+  end
+
+  @doc """
+  Delete a entity from the db
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.delete("xxx")
+      "%{}"
+  """
+  def delete(id) do
+    Supervisor.start_child(__MODULE__, [id])
+    {:error, "could not delete entity"}
+  end
 end

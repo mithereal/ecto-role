@@ -5,9 +5,7 @@ defmodule EctoRole.Application do
 
   use Application
 
-  alias EctoRole.Role, as: ROLE
-  alias EctoRole.Schema, as: SCHEMA
-  alias EctoRole.Entity, as: ENTITY
+  alias EctoRole, as: APP
 
   alias EctoRole.Supervisor, as: SUP
   alias EctoRole.Role.Supervisor, as: RS
@@ -58,7 +56,7 @@ defmodule EctoRole.Application do
 
 
   defp load_schemas do
-    schemas = SCHEMA.all()
+    schemas = APP.list_schemas()
 
     Enum.each(schemas, fn x ->
       SS.start(x)
@@ -67,7 +65,7 @@ defmodule EctoRole.Application do
 
 
   defp load_roles do
-    roles = ROLE.all()
+    roles = APP.list_roles()
 
     Enum.each(roles, fn x ->
       RS.start(x.key)
@@ -76,7 +74,7 @@ defmodule EctoRole.Application do
 
 
   defp load_entities do
-    entities = ENTITY.all()
+    entities = APP.list_entities()
 
     Enum.each(entities, fn x ->
       ES.start(x.key)

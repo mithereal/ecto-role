@@ -51,8 +51,8 @@ defmodule EctoRole.Filter do
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get_filters(Map.t()) :: Map.t()
-  def get_filters(%{key: value}) do
+  @spec get(Map.t()) :: Map.t()
+  def get(%{key: value}) do
     record = Repo.get_by!(FILTER, key: value) |> Repo.preload(:schema)
     record
   end
@@ -60,8 +60,8 @@ defmodule EctoRole.Filter do
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get_filters(Map.t()) :: Map.t()
-  def get_filters(%{name: value}) do
+  @spec get(Map.t()) :: Map.t()
+  def get(%{name: value}) do
     record = Repo.get_by!(FILTER, name: value) |> Repo.preload(:schema)
     record
   end
@@ -89,7 +89,7 @@ defmodule EctoRole.Filter do
   @doc """
   create a new filter
   """
-  def new(attrs \\ %{}) do
+  def create(attrs \\ %{}) do
     FILTER
     |> FILTER.changeset(attrs)
     |> Repo.insert()
@@ -97,8 +97,10 @@ defmodule EctoRole.Filter do
 
   defp generate_uuid(changeset) do
     uuid = Ecto.UUID.generate()
-
-    changeset
-    |> put_change(:key, uuid)
+    case get_change(changeset, :key) do
+      nil  ->  changeset
+      _->
+        changeset
+        |> put_change(:key, uuid)
   end
 end

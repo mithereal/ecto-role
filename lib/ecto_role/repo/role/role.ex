@@ -10,6 +10,7 @@ defmodule EctoRole.Role do
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Filter, as: FILTER
   alias EctoRole.Entity, as: ENTITY
+  alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Filter.Role, as: FR
   alias EctoRole.Entity.Role, as: ER
 
@@ -86,8 +87,8 @@ defmodule EctoRole.Role do
   @doc """
   Fetch the Complete Role by key
   """
-  @spec get_role(Map.t()) :: Map.t()
-  def get_role(%{key: value}) do
+  @spec get(Map.t()) :: Map.t()
+  def get(%{key: value}) do
     record =
       Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
       |> Repo.preload(filters: :schema)
@@ -98,8 +99,8 @@ defmodule EctoRole.Role do
   @doc """
   Fetch the Complete Role by name
   """
-  @spec get_role(Map.t()) :: Map.t()
-  def get_role(%{name: value}) do
+  @spec get(Map.t()) :: Map.t()
+  def get(%{name: value}) do
     record =
       Repo.get_by(ROLE, name: value) |> Repo.preload(:entities)
       |> Repo.preload(filters: :schema)
@@ -110,10 +111,10 @@ defmodule EctoRole.Role do
   @doc """
   check if key has filter
   """
-  @spec has_filter(String.t(), String.t()) :: Map.t()
-  def has_filter(id, filter) when is_binary(id) and is_binary(filter), do: has_filter(id, filter)
+  @spec has_filter?(String.t(), String.t()) :: Map.t()
+  def has_filter?(id, filter) when is_binary(id) and is_binary(filter), do: has_filter(id, filter)
 
-  def has_filter(id, filter) do
+  def has_filter?(id, filter) do
     status = EctoRole.Entity.Supervisor.start(id)
 
     case status do
@@ -124,15 +125,11 @@ defmodule EctoRole.Role do
 
   defp generate_uuid(changeset) do
     uuid = Ecto.UUID.generate()
-
-    changeset
-    |> put_change(:key, uuid)
+    case get_change(changeset, :key) do
+      nil  ->  changeset
+      _->
+        changeset
+        |> put_change(:key, uuid)
   end
 
-  @doc """
-  Fetch all roles
-  """
-  def all() do
-    Repo.all(ROLE)
-  end
 end

@@ -76,6 +76,24 @@ defmodule EctoRole.Entity.Server do
     {:reply, reply, state}
   end
 
+  def handle_call(
+        :save,
+        _from,
+         state
+      ) do
+    params = %{}
+    changeset = ENTITY.changeset(%ENTITY{}, params)
+    {result,_} = Repo.insert_or_update(changeset)
+
+    reply =
+      case result do
+        nil -> :error
+        _ -> result
+      end
+
+    {:reply, reply, state}
+  end
+
   @doc "queries the server for permissions"
   def handle_call(:get_permissions, _from, %__MODULE__{permissions: permissions} = state) do
     {:reply, permissions, state}
@@ -91,7 +109,10 @@ defmodule EctoRole.Entity.Server do
     {:reply, roles, state}
   end
 
+
   ### Client
+
+
   def get_roles(id) do
     try do
       GenServer.call(via_tuple(id), :get_roles)
@@ -111,6 +132,14 @@ defmodule EctoRole.Entity.Server do
   def has_permission(key, params) do
     try do
       GenServer.call(via_tuple(key), {:has_permission, params})
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  def save(key) do
+    try do
+      GenServer.call(via_tuple(key), :save)
     catch
       :exit, _ -> {:error, 'invalid_entity'}
     end
