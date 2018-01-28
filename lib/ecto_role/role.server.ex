@@ -33,9 +33,9 @@ defmodule EctoRole.Server do
     end
   end
 
-  def get_permissions(id) do
+  def get_filters(id) do
     try do
-      GenServer.call(via_tuple(id), :get_permissions)
+      GenServer.call(via_tuple(id), :get_filters)
     catch
       :exit, _ -> {:error, "invalid_role"}
     end
@@ -94,8 +94,8 @@ defmodule EctoRole.Server do
     {:noreply, updated_state}
   end
 
-  @doc "queries the server for permissions"
-  def handle_call(:get_permissions, _from, %__MODULE__{filters: filters} = state) do
+  @doc "queries the server for filters"
+  def handle_call(:get_filters, _from, %__MODULE__{filters: filters} = state) do
     {:reply, filters, state}
   end
 
