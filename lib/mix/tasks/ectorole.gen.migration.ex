@@ -12,7 +12,6 @@ defmodule Mix.Tasks.EctoRole.Gen.Migration do
 
   @doc false
   def run(args) do
-
     destroy_tmp_dir("priv/repo/migrations")
 
     no_umbrella!("ecto.gen.migration")

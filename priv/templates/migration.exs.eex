@@ -4,6 +4,7 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
   def change do
     create table(:er_entity) do
       add :key, :string, null: false
+      add :status, :string, null: true
 
     end
 

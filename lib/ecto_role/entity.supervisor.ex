@@ -24,7 +24,7 @@ defmodule EctoRole.Entity.Supervisor do
   def start(id) do
     ## check if is actually an entity
     e = Repo.get_by(ENTITY, key: id)
-    #IO.inspect(e)
+    # IO.inspect(e)
 
     case e do
       %{} -> Supervisor.start_child(__MODULE__, [id])
@@ -96,23 +96,42 @@ defmodule EctoRole.Entity.Supervisor do
     |> Enum.sort()
   end
 
-
   @doc """
   Create a new entity and save it to the db
   ## Examples
-      iex> EctoRole.Entity.Supervisor.add("xxx")
+      iex> EctoRole.Entity.Supervisor.new("xxx")
       "%{}"
   """
-  def add(id) do
+  def new(id) do
     Supervisor.start_child(__MODULE__, [id])
     result = ES.save(id)
+
     case result do
       :ok -> {:ok, "new entity was created"}
-      _-> {:error, "could not create a new entity"}
+      _ -> {:error, "could not create a new entity"}
     end
-
   end
 
+  @doc """
+  Save a entity
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.save("xxx")
+      "%{}"
+  """
+  def save(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Entity does not exist"}
+
+      true ->
+        result = ES.save(id)
+
+        case result do
+          :ok -> {:ok, "entity was saved"}
+          _ -> {:error, "could not save the entity"}
+        end
+    end
+  end
 
   @doc """
   Soft Delete a entity from the db
@@ -121,8 +140,18 @@ defmodule EctoRole.Entity.Supervisor do
       "%{}"
   """
   def remove(id) do
-    Supervisor.start_child(__MODULE__, [id])
-    {:error, "could not soft delete entity"}
+    case process_exists?(id) do
+      false ->
+        {:error, "Entity does not exist"}
+
+      true ->
+        result = ES.remove(id)
+
+        case result do
+          :ok -> {:ok, "entity was removed"}
+          _ -> {:error, "could not remove the entity"}
+        end
+    end
   end
 
   @doc """
@@ -132,7 +161,17 @@ defmodule EctoRole.Entity.Supervisor do
       "%{}"
   """
   def delete(id) do
-    Supervisor.start_child(__MODULE__, [id])
-    {:error, "could not delete entity"}
+    case process_exists?(id) do
+      false ->
+        {:error, "Entity does not exist"}
+
+      true ->
+        result = ES.delete(id)
+
+        case result do
+          :ok -> {:ok, "entity was deleted"}
+          _ -> {:error, "could not delete the entity"}
+        end
+    end
   end
 end

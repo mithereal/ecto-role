@@ -1,5 +1,4 @@
 defmodule EctoRole do
-
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Filter, as: FILTER
   alias EctoRole.Entity, as: ENTITY
@@ -49,7 +48,6 @@ defmodule EctoRole do
     :ecto_role
     |> Application.fetch_env!(EctoRole)
   end
-
 
   @doc """
   Gets a single entity.
@@ -334,7 +332,6 @@ defmodule EctoRole do
     ROLE.changeset(role, %{})
   end
 
-
   @doc """
   Returns the list of er_schema.
 
@@ -428,5 +425,4 @@ defmodule EctoRole do
   def change_schema(%SCHEMA{} = schema) do
     SCHEMA.changeset(schema, %{})
   end
-
 end

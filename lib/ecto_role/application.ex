@@ -54,7 +54,6 @@ defmodule EctoRole.Application do
     load_entities()
   end
 
-
   defp load_schemas do
     schemas = APP.list_schemas()
 
@@ -62,7 +61,6 @@ defmodule EctoRole.Application do
       SS.start(x)
     end)
   end
-
 
   defp load_roles do
     roles = APP.list_roles()
@@ -72,7 +70,6 @@ defmodule EctoRole.Application do
     end)
   end
 
-
   defp load_entities do
     entities = APP.list_entities()
 
@@ -80,5 +77,4 @@ defmodule EctoRole.Application do
       ES.start(x.key)
     end)
   end
-
 end

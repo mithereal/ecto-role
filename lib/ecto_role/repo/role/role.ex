@@ -125,11 +125,14 @@ defmodule EctoRole.Role do
 
   defp generate_uuid(changeset) do
     uuid = Ecto.UUID.generate()
+
     case get_change(changeset, :key) do
-      nil  ->  changeset
-      _->
+      nil ->
+        changeset
+
+      _ ->
         changeset
         |> put_change(:key, uuid)
+    end
   end
-
 end

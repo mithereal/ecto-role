@@ -14,11 +14,12 @@ defmodule EctoRole.Entity do
 
   schema "er_entity" do
     field(:key, :string, default: nil)
+    field(:status, :string, default: nil)
 
     many_to_many(:roles, ROLE, join_through: ER, join_keys: [entity_key: :key, role_key: :key])
   end
 
-  @params ~w(key)a
+  @params ~w(key status)a
   @required_fields ~w()a
 
   @doc """
@@ -31,16 +32,17 @@ defmodule EctoRole.Entity do
     |> generate_uuid()
   end
 
-
   defp generate_uuid(changeset) do
     uuid = Ecto.UUID.generate()
-     case get_change(changeset, :key) do
-    nil  ->  changeset
-     _->
-    changeset
-    |> put_change(:key, uuid)
-end
 
+    case get_change(changeset, :key) do
+      nil ->
+        changeset
+
+      _ ->
+        changeset
+        |> put_change(:key, uuid)
+    end
   end
 
   @doc """
@@ -52,6 +54,4 @@ end
     record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
     record
   end
-
-
 end
