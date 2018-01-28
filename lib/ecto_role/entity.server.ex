@@ -48,15 +48,15 @@ defmodule EctoRole.Entity.Server do
           params = %{key: id}
           record = ENTITY.get_entity(params)
 
-          #          permissions =
-          #            Enum.map(record.roles, fn x ->
-          #              Enum.map(x.filters, fn y ->
-          #                 y
-          #              end)
-          #            end)
-          #
-          #          permissions = calculate_permissions(permissions)
-          permissions = [{'user', %FILTER{}}]
+          permissions =
+            Enum.map(record.roles, fn x ->
+              Enum.map(x.filters, fn y ->
+                y
+              end)
+            end)
+
+          permissions = calculate_permissions(permissions)
+
           %__MODULE__{state | key: id, roles: record.roles, permissions: permissions}
       end
 
@@ -215,7 +215,6 @@ defmodule EctoRole.Entity.Server do
     ## calculate an int value for each sorted permission
     ## sort by int
     ## pop the highest
-    #    [{schema.name, filter}]
-    return = permissions
+    [{'user', %FILTER{}}]
   end
 end
