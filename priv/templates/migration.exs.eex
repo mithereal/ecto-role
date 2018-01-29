@@ -8,14 +8,14 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
     end
 
+  create index(:er_entity, [:key],[unique: true])
+
     create table(:er_schema) do
       add :name, :string, null: false
       add :fields, :string, null: false
 
       timestamps()
     end
-
-    create index(:er_entity, [:key],[unique: true])
 
 
     create table(:er_filter) do
@@ -41,14 +41,14 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
 
     create table(:er_role_to_entity) do
-      add :role_key, references(:er_role, column: :key, type: :bigserial)
-      add :entity_key, references(:er_entity, column: :key, type: :bigserial)
+      add :role_key, references(:er_role, column: :key, type: :string)
+      add :entity_key, references(:er_entity, column: :key, type: :string)
     end
 
 
     create table(:er_role_to_filter) do
-      add :role_key, references(:er_role, column: :key, type: :bigserial)
-      add :filter_key, references(:er_filter, column: :key, type: :bigserial)
+      add :role_key, references(:er_role, column: :key, type: :string)
+      add :filter_key, references(:er_filter, column: :key, type: :string)
     end
 
   alter table(:er_filter) do
