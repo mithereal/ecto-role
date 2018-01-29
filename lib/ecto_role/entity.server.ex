@@ -48,7 +48,8 @@ defmodule EctoRole.Entity.Server do
 
         false ->
           params = %{key: id}
-          record = ENTITY.get_entity(params)
+          record = ENTITY.get(params)
+
 
           permissions =
             Enum.map(record.roles, fn x ->
@@ -56,10 +57,13 @@ defmodule EctoRole.Entity.Server do
                 y
               end)
             end)
-
+[permissions] = permissions
           permissions = calculate_permissions(permissions)
 
-          %__MODULE__{state | key: id, roles: record.roles, permissions: permissions, status: 'active'}
+           IO.inspect(permissions, label: "calculated permissions")
+
+
+          %__MODULE__{state | key: id, roles: record.roles, permissions: [], status: 'active'}
       end
 
     {:noreply, updated_state}
@@ -76,6 +80,7 @@ defmodule EctoRole.Entity.Server do
           :error
 
         _ ->
+
           send(self(), {:setup, key})
           result
       end
@@ -232,6 +237,10 @@ defmodule EctoRole.Entity.Server do
 
   @doc "calculates the active permissions based on a list of permissions"
   defp calculate_permissions(permissions) do
+
+    grouped_permissions = Enum.group_by(permissions,&(&1.key))
+
+
     calculated_permissions =
       Map.merge(permissions, fn x ->
         {_, filter} = x
@@ -262,22 +271,23 @@ defmodule EctoRole.Entity.Server do
         Map.put(x, :permission_value, value)
       end)
 
-    sorted_by_key =
-      Enum.reduce(calculated_permissions, %{}, fn m, acc ->
-        Map.merge(acc, m, fn
-          _k, e when is_map(e) ->
-            [e]
+#    sorted_by_key =
+#      Enum.reduce(calculated_permissions, %{}, fn m, acc ->
+#        Map.merge(acc, m, fn
+#          _k, e when is_map(e) ->
+#            [e]
+#
+#          _k, e ->
+#            [e]
+#        end)
+#      end)
 
-          _k, e ->
-            [e]
-        end)
-      end)
-
-    IO.inspect(calculated_permissions, label: "calculated_permissions")
-    IO.inspect(sorted_by_key, label: "sorted_by_key")
+   # IO.inspect(permissions, label: "permissions")
+#    IO.inspect(calculated_permissions, label: "calculated_permissions")
+#    IO.inspect(sorted_by_key, label: "sorted_by_key")
 
     ## sort by int
     ## pop the highest
-    [{'user', %FILTER{}}]
+    [{'user', %FILTER{key: "123"}}, {'post', %FILTER{key: "456"}}]
   end
 end

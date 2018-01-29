@@ -1,4 +1,4 @@
-defmodule Ectorole.Repo.Migrations.EctoRole do
+defmodule Ectorole.Repo.Migrations.EctoRoleTest do
   use Ecto.Migration
 
   def change do
@@ -30,4 +30,5 @@ end
 
 
 
+end
 end

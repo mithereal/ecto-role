@@ -12,6 +12,7 @@ defmodule EctoRole.Server do
   @name __MODULE__
 
   defstruct key: nil,
+    name: nil,
             entities: [],
             filters: []
 
@@ -57,6 +58,7 @@ defmodule EctoRole.Server do
   end
 
   def handle_info({:setup, id}, state) do
+
     updated_state =
       case is_nil(id) do
         true ->
@@ -64,16 +66,17 @@ defmodule EctoRole.Server do
 
         false ->
           params = %{key: id}
-          record = ROLE.get(params)
+        #  record = ROLE.get(params)
+          record = nil
 
           case record do
             nil ->
               %__MODULE__{state | key: id}
 
             %{} ->
-              Enum.each(record.filters, fn x ->
-                FS.start(x.key)
-              end)
+#              Enum.each(record.filters, fn x ->
+#                FS.start(x.key)
+#              end)
 
               #              Enum.each(record.entities, fn x ->
               #                EctoRole.Entity.Supervisor.start(x.key)
@@ -82,8 +85,9 @@ defmodule EctoRole.Server do
               %__MODULE__{
                 state
                 | key: id,
-                  entities: record.entities,
-                  filters: record.filters
+              name: record.name,
+                  entities: [],
+                  filters: []
               }
 
             _ ->

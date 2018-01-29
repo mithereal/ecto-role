@@ -36,7 +36,7 @@ defmodule EctoRole.Mixfile do
   defp applications(_), do: [:logger]
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(_), do: ["lib", "test/support"]
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
@@ -79,12 +79,12 @@ defmodule EctoRole.Mixfile do
         "ecto.create --quiet",
         "ecto_role.clear.migrations",
         "ecto_role.gen.migration",
-        "ecto_role.gen.test.migration",
+      #  "ecto_role.gen.test.migration",
         "ecto.migrate",
-        "run priv/repo/test_seeds.exs",
+       # "run priv/repo/test_seeds.exs",
         "test"
       ],
-      install: [
+      in: [
         "ecto.drop --quiet",
         "ecto.create --quiet",
         "ecto_role.clear.migrations",

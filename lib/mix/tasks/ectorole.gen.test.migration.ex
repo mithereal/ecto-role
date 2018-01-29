@@ -9,7 +9,6 @@ defmodule Mix.Tasks.EctoRole.Gen.Test.Migration do
   import Mix.Ecto
   import Mix.Generator
   import EctoRole.Test.Support.FileHelpers
-
   @doc false
   def run(args) do
 
@@ -27,7 +26,7 @@ defmodule Mix.Tasks.EctoRole.Gen.Test.Migration do
         |> Path.join("priv/templates/test_migration.exs.eex")
 
       generated_file = EEx.eval_file(source_path, module_prefix: app_module())
-      target_file = Path.join(path, "#{timestamp()}_ectorole.exs")
+      target_file = Path.join(path, "#{timestamp()}_ectoroletest.exs")
       create_directory(path)
       create_file(target_file, generated_file)
     end)

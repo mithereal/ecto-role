@@ -455,4 +455,10 @@ defmodule EctoRole do
   def change_schema(%SCHEMA{} = schema) do
     SCHEMA.changeset(schema, %{})
   end
+
+
+def fetch_schemas() do
+    SCHEMA.all()
+  end
 end
+

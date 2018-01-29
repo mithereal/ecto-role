@@ -51,7 +51,7 @@ defmodule EctoRole.Entity do
   @spec get(Map.t()) :: Map.t()
 
   def get(%{key: key}) do
-    record = Repo.get_by(ENTITY, key: key) |> Repo.preload(:roles)
+    record = Repo.get_by(ENTITY, key: key) |> Repo.preload(roles: :filters)
     record
   end
 end
