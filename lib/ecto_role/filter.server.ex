@@ -12,7 +12,8 @@ defmodule EctoRole.Filter.Server do
 
   defstruct key: nil,
             schema: nil,
-            filters: []
+            filters: [],
+            status: nil
 
   def start_link(id) do
     name = via_tuple(id)
@@ -35,7 +36,7 @@ defmodule EctoRole.Filter.Server do
   def init([id]) do
     send(self(), {:setup, id})
 
-    state = %__MODULE__{}
+    state = %__MODULE__{ key: id}
     {:ok, state}
   end
 
@@ -60,7 +61,11 @@ defmodule EctoRole.Filter.Server do
   end
 
   @doc "save the filter"
-  def handle_call({:save}, _from, %__MODULE__{schema: schema, filters: filters} = state) do
+  def handle_call(
+        {:save},
+        _from,
+        %__MODULE__{key: key, schema: schema, filters: filters} = state
+      ) do
     Enum.each(filters, fn p ->
       FILTER.delete(p)
     end)
@@ -69,6 +74,87 @@ defmodule EctoRole.Filter.Server do
       FILTER.new(p)
     end)
 
+    send(self(), {:setup, key})
+
     {:reply, state, state}
+  end
+
+  def handle_info(:save, %__MODULE__{key: key, schema: schema, filters: filters} = state) do
+    Enum.each(filters, fn p ->
+      FILTER.delete(p)
+    end)
+
+    Enum.each(filters, fn p ->
+      FILTER.new(p)
+    end)
+
+    send(self(), {:setup, key})
+
+    {:noreply, state}
+  end
+
+  @doc "deactivate the filter"
+  def handle_call(:deactivate, _from, %__MODULE__{status: status} = state) do
+    new_status = 'inactive'
+    updated_state = %__MODULE__{state | status: new_status}
+
+    send(self(), :save)
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "activate the filter"
+  def handle_call(:activate, _from, %__MODULE__{status: status} = state) do
+    new_status = 'active'
+    updated_state = %__MODULE__{state | status: new_status}
+
+    send(self(), :save)
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "delete the filter, then shutdown"
+  def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
+    entity = ENTITY.get(%{key: key})
+    Repo.delete(entity)
+
+    send(self(), :shutdown)
+
+    updated_state = %__MODULE__{state | status: status}
+    {:reply, :ok, updated_state}
+  end
+
+  ### Client
+
+  def save(key) do
+    try do
+      GenServer.call(via_tuple(key), :save)
+    catch
+      :exit, _ -> {:error, 'invalid_filter'}
+    end
+  end
+
+  def deactivate(key) do
+    try do
+      GenServer.call(via_tuple(key), :deactivate)
+    catch
+      :exit, _ -> {:error, 'invalid_filter'}
+    end
+  end
+
+  def activate(key) do
+    try do
+      GenServer.call(via_tuple(key), :activate)
+    catch
+      :exit, _ -> {:error, 'invalid_filter'}
+    end
+  end
+
+  def delete(key) do
+    try do
+      GenServer.call(via_tuple(key), :delete)
+    catch
+      :exit, _ -> {:error, 'invalid_filter'}
+    end
   end
 end

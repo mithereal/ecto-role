@@ -50,18 +50,17 @@ defmodule EctoRole.Entity.Server do
           params = %{key: id}
           record = ENTITY.get(params)
 
-
           permissions =
             Enum.map(record.roles, fn x ->
               Enum.map(x.filters, fn y ->
                 y
               end)
             end)
-[permissions] = permissions
+
+          [permissions] = permissions
           permissions = calculate_permissions(permissions)
 
-           IO.inspect(permissions, label: "calculated permissions")
-
+          IO.inspect(permissions, label: "calculated permissions")
 
           %__MODULE__{state | key: id, roles: record.roles, permissions: [], status: 'active'}
       end
@@ -80,7 +79,6 @@ defmodule EctoRole.Entity.Server do
           :error
 
         _ ->
-
           send(self(), {:setup, key})
           result
       end
@@ -148,7 +146,7 @@ defmodule EctoRole.Entity.Server do
 
   @doc "deactivate the entity"
   def handle_call(:deactivate, _from, %__MODULE__{status: status, key: key} = state) do
-    new_status  = 'inactive'
+    new_status = 'inactive'
     updated_state = %__MODULE__{state | status: new_status}
 
     send(self(), :save)
@@ -158,7 +156,7 @@ defmodule EctoRole.Entity.Server do
 
   @doc "activate the entity"
   def handle_call(:activate, _from, %__MODULE__{status: status, key: key} = state) do
-    new_status  = 'active'
+    new_status = 'active'
     updated_state = %__MODULE__{state | status: new_status}
 
     send(self(), :save)
@@ -237,21 +235,23 @@ defmodule EctoRole.Entity.Server do
 
   @doc "calculates the active permissions based on a list of permissions"
   defp calculate_permissions(permissions) do
-
-    grouped_permissions = Enum.group_by(permissions,&(&1.key))
-
+    grouped_permissions = Enum.group_by(permissions, & &1.key)
 
     calculated_permissions =
       Map.merge(permissions, fn x ->
         {_, filter} = x
-        read_count = case Enum.count(filter.read) > 0 do
-          true -> Enum.count(filter.read)
-          false -> 9999
-        end
-        write_count = case Enum.count(filter.write) > 0 do
-          true -> Enum.count(filter.read)
-          false -> 9999
-        end
+
+        read_count =
+          case Enum.count(filter.read) > 0 do
+            true -> Enum.count(filter.read)
+            false -> 9999
+          end
+
+        write_count =
+          case Enum.count(filter.write) > 0 do
+            true -> Enum.count(filter.read)
+            false -> 9999
+          end
 
         create_perm =
           case filter.create do
@@ -271,20 +271,20 @@ defmodule EctoRole.Entity.Server do
         Map.put(x, :permission_value, value)
       end)
 
-#    sorted_by_key =
-#      Enum.reduce(calculated_permissions, %{}, fn m, acc ->
-#        Map.merge(acc, m, fn
-#          _k, e when is_map(e) ->
-#            [e]
-#
-#          _k, e ->
-#            [e]
-#        end)
-#      end)
+    #    sorted_by_key =
+    #      Enum.reduce(calculated_permissions, %{}, fn m, acc ->
+    #        Map.merge(acc, m, fn
+    #          _k, e when is_map(e) ->
+    #            [e]
+    #
+    #          _k, e ->
+    #            [e]
+    #        end)
+    #      end)
 
-   # IO.inspect(permissions, label: "permissions")
-#    IO.inspect(calculated_permissions, label: "calculated_permissions")
-#    IO.inspect(sorted_by_key, label: "sorted_by_key")
+    # IO.inspect(permissions, label: "permissions")
+    #    IO.inspect(calculated_permissions, label: "calculated_permissions")
+    #    IO.inspect(sorted_by_key, label: "sorted_by_key")
 
     ## sort by int
     ## pop the highest

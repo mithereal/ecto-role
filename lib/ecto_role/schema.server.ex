@@ -7,6 +7,8 @@ defmodule EctoRole.Schema.Server do
 
   alias EctoRole.Schema, as: SCHEMA
 
+  alias EctoRole.Repo, as: Repo
+
   @registry_name :ecto_role_schema_registry
   @name __MODULE__
 
@@ -38,6 +40,15 @@ defmodule EctoRole.Schema.Server do
     end
   end
 
+
+  def save(key) do
+    try do
+      GenServer.call(via_tuple(key), :save)
+    catch
+      :exit, _ -> {:error, 'invalid_schema'}
+    end
+  end
+
   def handle_info({:setup, id}, state) do
     updated_state =
       case is_nil(id) do
@@ -51,6 +62,46 @@ defmodule EctoRole.Schema.Server do
       end
 
     {:noreply, updated_state}
+  end
+
+  def handle_info(:save, %__MODULE__{schema: schema} = state) do
+    params = %{name: schema}
+    changeset = SCHEMA.changeset(%SCHEMA{}, params)
+    {result, _} = Repo.insert_or_update(changeset)
+
+    reply =
+      case result do
+        nil ->
+          :error
+
+        _ ->
+          send(self(), {:setup, schema})
+          result
+      end
+
+    {:noreply, state}
+  end
+
+  def handle_call(
+        :save,
+        _from,
+        %__MODULE__{schema: schema} = state
+      ) do
+    params = %{name: schema}
+    changeset = SCHEMA.changeset(%SCHEMA{}, params)
+    {result, _} = Repo.insert_or_update(changeset)
+
+    reply =
+      case result do
+        nil ->
+          :error
+
+        _ ->
+          send(self(), {:setup, schema})
+          result
+      end
+
+    {:reply, reply, state}
   end
 
   @doc "queries the server for permissions"

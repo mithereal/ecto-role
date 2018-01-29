@@ -1,10 +1,10 @@
-defmodule Mix.Tasks.EctoFilter.Filter.SetupTest do
+defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   use ExUnit.Case
-  # import EctoFilter.Test.Support.FileHelpers
+  # import EctoRole.Test.Support.FileHelpers
 
-  alias EctoFilter.Filter.Supervisor, as: FS
-  alias EctoFilter.Filter.Server, as: SERVER
-  alias EctoFilter.Filter, as: FILTER
+  alias EctoRole.Filter.Supervisor, as: FS
+  alias EctoRole.Filter.Server, as: SERVER
+  alias EctoRole.Filter, as: FILTER
 
   describe "Filter server startup succeeds with valid filter" do
     test "is a valid filter" do
@@ -57,7 +57,6 @@ defmodule Mix.Tasks.EctoFilter.Filter.SetupTest do
       assert true == assert
     end
   end
-  
 
   describe "Filter server soft delete an filter" do
     test "soft delete an filter" do

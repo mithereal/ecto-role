@@ -13,7 +13,5 @@ defmodule Mix.Tasks.EctoRole.Clear.Migrations do
   @doc false
   def run(args) do
     destroy_tmp_dir("priv/repo/migrations")
-
   end
-
 end

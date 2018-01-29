@@ -12,9 +12,10 @@ defmodule EctoRole.Server do
   @name __MODULE__
 
   defstruct key: nil,
-    name: nil,
+            name: nil,
             entities: [],
-            filters: []
+            filters: [],
+          status: nil
 
   def start_link(id) do
     name = via_tuple(id)
@@ -58,7 +59,6 @@ defmodule EctoRole.Server do
   end
 
   def handle_info({:setup, id}, state) do
-
     updated_state =
       case is_nil(id) do
         true ->
@@ -66,17 +66,16 @@ defmodule EctoRole.Server do
 
         false ->
           params = %{key: id}
-        #  record = ROLE.get(params)
-          record = nil
+          record = ROLE.get!(params)
 
           case record do
             nil ->
               %__MODULE__{state | key: id}
 
             %{} ->
-#              Enum.each(record.filters, fn x ->
-#                FS.start(x.key)
-#              end)
+              #              Enum.each(record.filters, fn x ->
+              #                FS.start(x.key)
+              #              end)
 
               #              Enum.each(record.entities, fn x ->
               #                EctoRole.Entity.Supervisor.start(x.key)
@@ -85,13 +84,14 @@ defmodule EctoRole.Server do
               %__MODULE__{
                 state
                 | key: id,
-              name: record.name,
+                  name: record.name,
                   entities: [],
-                  filters: []
+                  filters: [],
+              status: "active"
               }
 
             _ ->
-              %__MODULE__{state | key: id}
+              %__MODULE__{state | key: id, status: "active"}
           end
       end
 
@@ -106,5 +106,37 @@ defmodule EctoRole.Server do
   @doc "queries the server for entities"
   def handle_call(:get_entities, _from, %__MODULE__{entities: entities} = state) do
     {:reply, entities, state}
+  end
+
+  @doc "deactivate the role"
+
+  def handle_call(:deactivate, _from, %__MODULE__{status: status} = state) do
+    new_status = 'inactive'
+    updated_state = %__MODULE__{state | status: new_status}
+
+    send(self(), :save)
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "activate the entity"
+  def handle_call(:activate, _from, %__MODULE__{status: status} = state) do
+    new_status = 'active'
+    updated_state = %__MODULE__{state | status: new_status}
+
+    send(self(), :save)
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "delete the entity, then shutdown"
+  def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
+    entity = ROLE.get(%{key: key})
+    Repo.delete(entity)
+
+    send(self(), :shutdown)
+
+    updated_state = %__MODULE__{state | status: status}
+    {:reply, :ok, updated_state}
   end
 end

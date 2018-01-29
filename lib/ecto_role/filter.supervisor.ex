@@ -86,4 +86,67 @@ defmodule EctoRole.Filter.Supervisor do
     end)
     |> Enum.sort()
   end
+
+  @doc """
+  Save a Filter
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.save("xxx")
+      "%{}"
+  """
+  def save(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Filter does not exist"}
+
+      true ->
+        result = FS.save(id)
+
+        case result do
+          :ok -> {:ok, "filter was saved"}
+          _ -> {:error, "could not save the filter"}
+        end
+    end
+  end
+
+  @doc """
+  Soft Delete a filter from the db
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def deactivate(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Filter does not exist"}
+
+      true ->
+        result = FS.deactivate(id)
+
+        case result do
+          :ok -> {:ok, "filter was deactivated"}
+          _ -> {:error, "could not deactivate the filter"}
+        end
+    end
+  end
+
+  @doc """
+  Activate filter from the db
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def activate(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Filter does not exist"}
+
+      true ->
+        result = FS.activate(id)
+
+        case result do
+          :ok -> {:ok, "filter was activated"}
+          _ -> {:error, "could not activate the filter"}
+        end
+    end
+  end
 end

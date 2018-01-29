@@ -57,7 +57,6 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
       assert true == assert
     end
   end
-  
 
   describe "Role server soft delete an role" do
     test "soft delete an role" do

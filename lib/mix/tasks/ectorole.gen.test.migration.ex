@@ -11,7 +11,6 @@ defmodule Mix.Tasks.EctoRole.Gen.Test.Migration do
   import EctoRole.Test.Support.FileHelpers
   @doc false
   def run(args) do
-
     no_umbrella!("ecto.gen.migration")
 
     repos = parse_repo(args)
@@ -41,6 +40,7 @@ defmodule Mix.Tasks.EctoRole.Gen.Test.Migration do
 
   defp timestamp do
     {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
+    ss = ss + 1
     "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
   end
 

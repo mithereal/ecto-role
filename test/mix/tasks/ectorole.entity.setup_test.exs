@@ -58,7 +58,6 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-
   describe "Deactivate Entity server" do
     test "soft delete an entity from storage" do
       entity = ENTITY.all()

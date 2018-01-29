@@ -58,7 +58,6 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
     end
   end
 
-
   describe "Schema server soft delete an schema" do
     test "soft delete an schema" do
       schema = SCHEMA.all()

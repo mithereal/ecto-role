@@ -17,6 +17,7 @@ defmodule EctoRole.Filter do
 
   schema "er_filter" do
     field(:name, :string)
+    field(:status, :string)
     field(:read, :string)
     field(:write, :string)
     field(:create, :boolean)
@@ -35,7 +36,7 @@ defmodule EctoRole.Filter do
     timestamps()
   end
 
-  @params ~w(name read write create delete key schema_id)a
+  @params ~w(name read write create delete key status schema_id)a
   @required_fields ~w(name)a
 
   @doc """
@@ -107,6 +108,4 @@ defmodule EctoRole.Filter do
         |> put_change(:key, uuid)
     end
   end
-
-
 end

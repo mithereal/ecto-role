@@ -153,6 +153,7 @@ defmodule EctoRole.Entity.Supervisor do
         end
     end
   end
+
   @doc """
   Activate entity from the db
   ## Examples

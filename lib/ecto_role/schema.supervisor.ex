@@ -3,7 +3,7 @@ defmodule EctoRole.Schema.Supervisor do
 
   require Logger
 
-  alias EctoRole.Schema.Server, as: ES
+  alias EctoRole.Schema.Server, as: SS
 
   @moduledoc """
   A Supervisor to Start and Manage your Schemas.
@@ -43,8 +43,23 @@ defmodule EctoRole.Schema.Supervisor do
   end
 
   def init(_) do
-    children = [worker(ES, [], restart: :transient)]
+    children = [worker(SS, [], restart: :transient)]
     supervise(children, strategy: :simple_one_for_one)
+  end
+
+  def save(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Schema does not exist"}
+
+      true ->
+        result = SS.save(id)
+
+        case result do
+          :ok -> {:ok, "schema was saved"}
+          _ -> {:error, "could not save the schema"}
+        end
+    end
   end
 
   @doc """

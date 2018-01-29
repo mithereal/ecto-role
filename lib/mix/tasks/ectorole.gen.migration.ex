@@ -12,7 +12,6 @@ defmodule Mix.Tasks.EctoRole.Gen.Migration do
 
   @doc false
   def run(args) do
-
     no_umbrella!("ecto.gen.migration")
 
     repos = parse_repo(args)

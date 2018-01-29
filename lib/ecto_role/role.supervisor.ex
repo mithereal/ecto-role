@@ -89,6 +89,66 @@ defmodule EctoRole.Role.Supervisor do
     |> Enum.sort()
   end
 
+  @doc """
+  Save a role
+  ## Examples
+      iex> EctoRole.Role.Supervisor.save("xxx")
+      "%{}"
+  """
+  def save(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Role does not exist"}
 
+      true ->
+        result = RS.save(id)
 
+        case result do
+          :ok -> {:ok, "role was saved"}
+          _ -> {:error, "could not save the role"}
+        end
+    end
+  end
+
+  @doc """
+  Soft Delete a role from the db
+  ## Examples
+      iex> EctoRole.Role.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def deactivate(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Role does not exist"}
+
+      true ->
+        result = RS.deactivate(id)
+
+        case result do
+          :ok -> {:ok, "role was removed"}
+          _ -> {:error, "could not remove the role"}
+        end
+    end
+  end
+
+  @doc """
+  Activate role from the db
+  ## Examples
+      iex> EctoRole.Role.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def activate(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Role does not exist"}
+
+      true ->
+        result = RS.activate(id)
+
+        case result do
+          :ok -> {:ok, "role was removed"}
+          _ -> {:error, "could not remove the role"}
+        end
+    end
+  end
 end

@@ -19,6 +19,7 @@ defmodule EctoRole.Role do
   schema "er_role" do
     field(:name, :string)
     field(:key, :string)
+    field(:status, :string)
 
     many_to_many(
       :entities,
@@ -35,7 +36,7 @@ defmodule EctoRole.Role do
     )
   end
 
-  @params ~w(name key)a
+  @params ~w(name key status)a
   @required_fields ~w(name)a
 
   @doc """
@@ -109,10 +110,31 @@ defmodule EctoRole.Role do
   end
 
   @doc """
+  Fetch the Complete Role by name
+  """
+  @spec get!(Map.t()) :: Map.t()
+  def get!(%{name: value}) do
+    record =
+      Repo.get_by!(ROLE, name: value) |> Repo.preload(:entities)
+      |> Repo.preload(filters: :schema)
+
+    record
+  end
+
+  def get!(%{key: value}) do
+    record =
+      Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
+      |> Repo.preload(filters: :schema)
+
+    record
+  end
+
+  @doc """
   check if key has filter
   """
   @spec has_filter?(String.t(), String.t()) :: Map.t()
-  def has_filter?(id, filter) when is_binary(id) and is_binary(filter), do: has_filter?(id, filter)
+  def has_filter?(id, filter) when is_binary(id) and is_binary(filter),
+    do: has_filter?(id, filter)
 
   def has_filter?(id, filter) do
     status = EctoRole.Entity.Supervisor.start(id)

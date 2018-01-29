@@ -12,7 +12,7 @@ defmodule Mix.Tasks.EctoRole.Gen.MigrationTest do
     end
 
     def config do
-      [priv: Path.join("priv/temp", inspect(EctoRole.Gen.Migration)), otp_app: :ecto_role]
+      [priv: Path.join("priv/temp", inspect(EctoRole.Gen.MigrationTest)), otp_app: :ecto_role]
     end
   end
 
