@@ -139,13 +139,33 @@ defmodule EctoRole.Entity.Supervisor do
       iex> EctoRole.Entity.Supervisor.remove("xxx")
       "%{}"
   """
-  def remove(id) do
+  def deactivate(id) do
     case process_exists?(id) do
       false ->
         {:error, "Entity does not exist"}
 
       true ->
-        result = ES.remove(id)
+        result = ES.deactivate(id)
+
+        case result do
+          :ok -> {:ok, "entity was removed"}
+          _ -> {:error, "could not remove the entity"}
+        end
+    end
+  end
+  @doc """
+  Activate entity from the db
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.remove("xxx")
+      "%{}"
+  """
+  def activate(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Entity does not exist"}
+
+      true ->
+        result = ES.activate(id)
 
         case result do
           :ok -> {:ok, "entity was removed"}

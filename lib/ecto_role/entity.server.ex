@@ -57,7 +57,7 @@ defmodule EctoRole.Entity.Server do
 
           permissions = calculate_permissions(permissions)
 
-          %__MODULE__{state | key: id, roles: record.roles, permissions: permissions}
+          %__MODULE__{state | key: id, roles: record.roles, permissions: permissions, status: 'active'}
       end
 
     {:noreply, updated_state}
@@ -139,9 +139,19 @@ defmodule EctoRole.Entity.Server do
     {:reply, permissions, state}
   end
 
-  @doc "remove the entity"
-  def handle_call(:remove, _from, %__MODULE__{status: status, key: key} = state) do
+  @doc "deactivate the entity"
+  def handle_call(:deactivate, _from, %__MODULE__{status: status, key: key} = state) do
     new_status  = 'inactive'
+    updated_state = %__MODULE__{state | status: new_status}
+
+    send(self(), :save)
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "activate the entity"
+  def handle_call(:activate, _from, %__MODULE__{status: status, key: key} = state) do
+    new_status  = 'active'
     updated_state = %__MODULE__{state | status: new_status}
 
     send(self(), :save)
@@ -194,9 +204,17 @@ defmodule EctoRole.Entity.Server do
     end
   end
 
-  def remove(key) do
+  def deactivate(key) do
     try do
-      GenServer.call(via_tuple(key), :remove)
+      GenServer.call(via_tuple(key), :deactivate)
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  def activate(key) do
+    try do
+      GenServer.call(via_tuple(key), :activate)
     catch
       :exit, _ -> {:error, 'invalid_entity'}
     end

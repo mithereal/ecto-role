@@ -39,7 +39,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
   describe "Entity server create a new entity" do
-    test "create an entity" do
+    test "create an entity with storage" do
       entity = ENTITY.all()
 
       first = List.first(entity)
@@ -59,15 +59,15 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
 
-  describe "Entity server soft delete an entity" do
-    test "soft delete an entity" do
+  describe "Deactivate Entity server" do
+    test "soft delete an entity from storage" do
       entity = ENTITY.all()
 
       first = List.first(entity)
 
       ES.start(first.key)
 
-      result = ES.remove(first.key)
+      result = ES.deactivate(first.key)
 
       assert =
         case result do
@@ -79,8 +79,28 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Entity server delete an entity" do
-    test "delete an entity" do
+  describe "Activate Entity server" do
+    test "activate an entity from storage" do
+      entity = ENTITY.all()
+
+      first = List.first(entity)
+
+      ES.start(first.key)
+
+      result = ES.activate(first.key)
+
+      assert =
+        case result do
+          {:error, _} -> false
+          _ -> true
+        end
+
+      assert true == assert
+    end
+  end
+
+  describe "Delete the Entity server" do
+    test "delete an entity from storage" do
       entity = ENTITY.all()
 
       first = List.first(entity)
