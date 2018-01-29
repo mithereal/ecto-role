@@ -112,7 +112,7 @@ defmodule EctoRole.Role do
   check if key has filter
   """
   @spec has_filter?(String.t(), String.t()) :: Map.t()
-  def has_filter?(id, filter) when is_binary(id) and is_binary(filter), do: has_filter(id, filter)
+  def has_filter?(id, filter) when is_binary(id) and is_binary(filter), do: has_filter?(id, filter)
 
   def has_filter?(id, filter) do
     status = EctoRole.Entity.Supervisor.start(id)

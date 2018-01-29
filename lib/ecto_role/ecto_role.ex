@@ -63,6 +63,7 @@ defmodule EctoRole do
       ** (Ecto.NoResultsError)
 
   """
+  #@spec get_entity!(String.t()) :: Map.t()
   def get_entity!(id), do: Repo.get!(ENTITY, id)
 
   @doc """
@@ -77,7 +78,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
-  @spec get_entities(Map.t()) :: Map.t()
+  #@spec create_entity(Map.t()) :: Tuple.t()
   def create_entity(attrs \\ %{}) do
     %ENTITY{}
     |> ENTITY.changeset(attrs)
@@ -109,6 +110,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec update_entity(Map.t()) :: Tuple.t()
   def update_entity(%ENTITY{} = entity, attrs) do
     entity
     |> ENTITY.changeset(attrs)
@@ -127,6 +129,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec delete_entity(Map.t()) :: Tuple.t()
   def delete_entity(%ENTITY{} = entity) do
     Repo.delete(entity)
   end
@@ -140,6 +143,7 @@ defmodule EctoRole do
       %Ecto.Changeset{source: %Entity{}}
 
   """
+  #@spec change_entity(Map.t()) :: Map.t()
   def change_entity(%ENTITY{} = entity) do
     ENTITY.changeset(entity, %{})
   end
@@ -171,6 +175,7 @@ defmodule EctoRole do
       ** (Ecto.NoResultsError)
 
   """
+  #@spec get_filter!(String.t()) :: Map.t()
   def get_filter!(id), do: Repo.get!(FILTER, id)
 
   @doc """
@@ -185,6 +190,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec create_filter(Map.t()) :: Tuple.t()
   def create_filter(attrs \\ %{}) do
     %FILTER{}
     |> FILTER.changeset(attrs)
@@ -203,6 +209,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec update_filter(Map.t()) :: Tuple.t()
   def update_filter(%FILTER{} = filter, attrs) do
     filter
     |> FILTER.changeset(attrs)
@@ -221,6 +228,7 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec delete_filter(Map.t()) :: Tuple.t()
   def delete_filter(%FILTER{} = filter) do
     Repo.delete(filter)
   end
@@ -234,6 +242,7 @@ defmodule EctoRole do
       %Ecto.Changeset{source: %Filter{}}
 
   """
+  #@spec change_filter(Map.t()) :: Map.t()
   def change_filter(%FILTER{} = filter) do
     FILTER.changeset(filter, %{})
   end
@@ -265,6 +274,8 @@ defmodule EctoRole do
       ** (Ecto.NoResultsError)
 
   """
+  #@spec get_role!(String.t()) :: Map.t()
+
   def get_role!(id), do: Repo.get!(ROLE, id)
 
   @doc """
@@ -279,9 +290,11 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec create_role(Map.t()) :: Tuple.t()
+
   def create_role(attrs \\ %{}) do
     %ROLE{}
-    |> Role.changeset(attrs)
+    |> ROLE.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -297,6 +310,8 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec update_role(Map.t()) :: Tuple.t()
+
   def update_role(%ROLE{} = role, attrs) do
     role
     |> ROLE.changeset(attrs)
@@ -315,6 +330,8 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec delete_role(Map.t()) :: Tuple.t()
+
   def delete_role(%ROLE{} = role) do
     Repo.delete(role)
   end
@@ -328,6 +345,8 @@ defmodule EctoRole do
       %Ecto.Changeset{source: %Role{}}
 
   """
+  #@spec change_role(Map.t()) :: Map.t()
+
   def change_role(%ROLE{} = role) do
     ROLE.changeset(role, %{})
   end
@@ -341,6 +360,7 @@ defmodule EctoRole do
       [%Schema{}, ...]
 
   """
+
   def list_schemas do
     Repo.all(SCHEMA)
   end
@@ -359,6 +379,8 @@ defmodule EctoRole do
       ** (Ecto.NoResultsError)
 
   """
+  #@spec get_schema!(String.t()) :: Map.t()
+
   def get_schema!(id), do: Repo.get!(SCHEMA, id)
 
   @doc """
@@ -373,6 +395,8 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec create_schema(Map.t()) :: Tuple.t()
+
   def create_schema(attrs \\ %{}) do
     %SCHEMA{}
     |> SCHEMA.changeset(attrs)
@@ -391,6 +415,8 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec update_schema(Map.t()) :: Tuple.t()
+
   def update_schema(%SCHEMA{} = schema, attrs) do
     schema
     |> SCHEMA.changeset(attrs)
@@ -409,6 +435,8 @@ defmodule EctoRole do
       {:error, %Ecto.Changeset{}}
 
   """
+  #@spec delete_schema(Map.t()) :: Tuple.t()
+
   def delete_schema(%SCHEMA{} = schema) do
     Repo.delete(schema)
   end
@@ -422,6 +450,8 @@ defmodule EctoRole do
       %Ecto.Changeset{source: %Schema{}}
 
   """
+  #@spec change_schema(Map.t()) :: Map.t()
+
   def change_schema(%SCHEMA{} = schema) do
     SCHEMA.changeset(schema, %{})
   end

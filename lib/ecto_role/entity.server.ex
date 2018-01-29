@@ -8,6 +8,8 @@ defmodule EctoRole.Entity.Server do
   alias EctoRole.Entity, as: ENTITY
   alias EctoRole.Filter, as: FILTER
 
+  alias EctoRole.Repo
+
   @registry_name :ecto_role_entity_registry
 
   defstruct key: nil,

@@ -64,7 +64,7 @@ defmodule EctoRole.Server do
 
         false ->
           params = %{key: id}
-          record = ROLE.get_role(params)
+          record = ROLE.get(params)
 
           case record do
             nil ->
