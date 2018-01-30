@@ -5,9 +5,11 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   alias EctoRole.Entity.Supervisor, as: ES
   alias EctoRole.Entity, as: ENTITY
 
+  alias EctoRole, as: APP
+
   describe "Entity server startup succeeds with valid entity" do
     test "is a valid entity" do
-      entity = ENTITY.all()
+      entity = APP.list_entities()
 
       first = List.first(entity)
 
@@ -39,11 +41,10 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
 
   describe "Entity server create a new entity" do
     test "create an entity with storage" do
-      entity = ENTITY.all()
+      entity = APP.list_entities()
 
       first = List.first(entity)
 
-      ES.start(first.key)
 
       result = ES.new(first.key)
 
@@ -59,7 +60,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
 
   describe "Deactivate Entity server" do
     test "soft delete an entity from storage" do
-      entity = ENTITY.all()
+      entity = APP.list_entities()
 
       first = List.first(entity)
 
@@ -79,7 +80,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
 
   describe "Activate Entity server" do
     test "activate an entity from storage" do
-      entity = ENTITY.all()
+      entity = APP.list_entities()
 
       first = List.first(entity)
 
@@ -99,7 +100,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
 
   describe "Delete the Entity server" do
     test "delete an entity from storage" do
-      entity = ENTITY.all()
+      entity = APP.list_entities()
 
       first = List.first(entity)
 

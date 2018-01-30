@@ -49,17 +49,17 @@ defmodule EctoRole.Application do
 
   # init the initial state of the otp app
   defp init() do
-    load_schemas()
+    #load_schemas()
     # load_roles()
-    load_entities()
+    #load_entities()
   end
 
   defp load_schemas do
     schemas = APP.fetch_schemas()
 
     Enum.each(schemas, fn x ->
-      #SS.start(x)
-      #SS.save(x)
+      SS.start(x)
+      SS.save(x)
     end)
   end
 

@@ -42,6 +42,7 @@ defmodule EctoRole.Entity do
 
       _ ->
         changeset
+        |> put_change(:key, uuid)
 
     end
   end

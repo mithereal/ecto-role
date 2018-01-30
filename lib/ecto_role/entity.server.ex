@@ -50,19 +50,25 @@ defmodule EctoRole.Entity.Server do
           params = %{key: id}
           record = ENTITY.get(params)
 
-          permissions =
-            Enum.map(record.roles, fn x ->
-              Enum.map(x.filters, fn y ->
-                y
-              end)
-            end)
+          case record do
+            [] ->
+              permissions =
+                Enum.map(record.roles, fn x ->
+                  Enum.map(x.filters, fn y ->
+                    y
+                  end)
+                end)
 
-          [permissions] = permissions
-          permissions = calculate_permissions(permissions)
+              [permissions] = permissions
+              permissions = calculate_permissions(permissions)
 
-          IO.inspect(permissions, label: "calculated permissions")
+              IO.inspect(permissions, label: "calculated permissions")
 
-          %__MODULE__{state | key: id, roles: record.roles, permissions: [], status: 'active'}
+              %__MODULE__{state | key: id, roles: record.roles, permissions: [], status: 'active'}
+
+            _-> %__MODULE__{state | key: id,  status: 'active'}
+          end
+
       end
 
     {:noreply, updated_state}
@@ -169,7 +175,7 @@ defmodule EctoRole.Entity.Server do
     entity = ENTITY.get(%{key: key})
     Repo.delete(entity)
 
-    send(self(), :shutdown)
+   # send(self(), :shutdown)
 
     updated_state = %__MODULE__{state | status: status}
     {:reply, :ok, updated_state}

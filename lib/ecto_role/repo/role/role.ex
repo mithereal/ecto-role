@@ -155,6 +155,7 @@ defmodule EctoRole.Role do
 
       _ ->
         changeset
+        |> put_change(:key, uuid)
 
     end
   end
