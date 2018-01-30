@@ -4,6 +4,8 @@ defmodule EctoRole.Filter.Supervisor do
   require Logger
 
   alias EctoRole.Filter.Server, as: FS
+  alias EctoRole.Filter, as: FILTER
+  alias EctoRole.Repo, as: Repo
 
   @moduledoc false
 
@@ -20,7 +22,16 @@ defmodule EctoRole.Filter.Supervisor do
       "%{}"
   """
   def start(id) do
-    Supervisor.start_child(__MODULE__, [id])
+
+    ## check if is actually an entity
+    e = Repo.get_by(FILTER, key: id)
+    # IO.inspect(e)
+
+    case e do
+      %{} -> Supervisor.start_child(__MODULE__, [id])
+      _ -> {:error, "Unknown Filter"}
+    end
+
   end
 
   @doc """
@@ -85,6 +96,24 @@ defmodule EctoRole.Filter.Supervisor do
       |> List.first()
     end)
     |> Enum.sort()
+  end
+
+
+  @doc """
+  Create a new filter and save it to the db
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.new()
+      "%{}"
+  """
+  def new() do
+    id = Ecto.UUID.generate()
+    Supervisor.start_child(__MODULE__, [id])
+    result = FS.save(id)
+
+    case result do
+      :ok -> {:ok, "new filter was created"}
+      _ -> {:error, "could not create a filter"}
+    end
   end
 
   @doc """

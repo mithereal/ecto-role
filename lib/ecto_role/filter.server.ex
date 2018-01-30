@@ -7,6 +7,7 @@ defmodule EctoRole.Filter.Server do
 
   alias EctoRole.Filter, as: FILTER
 
+
   @registry_name :ecto_role_filter_registry
   @name __MODULE__
 
@@ -48,8 +49,25 @@ defmodule EctoRole.Filter.Server do
 
         false ->
           params = %{key: id}
-          record = FILTER.get_filters(params)
-          %__MODULE__{state | key: id, schema: record.schema.name, filters: record}
+          record = FILTER.get(params)
+
+          filters = case record do
+            %{} -> [record]
+            _-> []
+          end
+
+          schema = case record do
+            %{} -> record.schema
+            _-> nil
+          end
+
+
+          name = case schema do
+            nil -> nil
+            _-> schema.name
+          end
+
+          %__MODULE__{state | key: id, schema: name, filters: filters}
       end
 
     {:noreply, updated_state}
@@ -62,21 +80,23 @@ defmodule EctoRole.Filter.Server do
 
   @doc "save the filter"
   def handle_call(
-        {:save},
+        :save,
         _from,
         %__MODULE__{key: key, schema: schema, filters: filters} = state
       ) do
-    Enum.each(filters, fn p ->
-      FILTER.delete(p)
+    Enum.each(filters, fn f ->
+      FILTER.delete(f)
     end)
 
     Enum.each(filters, fn p ->
-      FILTER.new(p)
+
+    f = %{name: p.name, key: p.key, status: p.status, read: p.read, write: p.write, create: p.create, delete: p.delete}
+      FILTER.create(f)
     end)
 
     send(self(), {:setup, key})
 
-    {:reply, state, state}
+    {:reply, :ok, state}
   end
 
   def handle_info(:save, %__MODULE__{key: key, schema: schema, filters: filters} = state) do
@@ -85,7 +105,9 @@ defmodule EctoRole.Filter.Server do
     end)
 
     Enum.each(filters, fn p ->
-      FILTER.new(p)
+
+      f = %{name: p.name, key: p.key, status: p.status, read: p.read, write: p.write, create: p.create, delete: p.delete}
+      FILTER.create(f)
     end)
 
     send(self(), {:setup, key})

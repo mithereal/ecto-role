@@ -7,8 +7,8 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
 
   alias EctoRole, as: APP
 
-  describe "Entity server startup succeeds with valid entity" do
-    test "is a valid entity" do
+  describe "Entity Server: Valid Entity " do
+    test "Success" do
       entity = APP.list_entities()
 
       first = List.first(entity)
@@ -25,8 +25,8 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Entity server startup fails with invalid entity" do
-    test "is an invalid entity" do
+  describe "Entity Server: Invalid Entity" do
+    test "Success" do
       result = ES.start("totally_invalid_entity")
 
       assert =
@@ -39,14 +39,10 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Entity server create a new entity" do
-    test "create an entity with storage" do
-      entity = APP.list_entities()
+  describe "Entity Server: Create" do
+    test "Create an Entity with Storage" do
 
-      first = List.first(entity)
-
-
-      result = ES.new(first.key)
+      result = ES.new()
 
       assert =
         case result do
@@ -58,8 +54,8 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Deactivate Entity server" do
-    test "soft delete an entity from storage" do
+  describe "Entity Server: Deactivate" do
+    test "Deactivate" do
       entity = APP.list_entities()
 
       first = List.first(entity)
@@ -78,8 +74,8 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Activate Entity server" do
-    test "activate an entity from storage" do
+  describe "Entity Server: Activate" do
+    test "Activate" do
       entity = APP.list_entities()
 
       first = List.first(entity)
@@ -98,8 +94,8 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
     end
   end
 
-  describe "Delete the Entity server" do
-    test "delete an entity from storage" do
+  describe "Entity Server: Delete" do
+    test "Delete an Entity from Storage" do
       entity = APP.list_entities()
 
       first = List.first(entity)

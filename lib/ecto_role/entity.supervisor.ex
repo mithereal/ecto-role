@@ -99,10 +99,11 @@ defmodule EctoRole.Entity.Supervisor do
   @doc """
   Create a new entity and save it to the db
   ## Examples
-      iex> EctoRole.Entity.Supervisor.new("xxx")
+      iex> EctoRole.Entity.Supervisor.new()
       "%{}"
   """
-  def new(id) do
+  def new() do
+    id = Ecto.UUID.generate()
     Supervisor.start_child(__MODULE__, [id])
     result = ES.save(id)
 

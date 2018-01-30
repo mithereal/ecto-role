@@ -24,15 +24,15 @@ defmodule EctoRole.Role do
     many_to_many(
       :entities,
       ENTITY,
-      join_through: ER,
-      join_keys: [entity_key: :key, role_key: :key]
+          [join_through: ER, join_keys: [entity_key: :key, role_key: :key], on_delete: :delete_all]
+
     )
 
     many_to_many(
       :filters,
       FILTER,
-      join_through: FR,
-      join_keys: [filter_key: :key, role_key: :key]
+       [join_through: FR, join_keys: [filter_key: :key, role_key: :key], on_delete: :delete_all]
+
     )
   end
 

@@ -16,7 +16,7 @@ defmodule EctoRole.Entity do
     field(:key, :string, default: nil)
     field(:status, :string, default: nil)
 
-    many_to_many(:roles, ROLE, join_through: ER, join_keys: [entity_key: :key, role_key: :key])
+    many_to_many(:roles, ROLE, [join_through: ER, join_keys: [entity_key: :key, role_key: :key], on_delete: :delete_all] )
   end
 
   @params ~w(key status)a

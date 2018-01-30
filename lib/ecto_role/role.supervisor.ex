@@ -151,4 +151,22 @@ defmodule EctoRole.Role.Supervisor do
         end
     end
   end
+
+
+  @doc """
+  Create a new role and save it to the db
+  ## Examples
+      iex> EctoRole.Role.Supervisor.new()
+      "%{}"
+  """
+  def new() do
+    id = Ecto.UUID.generate()
+    Supervisor.start_child(__MODULE__, [id])
+    result = RS.save(id)
+
+    case result do
+      :ok -> {:ok, "new role was created"}
+      _ -> {:error, "could not create a new role"}
+    end
+  end
 end

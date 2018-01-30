@@ -175,7 +175,7 @@ defmodule EctoRole.Entity.Server do
     entity = ENTITY.get(%{key: key})
     Repo.delete(entity)
 
-   # send(self(), :shutdown)
+    send(self(), :shutdown)
 
     updated_state = %__MODULE__{state | status: status}
     {:reply, :ok, updated_state}

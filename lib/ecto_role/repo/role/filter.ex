@@ -29,10 +29,8 @@ defmodule EctoRole.Filter do
     many_to_many(
       :roles,
       ROLE,
-      join_through: FR,
-      join_keys: [filter_key: :key, role_key: :key]
+      [join_through: FR, join_keys: [filter_key: :key, role_key: :key], on_delete: :delete_all]
     )
-
     timestamps()
   end
 
@@ -54,7 +52,7 @@ defmodule EctoRole.Filter do
   """
   @spec get(Map.t()) :: Map.t()
   def get(%{key: value}) do
-    record = Repo.get_by!(FILTER, key: value) |> Repo.preload(:schema)
+    record = Repo.get_by(FILTER, key: value) |> Repo.preload(:schema)
     record
   end
 
@@ -63,17 +61,18 @@ defmodule EctoRole.Filter do
   """
   @spec get(Map.t()) :: Map.t()
   def get(%{name: value}) do
-    record = Repo.get_by!(FILTER, name: value) |> Repo.preload(:schema)
+    record = Repo.get_by(FILTER, name: value) |> Repo.preload(:schema)
     record
   end
 
   @doc """
   delete filter from the list of filters
   """
-  def delete(filter) when is_map(filter), do: delete(filter)
+  #def delete(filter) when is_map(filter), do: delete(filter)
 
   def delete(filter) do
-    from(x in FILTER, where: x.key == ^filter) |> Repo.delete_all()
+
+    Repo.delete(filter)
   end
 
   @doc """
@@ -82,8 +81,8 @@ defmodule EctoRole.Filter do
   def delete_all(filters) when is_list(filters), do: delete_all(filters)
 
   def delete_all(filters) do
-    Enum.each(filters, fn p ->
-      from(x in FILTER, where: x.key == ^p) |> Repo.delete_all()
+    Enum.each(filters, fn f ->
+      from(x in FILTER, where: x.key == ^f.key) |> Repo.delete_all()
     end)
   end
 
