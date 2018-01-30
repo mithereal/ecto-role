@@ -81,10 +81,10 @@ defmodule EctoRole.Mixfile do
         "ecto_role.gen.migration",
         "ecto_role.gen.test.migration",
         "ecto.migrate",
-        # "run priv/repo/test_seeds.exs",
+         "run priv/repo/test_seeds.exs",
         "test"
       ],
-      in: [
+      install: [
         "ecto.drop --quiet",
         "ecto.create --quiet",
         "ecto_role.clear.migrations",

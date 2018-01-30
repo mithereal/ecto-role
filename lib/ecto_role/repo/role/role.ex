@@ -151,10 +151,11 @@ defmodule EctoRole.Role do
     case get_change(changeset, :key) do
       nil ->
         changeset
+        |> put_change(:key, uuid)
 
       _ ->
         changeset
-        |> put_change(:key, uuid)
+
     end
   end
 end
