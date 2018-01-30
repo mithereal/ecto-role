@@ -58,8 +58,8 @@ defmodule EctoRole.Application do
     schemas = APP.fetch_schemas()
 
     Enum.each(schemas, fn x ->
-      SS.start(x)
-      SS.save(x)
+      #SS.start(x)
+      #SS.save(x)
     end)
   end
 

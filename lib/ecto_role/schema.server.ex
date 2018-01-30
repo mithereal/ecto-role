@@ -32,9 +32,22 @@ defmodule EctoRole.Schema.Server do
     {:ok, state}
   end
 
+  def handle_info(:shutdown, state) do
+    Process.sleep(5000)
+    {:stop, :normal, state}
+  end
+
   def get_fields(id) do
     try do
       GenServer.call(via_tuple(id), :get_schema)
+    catch
+      :exit, msg -> {:error, 'invalid_schema'}
+    end
+  end
+
+  def delete(id) do
+    try do
+      GenServer.call(via_tuple(id), :delete)
     catch
       :exit, msg -> {:error, 'invalid_schema'}
     end
@@ -98,7 +111,7 @@ defmodule EctoRole.Schema.Server do
 
         _ ->
           send(self(), {:setup, schema})
-          result
+          :ok
       end
 
     {:reply, reply, state}
@@ -107,5 +120,15 @@ defmodule EctoRole.Schema.Server do
   @doc "queries the server for permissions"
   def handle_call(:get_fields, _from, %__MODULE__{fields: fields} = state) do
     {:reply, fields, state}
+  end
+
+  @doc "remove the schema from the db and sup tree"
+  def handle_call(:delete, _from, %__MODULE__{schema: schema} = state) do
+
+    schema = SCHEMA.get(%{name: schema})
+    Repo.delete(schema)
+
+    send(self(), :shutdown)
+    {:reply, schema, state}
   end
 end

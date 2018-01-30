@@ -4,6 +4,7 @@ defmodule EctoRole.Schema.Supervisor do
   require Logger
 
   alias EctoRole.Schema.Server, as: SS
+  alias EctoRole.Schema, as: SCHEMA
 
   @moduledoc """
   A Supervisor to Start and Manage your Schemas.
@@ -22,6 +23,14 @@ defmodule EctoRole.Schema.Supervisor do
       "%{}"
   """
   def start(id) do
+    ## check if is actually an entity
+    s = SCHEMA.exists? id
+    # IO.inspect(e)
+
+    case s do
+      true -> Supervisor.start_child(__MODULE__, [id])
+      _ -> {:error, "Unknown Schema"}
+    end
     Supervisor.start_child(__MODULE__, [id])
   end
 
@@ -102,5 +111,40 @@ defmodule EctoRole.Schema.Supervisor do
       |> List.first()
     end)
     |> Enum.sort()
+  end
+
+  @doc """
+  Create a new entity and save it to the db
+  ## Examples
+      iex> EctoRole.Entity.Supervisor.new("xxx")
+      "%{}"
+  """
+  def new(id) do
+    Supervisor.start_child(__MODULE__, [id])
+    result = SS.save(id)
+
+    case result do
+      :ok -> {:ok, "new entity was created"}
+      _ -> {:error, "could not create a new entity"}
+    end
+  end
+
+
+  @doc """
+
+  """
+  def remove(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Schema does not exist"}
+
+      true ->
+        result = SS.remove(id)
+
+        case result do
+          :ok -> {:ok, "schema was removed"}
+          _ -> {:error, "could not remove the schema"}
+        end
+    end
   end
 end

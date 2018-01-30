@@ -3,7 +3,6 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   # import EctoRole.Test.Support.FileHelpers
 
   alias EctoRole.Filter.Supervisor, as: FS
-  alias EctoRole.Filter.Server, as: SERVER
   alias EctoRole.Filter, as: FILTER
 
   describe "Filter server startup succeeds with valid filter" do

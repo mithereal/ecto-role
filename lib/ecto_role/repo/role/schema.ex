@@ -25,7 +25,7 @@ defmodule EctoRole.Schema do
 
   @params ~w(name fields)a
   @required_fields ~w(name)a
-  @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_role er.schema schema_migrations)
+  @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_filter er_role_to_filter er_role er_schema schema_migrations)
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -92,10 +92,23 @@ defmodule EctoRole.Schema do
     List.flatten(result.rows)
   end
 
+
   def filter_ignored_schemas(schema) do
     ignored_schemas = @ignored_schemas
+
 
     schema
     |> Enum.filter(fn el -> !Enum.member?(@ignored_schemas, el) end)
   end
+
+  def exists?(name) do
+    schema = get_schema(name)
+
+    case Enum.count(schema) > 0 do
+      true -> true
+      false -> false
+    end
+
+  end
+
 end

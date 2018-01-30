@@ -3,7 +3,6 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
   # import EctoRole.Test.Support.FileHelpers
 
   alias EctoRole.Schema.Supervisor, as: SS
-  alias EctoRole.Schema.Server, as: SERVER
   alias EctoRole.Schema, as: SCHEMA
 
   describe "Schema server startup succeeds with valid schema" do
@@ -12,7 +11,7 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
 
       first = List.first(schema)
 
-      result = SS.start(first.key)
+      result = SS.start(first)
 
       assert =
         case result do
@@ -39,14 +38,15 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
   end
 
   describe "Schema server create a new schema" do
-    test "create an schema" do
+    test "create new schema" do
       schema = SCHEMA.all()
+
 
       first = List.first(schema)
 
-      SS.start(first.key)
+      SS.start(first)
 
-      result = SS.new(first.key)
+      result = SS.new(first)
 
       assert =
         case result do
@@ -58,25 +58,6 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
     end
   end
 
-  describe "Schema server soft delete an schema" do
-    test "soft delete an schema" do
-      schema = SCHEMA.all()
-
-      first = List.first(schema)
-
-      SS.start(first.key)
-
-      result = SS.remove(first.key)
-
-      assert =
-        case result do
-          {:error, _} -> false
-          _ -> true
-        end
-
-      assert true == assert
-    end
-  end
 
   describe "Schema server delete an schema" do
     test "delete an schema" do
@@ -84,9 +65,9 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
 
       first = List.first(schema)
 
-      SS.start(first.key)
+      SS.start(first)
 
-      result = SS.delete(first.key)
+      result = SS.delete(first)
 
       assert =
         case result do

@@ -3,12 +3,13 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   # import EctoRole.Test.Support.FileHelpers
 
   alias EctoRole.Role.Supervisor, as: RS
-  alias EctoRole.Role.Server, as: SERVER
-  alias EctoRole.Role, as: ROLE
+
+  alias EctoRole, as: APP
+
 
   describe "Role server startup succeeds with valid role" do
     test "is a valid role" do
-      role = ROLE.all()
+      role = APP.list_roles()
 
       first = List.first(role)
 
@@ -40,7 +41,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
 
   describe "Role server create a new role" do
     test "create an role" do
-      role = ROLE.all()
+      role = APP.list_roles()
 
       first = List.first(role)
 
@@ -60,7 +61,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
 
   describe "Role server soft delete an role" do
     test "soft delete an role" do
-      role = ROLE.all()
+      role = APP.list_roles()
 
       first = List.first(role)
 
@@ -80,7 +81,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
 
   describe "Role server delete an role" do
     test "delete an role" do
-      role = ROLE.all()
+      role = APP.list_roles()
 
       first = List.first(role)
 

@@ -3,7 +3,6 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   # import EctoRole.Test.Support.FileHelpers
 
   alias EctoRole.Entity.Supervisor, as: ES
-  alias EctoRole.Entity.Server, as: SERVER
   alias EctoRole.Entity, as: ENTITY
 
   describe "Entity server startup succeeds with valid entity" do
