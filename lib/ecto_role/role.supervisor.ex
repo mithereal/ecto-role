@@ -4,6 +4,8 @@ defmodule EctoRole.Role.Supervisor do
   require Logger
 
   alias EctoRole.Server, as: RS
+  alias EctoRole.Role, as: ROLE
+  alias EctoRole.Repo, as: Repo
 
   @moduledoc """
   A Supervisor to Start and Manage your EctoRoles.
@@ -22,7 +24,14 @@ defmodule EctoRole.Role.Supervisor do
       "%{}"
   """
   def start(id) do
-    Supervisor.start_child(__MODULE__, [id])
+
+    r = Repo.get_by(ROLE, key: id)
+
+    case r do
+      %{} -> Supervisor.start_child(__MODULE__, [id])
+      _ -> {:error, "Unknown Entity"}
+    end
+
   end
 
   @doc """
@@ -113,7 +122,7 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Soft Delete a role from the db
   ## Examples
-      iex> EctoRole.Role.Supervisor.remove("xxx")
+      iex> EctoRole.Role.Supervisor.deactivate("xxx")
       "%{}"
   """
   def deactivate(id) do
@@ -125,8 +134,8 @@ defmodule EctoRole.Role.Supervisor do
         result = RS.deactivate(id)
 
         case result do
-          :ok -> {:ok, "role was removed"}
-          _ -> {:error, "could not remove the role"}
+          :ok -> {:ok, "role was deactivated"}
+          _ -> {:error, "could not deactivate the role"}
         end
     end
   end
@@ -167,6 +176,28 @@ defmodule EctoRole.Role.Supervisor do
     case result do
       :ok -> {:ok, "new role was created"}
       _ -> {:error, "could not create a new role"}
+    end
+  end
+
+
+  @doc """
+  Delete a role from the db
+  ## Examples
+      iex> EctoRole.Role.Supervisor.delete("xxx")
+      "%{}"
+  """
+  def delete(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Role does not exist"}
+
+      true ->
+        result = RS.delete(id)
+
+        case result do
+          :ok -> {:ok, "role was deleted"}
+          _ -> {:error, "could not delete the role"}
+        end
     end
   end
 end

@@ -7,6 +7,9 @@ defmodule EctoRole.Server do
 
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Filter.Supervisor, as: FS
+  alias EctoRole.Role.Supervisor, as: RS
+
+  alias EctoRole.Repo, as: Repo
 
   @registry_name :ecto_role_registry
   @name __MODULE__
@@ -27,29 +30,6 @@ defmodule EctoRole.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_entities(id) do
-    try do
-      GenServer.call(via_tuple(id), :get_entities)
-    catch
-      :exit, _ -> {:error, "invalid_role"}
-    end
-  end
-
-  def get_filters(id) do
-    try do
-      GenServer.call(via_tuple(id), :get_filters)
-    catch
-      :exit, _ -> {:error, "invalid_role"}
-    end
-  end
-
-  def get_entities(id) do
-    try do
-      GenServer.call(via_tuple(id), :get_entities)
-    catch
-      :exit, _ -> {:error, "invalid_role"}
-    end
-  end
 
   def init([id]) do
     send(self(), {:setup, id})
@@ -66,7 +46,7 @@ defmodule EctoRole.Server do
 
         false ->
           params = %{key: id}
-          record = ROLE.get!(params)
+          record = ROLE.get(params)
 
           case record do
             nil ->
@@ -96,6 +76,52 @@ defmodule EctoRole.Server do
       end
 
     {:noreply, updated_state}
+  end
+
+  def handle_info(:shutdown, state) do
+    Process.sleep(5000)
+    {:stop, :normal, state}
+  end
+
+  def handle_info(:save, %__MODULE__{key: key} = state) do
+    params = %{key: key}
+    changeset = ROLE.changeset(%ROLE{}, params)
+    {result, _} = Repo.insert_or_update(changeset)
+
+    reply =
+      case result do
+        nil ->
+          :error
+
+        _ ->
+          send(self(), {:setup, key})
+          result
+      end
+
+    {:noreply, state}
+  end
+
+
+  def handle_call(
+        :save,
+        _from,
+        %__MODULE__{key: key} = state
+      ) do
+    params = %{key: key}
+    changeset = ROLE.changeset(%ROLE{}, params)
+    {result, _} = Repo.insert_or_update(changeset)
+
+    reply =
+      case result do
+        nil ->
+          :error
+
+        _ ->
+          send(self(), {:setup, key})
+          result
+      end
+
+    {:reply, reply, state}
   end
 
   @doc "queries the server for filters"
@@ -129,7 +155,7 @@ defmodule EctoRole.Server do
     {:reply, :ok, updated_state}
   end
 
-  @doc "delete the entity, then shutdown"
+  @doc "delete the role, then shutdown"
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
     entity = ROLE.get(%{key: key})
     Repo.delete(entity)
@@ -138,5 +164,63 @@ defmodule EctoRole.Server do
 
     updated_state = %__MODULE__{state | status: status}
     {:reply, :ok, updated_state}
+  end
+
+  ## client
+
+  def get_entities(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_entities)
+    catch
+      :exit, _ -> {:error, "invalid_role"}
+    end
+  end
+
+  def get_filters(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_filters)
+    catch
+      :exit, _ -> {:error, "invalid_role"}
+    end
+  end
+
+  def get_entities(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_entities)
+    catch
+      :exit, _ -> {:error, "invalid_role"}
+    end
+  end
+
+  def save(key) do
+    try do
+      GenServer.call(via_tuple(key), :save)
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+    end
+
+  def deactivate(key) do
+    try do
+      GenServer.call(via_tuple(key), :deactivate)
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+  end
+
+  def activate(key) do
+    try do
+      GenServer.call(via_tuple(key), :activate)
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+  end
+
+  def delete(key) do
+    try do
+      GenServer.call(via_tuple(key), :delete)
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
   end
 end

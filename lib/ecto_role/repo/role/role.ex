@@ -88,10 +88,10 @@ defmodule EctoRole.Role do
   @doc """
   Fetch the Complete Role by key
   """
-  @spec get(Map.t()) :: Map.t()
+  #@spec get(Map.t()) :: Map.t()
   def get(%{key: value}) do
     record =
-      Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
+      Repo.get_by(ROLE, key: value) |> Repo.preload(:entities)
       |> Repo.preload(filters: :schema)
 
     record
@@ -123,8 +123,7 @@ defmodule EctoRole.Role do
 
   def get!(%{key: value}) do
     record =
-      Repo.get_by!(ROLE, key: value) |> Repo.preload(:entities)
-      |> Repo.preload(filters: :schema)
+      Repo.get_by(ROLE, key: value) |> Repo.preload(:entities) |> Repo.preload(filters: :schema)
 
     record
   end

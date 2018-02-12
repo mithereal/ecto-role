@@ -9,14 +9,16 @@ defmodule EctoRole.Filter.Role do
   alias EctoRole.Filter, as: FILTER
 
   schema "er_role_to_filter" do
-    belongs_to(:role, ROLE, foreign_key: :role_key, references: :key, type: :string)
+    belongs_to(:role, ROLE, [foreign_key: :role_key, references: :key, type: :string])
 
     belongs_to(
       :filter,
       FILTER,
+    [
       foreign_key: :filter_key,
       references: :key,
       type: :string
+     ]
     )
   end
 

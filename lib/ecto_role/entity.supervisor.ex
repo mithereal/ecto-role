@@ -137,7 +137,7 @@ defmodule EctoRole.Entity.Supervisor do
   @doc """
   Soft Delete a entity from the db
   ## Examples
-      iex> EctoRole.Entity.Supervisor.remove("xxx")
+      iex> EctoRole.Entity.Supervisor.deactivate("xxx")
       "%{}"
   """
   def deactivate(id) do
@@ -149,8 +149,8 @@ defmodule EctoRole.Entity.Supervisor do
         result = ES.deactivate(id)
 
         case result do
-          :ok -> {:ok, "entity was removed"}
-          _ -> {:error, "could not remove the entity"}
+          :ok -> {:ok, "entity was deactivate"}
+          _ -> {:error, "could not deactivate the entity"}
         end
     end
   end
