@@ -25,11 +25,11 @@ defmodule EctoRole.Role.Supervisor do
   """
   def start(id) do
 
-    r = Repo.get_by(ROLE, key: id)
+    r = Repo.get_by!(ROLE, key: id)
 
     case r do
       %{} -> Supervisor.start_child(__MODULE__, [id])
-      _ -> {:error, "Unknown Entity"}
+      _ -> {:error, "Unknown Role"}
     end
 
   end
