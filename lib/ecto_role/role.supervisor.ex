@@ -168,9 +168,10 @@ defmodule EctoRole.Role.Supervisor do
       iex> EctoRole.Role.Supervisor.new()
       "%{}"
   """
-  def new() do
+  def new(name) do
     id = Ecto.UUID.generate()
     Supervisor.start_child(__MODULE__, [id])
+    RS.name(id, name)
     result = RS.save(id)
 
     case result do

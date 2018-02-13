@@ -42,7 +42,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   describe "Role Server: New Role" do
     test "success" do
 
-      result = RS.new()
+      result = RS.new("test role")
 
       assert =
         case result do
