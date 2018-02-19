@@ -20,8 +20,8 @@ defmodule EctoRole.Filter do
   schema "er_filter" do
     field(:name, :string)
     field(:status, :string, default: "active")
-    field(:create, default: false)
-    field(:delete, default: false)
+    field(:create, :boolean)
+    field(:delete, :boolean)
     field(:key, :string)
 
     belongs_to(:schema, SCHEMA)
