@@ -63,19 +63,23 @@ role3 = Repo.insert!(changeset)
 
 changeset =
   Schema.changeset(%Schema{}, %{
-    name: "user",
-    fields: ["username", "email"]
+    name: "user"
   })
 
 schema1 = Repo.insert!(changeset)
+
+fields = ["username", "email"]
+
+changeset =
+  schema1
+  |> Ecto.Changeset.change
+  |> Ecto.Changeset.put_change(:fields, fields)
 
 ### filter
 
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "user account (users table)",
-    read: ["username", "email"],
-    write: ["username", "email"],
     create: true,
     delete: false,
     status: "active",
@@ -84,11 +88,18 @@ changeset =
 
 filter1 = Repo.insert!(changeset)
 
+read = ["username", "email"]
+write = ["username", "email"]
+
+changeset =
+  filter1
+  |> Ecto.Changeset.change
+  |> Ecto.Changeset.put_change(:read, read)
+  |> Ecto.Changeset.put_change(:write, write)
+
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "operator account (users table)",
-    read: ["username", "email"],
-    write: ["username", "email"],
     create: true,
     delete: false,
     status: "active",
@@ -97,11 +108,18 @@ changeset =
 
 filter2 = Repo.insert!(changeset)
 
+read = ["username", "email"]
+write = ["username", "email"]
+
+changeset =
+  filter2
+  |> Ecto.Changeset.change
+  |> Ecto.Changeset.put_change(:read, read)
+  |> Ecto.Changeset.put_change(:write, write)
+
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "admin account (users table)",
-    read: ["username", "email"],
-    write: ["username", "email"],
     create: true,
     delete: false,
     status: "active",
@@ -109,6 +127,15 @@ changeset =
   })
 
 filter3 = Repo.insert!(changeset)
+
+read = ["username", "email"]
+write = ["username", "email"]
+
+changeset =
+  filter3
+  |> Ecto.Changeset.change
+  |> Ecto.Changeset.put_change(:read, read)
+  |> Ecto.Changeset.put_change(:write, write)
 
 ## Joins
 

@@ -69,13 +69,13 @@ defmodule EctoRole.Filter do
   end
 
   @doc """
-  delete filter from the list of filters
+  delete single filter
   """
   #def delete(filter) when is_map(filter), do: delete(filter)
 
-  def delete(filter) do
-
-    Repo.delete(filter)
+  def delete(%{key: key}) do
+    record = Repo.delete(FILTER, key: key)
+    record
   end
 
   @doc """

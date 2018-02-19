@@ -11,6 +11,7 @@ defmodule EctoRole.Schema do
   import Ecto.Query
 
   alias EctoRole.Filter, as: FILTER
+  alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Schema.Fields, as: FIELDS
   alias EctoRole.Schema.Relation, as: RELATIONS
 
@@ -96,6 +97,16 @@ defmodule EctoRole.Schema do
     result = Ecto.Adapters.SQL.query!(Repo, query, [schema, name])
 
     List.flatten(result.rows)
+  end
+
+  @doc """
+  Fetch the  schema from schemas table
+  """
+   def get!(%{key: value}) do
+   record =
+  Repo.get_by(SCHEMA, ROLE, key: value)
+
+  record
   end
 
 

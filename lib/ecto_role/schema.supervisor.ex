@@ -139,7 +139,7 @@ defmodule EctoRole.Schema.Supervisor do
         {:error, "Schema does not exist"}
 
       true ->
-        result = SS.remove(id)
+        result = SS.delete(id)
 
         case result do
           :ok -> {:ok, "schema was removed"}

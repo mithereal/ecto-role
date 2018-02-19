@@ -15,6 +15,7 @@ defmodule EctoRole.Entity.Server do
   defstruct key: nil,
             roles: [],
             permissions: [],
+            filters: [],
             status: "active"
 
   def start_link(id) do
@@ -139,6 +140,11 @@ defmodule EctoRole.Entity.Server do
   end
 
   @doc "queries the server for roles"
+  def handle_call({:has_filter,filter_id}, _from, %__MODULE__{filters: filters} = state) do
+    result = {:ok, %FILTER{} }
+    {:reply, result, state}
+  end
+  @doc "queries the server for roles"
   def handle_call(:get_roles, _from, %__MODULE__{roles: roles} = state) do
     {:reply, roles, state}
   end
@@ -182,6 +188,14 @@ defmodule EctoRole.Entity.Server do
   end
 
   ### Client
+
+  def has_filter(id, filter_id) do
+    try do
+      GenServer.call(via_tuple(id), {:has_filter,filter_id})
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
 
   def get_roles(id) do
     try do

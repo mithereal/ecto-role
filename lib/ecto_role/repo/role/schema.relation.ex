@@ -14,7 +14,7 @@ defmodule EctoRole.Schema.Relation do
   alias EctoRole.Repo, as: Repo
 
   embedded_schema do
-    field :type,
+    field :type, :string
     field :keys
   end
 

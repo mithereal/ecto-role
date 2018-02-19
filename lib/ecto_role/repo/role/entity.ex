@@ -56,4 +56,13 @@ defmodule EctoRole.Entity do
     record = Repo.get_by(ENTITY, key: key) |> Repo.preload(roles: :filters)
     record
   end
+  @doc """
+  Delete Complete Entity by key
+  """
+  #@spec delete(Map.t()) :: Map.t()
+
+  def delete(%{key: key}) do
+    record = Repo.delete(ENTITY, key: key)
+    record
+  end
 end

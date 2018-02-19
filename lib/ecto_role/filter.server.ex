@@ -6,6 +6,7 @@ defmodule EctoRole.Filter.Server do
   @moduledoc false
 
   alias EctoRole.Filter, as: FILTER
+  alias EctoRole.Enitiy, as: ENTITY
 
 
   @registry_name :ecto_role_filter_registry
@@ -91,7 +92,7 @@ defmodule EctoRole.Filter.Server do
 
     Enum.each(filters, fn p ->
 
-    f = %{name: p.name, key: p.key, status: p.status, read: p.read, write: p.write, create: p.create, delete: p.delete}
+    f = %{name: p.name, key: p.key, status: p.status, create: p.create, delete: p.delete}
       FILTER.create(f)
     end)
 
@@ -138,8 +139,8 @@ defmodule EctoRole.Filter.Server do
 
   @doc "delete the filter, then shutdown"
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
-    entity = ENTITY.get(%{key: key})
-    Repo.delete(entity)
+    ENTITY.delete(%{key: key})
+
 
     send(self(), :shutdown)
 

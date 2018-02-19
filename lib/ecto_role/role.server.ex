@@ -105,9 +105,9 @@ defmodule EctoRole.Server do
   def handle_call(
         :save,
         _from,
-        %__MODULE__{key: key, name: name} = state
+        %__MODULE__{key: key, name: name, status: status} = state
       ) do
-    params = %{key: key, name: name}
+    params = %{key: key, name: name, status: status}
     changeset = ROLE.changeset(%ROLE{}, params)
 
     {result, _} = Repo.insert_or_update(changeset)
@@ -156,7 +156,7 @@ defmodule EctoRole.Server do
 
   @doc "status the role"
 
-  def handle_call({:status, status} , _from, %__MODULE__{status: status} = state) do
+  def handle_call({:status, status} , _from,  state) do
 
     updated_state = %__MODULE__{state | status: status}
 

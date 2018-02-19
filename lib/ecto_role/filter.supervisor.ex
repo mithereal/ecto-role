@@ -105,9 +105,10 @@ defmodule EctoRole.Filter.Supervisor do
       iex> EctoRole.Filter.Supervisor.new()
       "%{}"
   """
-  def new() do
+  def new(name) do
     id = Ecto.UUID.generate()
     Supervisor.start_child(__MODULE__, [id])
+    FS.name(id, name)
     result = FS.save(id)
 
     case result do

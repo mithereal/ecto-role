@@ -137,7 +137,7 @@ defmodule EctoRole.Schema.Server do
   @doc "remove the schema from the db and sup tree"
   def handle_call(:delete, _from, %__MODULE__{schema: schema} = state) do
 
-    schema = SCHEMA.get(%{name: schema})
+    schema = SCHEMA.get!(%{name: schema})
     Repo.delete(schema)
 
     send(self(), :shutdown)

@@ -77,6 +77,8 @@ defmodule EctoRole.Role.Supervisor do
       "true"
   """
   def process_exists?(id) do
+    IO.inspect id
+
     case Registry.lookup(@registry_name, id) do
       [] -> false
       _ -> true
@@ -172,7 +174,6 @@ defmodule EctoRole.Role.Supervisor do
     id = Ecto.UUID.generate()
     Supervisor.start_child(__MODULE__, [id])
     RS.name(id, name)
-    RS.status(id, name)
     result = RS.save(id)
 
     case result do

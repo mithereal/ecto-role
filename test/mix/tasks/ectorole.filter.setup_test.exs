@@ -41,7 +41,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   describe "Filter Server: New Filter" do
     test "success" do
 
-      result = FS.new()
+      result = FS.new("test filter")
 
       assert =
         case result do
