@@ -13,7 +13,8 @@ defmodule EctoRole.Schema.Server do
   @name __MODULE__
 
   defstruct schema: nil,
-            fields: []
+            fields: [],
+            relations: []
 
   def start_link(id) do
     name = via_tuple(id)
@@ -40,6 +41,13 @@ defmodule EctoRole.Schema.Server do
   def get_fields(id) do
     try do
       GenServer.call(via_tuple(id), :get_schema)
+    catch
+      :exit, msg -> {:error, 'invalid_schema'}
+    end
+  end
+  def get_relations(id) do
+    try do
+      GenServer.call(via_tuple(id), :get_relations)
     catch
       :exit, msg -> {:error, 'invalid_schema'}
     end
@@ -117,9 +125,13 @@ defmodule EctoRole.Schema.Server do
     {:reply, reply, state}
   end
 
-  @doc "queries the server for permissions"
+  @doc "queries the server for fields"
   def handle_call(:get_fields, _from, %__MODULE__{fields: fields} = state) do
     {:reply, fields, state}
+  end
+  @doc "queries the server for relations"
+  def handle_call(:get_relations, _from, %__MODULE__{relations: relations} = state) do
+    {:reply, relations, state}
   end
 
   @doc "remove the schema from the db and sup tree"
