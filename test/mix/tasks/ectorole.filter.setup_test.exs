@@ -53,7 +53,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
     end
   end
 
-  describe "Filter Server: soft delete Role" do
+  describe "Filter Server: soft delete Filter" do
     test "success" do
       role = APP.list_filters()
 
