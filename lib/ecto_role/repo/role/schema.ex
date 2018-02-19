@@ -128,4 +128,14 @@ defmodule EctoRole.Schema do
 
   end
 
+  @doc """
+  delete single SCHEMA
+  """
+  #def delete(SCHEMA) when is_map(filter), do: delete(filter)
+
+  def delete(%{key: key}) do
+    record = Repo.delete(SCHEMA, key: key)
+    record
+  end
+
 end

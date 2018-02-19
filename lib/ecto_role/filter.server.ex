@@ -87,7 +87,7 @@ defmodule EctoRole.Filter.Server do
         %__MODULE__{key: key, schema: schema, filters: filters} = state
       ) do
     Enum.each(filters, fn f ->
-      FILTER.delete(f)
+      FILTER.delete(%{key: f.key})
     end)
 
     Enum.each(filters, fn p ->
@@ -101,6 +101,8 @@ defmodule EctoRole.Filter.Server do
     {:reply, :ok, state}
   end
 
+
+
   def handle_info(:save, %__MODULE__{key: key, schema: schema, filters: filters} = state) do
     Enum.each(filters, fn p ->
       FILTER.delete(p)
@@ -108,8 +110,8 @@ defmodule EctoRole.Filter.Server do
 
     Enum.each(filters, fn p ->
 
-      f = %{name: p.name, key: p.key, status: p.status, read: p.read, write: p.write, create: p.create, delete: p.delete}
-      FILTER.create(f)
+      f = %{name: p.name, key: p.key, status: p.status,  create: p.create, delete: p.delete}
+      #FILTER.create(f)
     end)
 
     send(self(), {:setup, key})
@@ -139,7 +141,7 @@ defmodule EctoRole.Filter.Server do
 
   @doc "delete the filter, then shutdown"
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
-    ENTITY.delete(%{key: key})
+    FILTER.delete(%{key: key})
 
 
     send(self(), :shutdown)

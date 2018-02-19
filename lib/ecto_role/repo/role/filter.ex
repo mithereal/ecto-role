@@ -71,10 +71,10 @@ defmodule EctoRole.Filter do
   @doc """
   delete single filter
   """
-  #def delete(filter) when is_map(filter), do: delete(filter)
+  def delete(filter) when is_map(filter), do: delete(filter)
 
-  def delete(%{key: key}) do
-    record = Repo.delete(FILTER, key: key)
+  def delete(filter) do
+    record = Repo.delete(filter)
     record
   end
 
@@ -90,9 +90,11 @@ defmodule EctoRole.Filter do
   end
 
   @doc """
-  create a new filter
+  create a new filter ## destructure attrs
   """
   def create(attrs \\ %{}) do
+
+    IO.inspect(attrs, label: "attrs")
     FILTER
     |> FILTER.changeset(attrs)
     |> Repo.insert()

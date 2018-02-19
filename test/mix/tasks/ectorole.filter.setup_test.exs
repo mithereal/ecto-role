@@ -53,5 +53,25 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
     end
   end
 
+  describe "Filter Server: soft delete Role" do
+    test "success" do
+      role = APP.list_filters()
+
+      first = List.first(role)
+
+      FS.start(first.key)
+
+      result = FS.deactivate(first.key)
+
+      assert =
+        case result do
+          {:error, _} -> false
+          _ -> true
+        end
+
+      assert true == assert
+    end
+  end
+
 
 end
