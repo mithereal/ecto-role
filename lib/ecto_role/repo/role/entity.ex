@@ -13,8 +13,8 @@ defmodule EctoRole.Entity do
   alias EctoRole.Repo, as: Repo
 
   schema "er_entity" do
-    field(:key, :string, default: nil)
-    field(:status, :string, default: nil)
+    field(:key, :string)
+    field(:status, :string, default: "active")
 
     many_to_many(:roles, ROLE, [join_through: ER, join_keys: [entity_key: :key, role_key: :key], on_delete: :delete_all] )
   end

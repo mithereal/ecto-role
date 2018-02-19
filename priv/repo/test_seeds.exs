@@ -16,36 +16,45 @@ alias EctoRole.Filter.Role, as: FR
 
 ### entity
 
-changeset = Entity.changeset(%Entity{}, %{})
+changeset = Entity.changeset(%Entity{}, %{
+  status: "active"
+})
 
 entity1 = Repo.insert!(changeset)
 
-changeset = Entity.changeset(%Entity{}, %{})
+changeset = Entity.changeset(%Entity{}, %{
+  status: "active"
+})
 
 entity2 = Repo.insert!(changeset)
 
-changeset = Entity.changeset(%Entity{}, %{})
+changeset = Entity.changeset(%Entity{}, %{
+  status: "active"
+})
 
 entity3 = Repo.insert!(changeset)
 
 ## role
 changeset =
   Role.changeset(%Role{}, %{
-    name: "Admin"
+    name: "Admin",
+    status: "active"
   })
 
 role1 = Repo.insert!(changeset)
 
 changeset =
   Role.changeset(%Role{}, %{
-    name: "Operator"
+    name: "Operator",
+    status: "active"
   })
 
 role2 = Repo.insert!(changeset)
 
 changeset =
   Role.changeset(%Role{}, %{
-    name: "User"
+    name: "User",
+    status: "active"
   })
 
 role3 = Repo.insert!(changeset)
@@ -55,7 +64,7 @@ role3 = Repo.insert!(changeset)
 changeset =
   Schema.changeset(%Schema{}, %{
     name: "user",
-    fields: "username, email"
+    fields: ["username", "email"]
   })
 
 schema1 = Repo.insert!(changeset)
@@ -65,10 +74,11 @@ schema1 = Repo.insert!(changeset)
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "user account (users table)",
-    read: "username, email",
-    write: "username, email",
+    read: ["username", "email"],
+    write: ["username", "email"],
     create: true,
     delete: false,
+    status: "active",
     schema_id: 1
   })
 
@@ -77,10 +87,11 @@ filter1 = Repo.insert!(changeset)
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "operator account (users table)",
-    read: "username, email",
-    write: "username, email",
+    read: ["username", "email"],
+    write: ["username", "email"],
     create: true,
     delete: false,
+    status: "active",
     schema_id: 1
   })
 
@@ -89,10 +100,11 @@ filter2 = Repo.insert!(changeset)
 changeset =
   Filter.changeset(%Filter{}, %{
     name: "admin account (users table)",
-    read: "username, email",
-    write: "username, email",
+    read: ["username", "email"],
+    write: ["username", "email"],
     create: true,
     delete: false,
+    status: "active",
     schema_id: 1
   })
 

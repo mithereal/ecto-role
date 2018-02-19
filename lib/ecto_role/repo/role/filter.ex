@@ -12,19 +12,22 @@ defmodule EctoRole.Filter do
   alias EctoRole.Role, as: ROLE
   alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Filter.Role, as: FR
+  alias EctoRole.Filter.Read, as: READ
+  alias EctoRole.Filter.Write, as: WRITE
 
   alias EctoRole.Repo, as: Repo
 
   schema "er_filter" do
     field(:name, :string)
-    field(:status, :string)
-    field(:read, :string)
-    field(:write, :string)
-    field(:create, :boolean)
-    field(:delete, :boolean)
+    field(:status, :string, default: "active")
+    field(:create, default: false)
+    field(:delete, default: false)
     field(:key, :string)
 
     belongs_to(:schema, SCHEMA)
+
+    embeds_one :read, READ
+    embeds_one :write, WRITE
 
     many_to_many(
       :roles,
@@ -34,7 +37,7 @@ defmodule EctoRole.Filter do
     timestamps()
   end
 
-  @params ~w(name read write create delete key status schema_id)a
+  @params ~w(name create delete key status schema_id)a
   @required_fields ~w(name)a
 
   @doc """

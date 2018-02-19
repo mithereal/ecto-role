@@ -12,7 +12,7 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
     create table(:er_schema) do
       add :name, :string, null: false
-      add :fields, :string, null: true
+      add :fields, :map, null: true
 
       timestamps()
     end
@@ -21,8 +21,8 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
     create table(:er_filter) do
       add :name, :string, null: false
       add :status, :string, null: true
-      add :read, :string, null: true
-      add :write, :string, null: true
+      add :read, :map, null: true
+      add :write, :map, null: true
       add :create, :boolean
       add :delete, :boolean
       add :key, :string, null: false
@@ -55,11 +55,11 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
     create table(:er_role_to_row) do
       add :role_key, references(:er_role, column: :key, type: :string), null: true
-      add :schema_id,  references(:er_schema)
+      add :schema_id,  references(:er_schema), null: true
     end
 
   alter table(:er_filter) do
-     add :schema_id,  references(:er_schema)
+     add :schema_id,  references(:er_schema), null: true
      end
 
   end

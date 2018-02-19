@@ -24,3 +24,5 @@ erl_crash.dump
 #/config/dev.exs
 /priv/repo/migrations/
 /passwords.txt
+/config/dev.exs
+/config/test.exs

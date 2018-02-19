@@ -105,10 +105,11 @@ defmodule EctoRole.Server do
   def handle_call(
         :save,
         _from,
-        %__MODULE__{key: key} = state
+        %__MODULE__{key: key, name: name} = state
       ) do
-    params = %{key: key}
+    params = %{key: key, name: name}
     changeset = ROLE.changeset(%ROLE{}, params)
+
     {result, _} = Repo.insert_or_update(changeset)
 
     reply =
@@ -149,6 +150,15 @@ defmodule EctoRole.Server do
   def handle_call({:name, name} , _from, %__MODULE__{status: status} = state) do
 
     updated_state = %__MODULE__{state | name: name}
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "status the role"
+
+  def handle_call({:status, status} , _from, %__MODULE__{status: status} = state) do
+
+    updated_state = %__MODULE__{state | status: status}
 
     {:reply, :ok, updated_state}
   end
@@ -211,6 +221,14 @@ defmodule EctoRole.Server do
   def name(key, name) do
     try do
       GenServer.call(via_tuple(key), {:name, name})
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+    end
+
+  def status(key, status) do
+    try do
+      GenServer.call(via_tuple(key), {:status, status})
     catch
       :exit, _ -> {:error, 'invalid_role'}
     end

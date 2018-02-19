@@ -20,12 +20,12 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Start a EctoRole server.
   ## Examples
-      iex> EctoRole.Supervisor.start("google")
+      iex> EctoRole.Supervisor.start("management_role")
       "%{}"
   """
   def start(id) do
 
-    r = Repo.get_by!(ROLE, key: id)
+    r = Repo.get_by(ROLE, key: id)
 
     case r do
       %{} -> Supervisor.start_child(__MODULE__, [id])
@@ -37,7 +37,7 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Stop the EctoRole server.
   ## Examples
-      iex> EctoRole.Supervisor.stop("google")
+      iex> EctoRole.Supervisor.stop("management_role")
       ":ok"
   """
   def stop(id) do
@@ -59,7 +59,7 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Create a new process if it doesnt exist else return the process.
   ## Examples
-      iex> EctoRole.Supervisor.find_or_create_process("google")
+      iex> EctoRole.Supervisor.find_or_create_process("management_role")
       "{}"
   """
   def find_or_create_process(id) do
@@ -73,7 +73,7 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Check if process exists.
   ## Examples
-      iex> EctoRole.Supervisor.process_exists("google")
+      iex> EctoRole.Supervisor.process_exists("management_role")
       "true"
   """
   def process_exists?(id) do
@@ -86,7 +86,7 @@ defmodule EctoRole.Role.Supervisor do
   @doc """
   Get the ids of all processes in the registry.
   ## Examples
-      iex> EctoRole.Supervisor.key_ids("google")
+      iex> EctoRole.Supervisor.key_ids("management_role")
       "[]"
   """
   def key_ids do
@@ -172,6 +172,7 @@ defmodule EctoRole.Role.Supervisor do
     id = Ecto.UUID.generate()
     Supervisor.start_child(__MODULE__, [id])
     RS.name(id, name)
+    RS.status(id, name)
     result = RS.save(id)
 
     case result do

@@ -14,7 +14,8 @@ defmodule EctoRole.Filter.Server do
   defstruct key: nil,
             schema: nil,
             filters: [],
-            status: nil
+            status: nil,
+            name: nil
 
   def start_link(id) do
     name = via_tuple(id)
@@ -146,6 +147,23 @@ defmodule EctoRole.Filter.Server do
     {:reply, :ok, updated_state}
   end
 
+
+  def handle_call({:name, name} , _from, %__MODULE__{status: status} = state) do
+
+    updated_state = %__MODULE__{state | name: name}
+
+    {:reply, :ok, updated_state}
+  end
+
+  @doc "status the role"
+
+  def handle_call({:status, status} , _from, %__MODULE__{status: status} = state) do
+
+    updated_state = %__MODULE__{state | status: status}
+
+    {:reply, :ok, updated_state}
+  end
+
   ### Client
 
   def save(key) do
@@ -179,4 +197,22 @@ defmodule EctoRole.Filter.Server do
       :exit, _ -> {:error, 'invalid_filter'}
     end
   end
+
+
+  def name(key, name) do
+    try do
+      GenServer.call(via_tuple(key), {:name, name})
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+  end
+
+  def status(key, status) do
+    try do
+      GenServer.call(via_tuple(key), {:status, status})
+    catch
+      :exit, _ -> {:error, 'invalid_role'}
+    end
+  end
+
 end

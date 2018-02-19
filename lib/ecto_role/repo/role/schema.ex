@@ -11,19 +11,23 @@ defmodule EctoRole.Schema do
   import Ecto.Query
 
   alias EctoRole.Filter, as: FILTER
+  alias EctoRole.Schema.Fields, as: FIELDS
 
   alias EctoRole.Repo, as: Repo
 
   schema "er_schema" do
     field(:name, :string)
-    field(:fields, :string)
+
+    embeds_one :fields, FIELDS
 
     has_many(:filters, FILTER)
 
     timestamps()
   end
 
-  @params ~w(name fields)a
+
+
+  @params ~w(name)a
   @required_fields ~w(name)a
   @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_filter er_role_to_filter er_role er_schema schema_migrations)
 

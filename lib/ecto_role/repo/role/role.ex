@@ -19,7 +19,7 @@ defmodule EctoRole.Role do
   schema "er_role" do
     field(:name, :string)
     field(:key, :string)
-    field(:status, :string)
+    field(:status, :string, default: "active")
 
     many_to_many(
       :entities,
