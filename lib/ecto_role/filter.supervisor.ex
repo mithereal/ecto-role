@@ -179,4 +179,26 @@ defmodule EctoRole.Filter.Supervisor do
         end
     end
   end
+
+
+  @doc """
+  Delete a filter from the db
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.delete("xxx")
+      "%{}"
+  """
+  def delete(id) do
+    case process_exists?(id) do
+      false ->
+        {:error, "Filter does not exist"}
+
+      true ->
+        result = FS.delete(id)
+
+        case result do
+          :ok -> {:ok, "filter was deleted"}
+          _ -> {:error, "could not delete the filter"}
+        end
+    end
+  end
 end

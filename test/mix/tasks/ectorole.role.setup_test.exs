@@ -75,7 +75,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   end
 
   describe "Role Server: Delete Role" do
-    test "failure" do
+    test "success" do
       role = APP.list_roles()
 
       first = List.first(role)
@@ -90,7 +90,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
           _ -> true
         end
 
-      assert false == assert
+      assert true == assert
     end
   end
 end

@@ -84,19 +84,31 @@ defmodule EctoRole.Server do
   end
 
   def handle_info(:save, %__MODULE__{key: key, name: name} = state) do
-    params = %{key: key, name: name}
-    changeset = ROLE.changeset(%ROLE{}, params)
-    {result, _} = Repo.insert_or_update(changeset)
 
-    reply =
-      case result do
-        nil ->
-          :error
+    {result, role_record} = ROLE.get(%{key: key})
 
-        _ ->
-          send(self(), {:setup, key})
-          result
-      end
+
+    case result do
+      :error ->
+        false
+
+      _ ->
+        params = %{id: role_record.id, key: key, name: name}
+        changeset = ROLE.changeset(role_record, params)
+        {result, _} = Repo.insert_or_update(changeset)
+
+        reply =
+          case result do
+            nil ->
+              :error
+
+            _ ->
+              send(self(), {:setup, key})
+              result
+          end
+        end
+
+
 
     {:noreply, state}
   end
@@ -176,6 +188,7 @@ defmodule EctoRole.Server do
   @doc "delete the role, then shutdown"
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
     entity = ROLE.get(%{key: key})
+
     Repo.delete(entity)
 
     send(self(), :shutdown)

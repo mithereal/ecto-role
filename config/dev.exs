@@ -7,7 +7,7 @@ config :ecto_role, ecto_repos: [EctoRole.Repo]
 config :ecto_role, EctoRole.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "ecto_role_test",
-  username: "dev",
+  username: "mithereal",
   password: "",
   hostname: "localhost",
   port: "5432"

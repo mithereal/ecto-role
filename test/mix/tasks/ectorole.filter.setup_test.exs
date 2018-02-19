@@ -72,6 +72,25 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
       assert true == assert
     end
   end
+  describe "Filter Server: true delete Filter" do
+    test "success" do
+      role = APP.list_filters()
+
+      first = List.first(role)
+
+      FS.start(first.key)
+
+      result = FS.delete(first.key)
+
+      assert =
+        case result do
+          {:error, _} -> false
+          _ -> true
+        end
+
+      assert true == assert
+    end
+  end
 
 
 end

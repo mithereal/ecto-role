@@ -53,7 +53,7 @@ defmodule EctoRole.Filter do
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get(Map.t()) :: Map.t()
+  #@spec get(Map.t()) :: Map.t()
   def get(%{key: value}) do
     record = Repo.get_by(FILTER, key: value) |> Repo.preload(:schema)
     record
@@ -62,7 +62,7 @@ defmodule EctoRole.Filter do
   @doc """
   Fetch the Complete Permsission set by schema
   """
-  @spec get(Map.t()) :: Map.t()
+ # @spec get(Map.t()) :: Map.t()
   def get(%{name: value}) do
     record = Repo.get_by(FILTER, name: value) |> Repo.preload(:schema)
     record
@@ -71,7 +71,7 @@ defmodule EctoRole.Filter do
   @doc """
   delete single filter
   """
-  def delete(filter) when is_map(filter), do: delete(filter)
+  #def delete(filter) when is_map(filter), do: delete(filter)
 
   def delete(filter) do
     record = Repo.delete(filter)
