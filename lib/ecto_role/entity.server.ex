@@ -15,7 +15,7 @@ defmodule EctoRole.Entity.Server do
   defstruct key: nil,
             roles: [],
             permissions: [],
-            status: nil
+            status: "active"
 
   def start_link(id) do
     name = via_tuple(id)

@@ -18,7 +18,7 @@ defmodule EctoRole.Server do
             name: nil,
             entities: [],
             filters: [],
-          status: nil
+            status: "active"
 
   def start_link(id) do
     name = via_tuple(id)

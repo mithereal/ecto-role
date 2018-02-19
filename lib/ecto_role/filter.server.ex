@@ -14,7 +14,7 @@ defmodule EctoRole.Filter.Server do
   defstruct key: nil,
             schema: nil,
             filters: [],
-            status: nil,
+            status: "active",
             name: nil
 
   def start_link(id) do
