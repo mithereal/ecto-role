@@ -12,6 +12,7 @@ defmodule EctoRole.Schema do
 
   alias EctoRole.Filter, as: FILTER
   alias EctoRole.Schema.Fields, as: FIELDS
+  alias EctoRole.Schema.Relation, as: RELATIONS
 
   alias EctoRole.Repo, as: Repo
 
@@ -19,6 +20,7 @@ defmodule EctoRole.Schema do
     field(:name, :string)
 
     embeds_one :fields, FIELDS
+    embeds_many :relations, RELATIONS
 
     has_many(:filters, FILTER)
 
