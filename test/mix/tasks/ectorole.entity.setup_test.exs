@@ -40,7 +40,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
   describe "Entity Server: Create" do
-    test "Create an Entity with Storage" do
+    test "Success" do
 
       result = ES.new()
 
@@ -55,7 +55,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
   describe "Entity Server: Deactivate" do
-    test "Deactivate" do
+    test "Success" do
       entity = APP.list_entities()
 
       first = List.first(entity)
@@ -75,7 +75,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
   describe "Entity Server: Activate" do
-    test "Activate" do
+    test "Success" do
       entity = APP.list_entities()
 
       first = List.first(entity)
@@ -95,7 +95,7 @@ defmodule Mix.Tasks.EctoRole.Entity.SetupTest do
   end
 
   describe "Entity Server: Delete" do
-    test "Delete an Entity from Storage" do
+    test "Success" do
       entity = APP.list_entities()
 
       first = List.first(entity)

@@ -8,7 +8,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
 
 
   describe "Role Server:  Valid Role" do
-    test "success" do
+    test "Success" do
       role = APP.list_roles()
 
       first = List.first(role)
@@ -26,7 +26,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   end
 
   describe "Role Server: Invalid Role" do
-    test "success" do
+    test "Success" do
       result = RS.start("totally_invalid_role")
 
       assert =
@@ -40,7 +40,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   end
 
   describe "Role Server: New Role" do
-    test "success" do
+    test "Success" do
 
       result = RS.new("test role")
 
@@ -55,7 +55,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   end
 
   describe "Role Server: soft delete Role" do
-    test "success" do
+    test "Success" do
       role = APP.list_roles()
 
       first = List.first(role)
@@ -75,7 +75,7 @@ defmodule Mix.Tasks.EctoRole.Role.SetupTest do
   end
 
   describe "Role Server: Delete Role" do
-    test "success" do
+    test "Success" do
       role = APP.list_roles()
 
       first = List.first(role)

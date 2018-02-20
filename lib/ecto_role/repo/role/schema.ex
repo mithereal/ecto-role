@@ -121,6 +121,7 @@ defmodule EctoRole.Schema do
   def exists?(name) do
     schema = get_schema(name)
 
+
     case Enum.count(schema) > 0 do
       true -> true
       false -> false
@@ -133,9 +134,26 @@ defmodule EctoRole.Schema do
   """
   #def delete(SCHEMA) when is_map(filter), do: delete(filter)
 
+  def delete(schema) do
+    record = Repo.delete(schema)
+    record
+  end
+
+
   def delete(%{key: key}) do
     record = Repo.delete(SCHEMA, key: key)
     record
   end
+
+  @doc """
+  create a new SCHEMA
+  """
+  def create(attrs \\ %{}) do
+
+    %SCHEMA{}
+    |> SCHEMA.changeset(attrs)
+    |> Repo.insert()
+  end
+
 
 end

@@ -7,7 +7,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   alias EctoRole, as: APP
 
   describe "Filter Server: Valid Filter" do
-    test "true" do
+    test "Success" do
       filter = APP.list_filters()
 
       first = List.first(filter)
@@ -25,7 +25,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   end
 
   describe "Filter Server: Invalid Filter" do
-    test "true" do
+    test "Success" do
       result = FS.start("totally_invalid_filter")
 
       assert =
@@ -39,7 +39,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   end
 
   describe "Filter Server: New Filter" do
-    test "success" do
+    test "Success" do
 
       result = FS.new("test filter")
 
@@ -54,7 +54,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
   end
 
   describe "Filter Server: soft delete Filter" do
-    test "success" do
+    test "Success" do
       role = APP.list_filters()
 
       first = List.first(role)
@@ -73,7 +73,7 @@ defmodule Mix.Tasks.EctoRole.Filter.SetupTest do
     end
   end
   describe "Filter Server: true delete Filter" do
-    test "success" do
+    test "Success" do
       role = APP.list_filters()
 
       first = List.first(role)

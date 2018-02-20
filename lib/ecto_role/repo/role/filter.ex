@@ -91,7 +91,7 @@ defmodule EctoRole.Filter do
   end
 
   @doc """
-  create a new filter ## destructure attrs
+  create a new filter
   """
   def create(attrs \\ %{}) do
 

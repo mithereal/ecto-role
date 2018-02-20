@@ -25,13 +25,12 @@ defmodule EctoRole.Schema.Supervisor do
   def start(id) do
     ## check if is actually an entity
     s = SCHEMA.exists? id
-    # IO.inspect(e)
 
     case s do
       true -> Supervisor.start_child(__MODULE__, [id])
       _ -> {:error, "Unknown Schema"}
     end
-    Supervisor.start_child(__MODULE__, [id])
+
   end
 
   @doc """
