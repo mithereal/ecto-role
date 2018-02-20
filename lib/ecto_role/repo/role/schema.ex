@@ -10,6 +10,7 @@ defmodule EctoRole.Schema do
   import Ecto.Changeset
   import Ecto.Query
 
+  alias EctoRole.Role, as: ROLE
   alias EctoRole.Filter, as: FILTER
   alias EctoRole.Schema, as: SCHEMA
   alias EctoRole.Schema.Fields, as: FIELDS
@@ -32,7 +33,7 @@ defmodule EctoRole.Schema do
 
   @params ~w(name)a
   @required_fields ~w(name)a
-  @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_filter er_role_to_filter er_role er_schema schema_migrations)
+  @ignored_schemas ~w(er_entity er_role_to_entity er_permission er_role_to_permission er_filter er_role_to_filter er_role er_schema schema_migrations er_role_to_row)
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
@@ -109,6 +110,13 @@ defmodule EctoRole.Schema do
   record
   end
 
+  def get!(%{name: value}) do
+   record =
+  Repo.get_by(SCHEMA, ROLE, name: value)
+
+  record
+  end
+
 
   def filter_ignored_schemas(schema) do
     ignored_schemas = @ignored_schemas
@@ -140,8 +148,8 @@ defmodule EctoRole.Schema do
   end
 
 
-  def delete(%{key: key}) do
-    record = Repo.delete(SCHEMA, key: key)
+  def delete(%{name: value}) do
+    record = Repo.delete(SCHEMA, name: value)
     record
   end
 

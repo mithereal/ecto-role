@@ -78,8 +78,16 @@ defmodule EctoRole.Schema.Server do
 
         false ->
           record = SCHEMA.get_schema(id)
+          new_state =
+          case record do
 
-          %__MODULE__{state | schema: id, fields: record}
+            nil -> params = %{name: id}
+                   changeset = SCHEMA.changeset(%SCHEMA{}, params)
+                   {record, _} = Repo.insert_or_update(changeset)
+                   %__MODULE__{state | schema: id, fields: record}
+            _-> state
+          end
+          new_state
       end
 
     {:noreply, updated_state}
@@ -138,6 +146,7 @@ defmodule EctoRole.Schema.Server do
   def handle_call(:delete, _from, %__MODULE__{schema: schema} = state) do
 
     schema = SCHEMA.get!(%{name: schema})
+
     Repo.delete(schema)
 
     send(self(), :shutdown)

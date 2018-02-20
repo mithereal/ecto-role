@@ -119,6 +119,7 @@ defmodule EctoRole.Schema.Supervisor do
       "%{}"
   """
   def new(id) do
+
     Supervisor.start_child(__MODULE__, [id])
     result = SS.save(id)
 
