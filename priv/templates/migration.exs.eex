@@ -44,23 +44,30 @@ defmodule Ectorole.Repo.Migrations.EctoRole do
 
 
     create table(:er_role_to_entity) do
-      add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
-      add :entity_key, references(:er_entity, on_delete: :nothing, column: :key, type: :string), null: true
+    #  add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
+      add :role_key, :string, null: true
+    #  add :entity_key, references(:er_entity, on_delete: :nothing, column: :key, type: :string), null: true
+      add :entity_key, :string, null: true
     end
 
 
     create table(:er_role_to_filter) do
-      add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
-      add :filter_key, references(:er_filter, on_delete: :nothing, column: :key, type: :string), null: true
+    #  add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
+      add :role_key, :string, null: true
+    #       add :filter_key, references(:er_filter, on_delete: :nothing, column: :key, type: :string), null: true
+      add :filter_key, :string, null: true
     end
 
     create table(:er_role_to_row) do
-      add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
+    #  add :role_key, references(:er_role, on_delete: :nothing, column: :key, type: :string), null: true
+      add :role_key, :string, null: true
       add :schema_id,  references(:er_schema, on_delete: :nothing), null: true
+    #  add :schema_id,  :string, null: true
     end
 
   alter table(:er_filter) do
      add :schema_id,  references(:er_schema, on_delete: :nothing), null: true
+  #   add :schema_id,  :string, null: true
      end
 
   end

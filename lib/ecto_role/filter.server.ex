@@ -92,8 +92,8 @@ defmodule EctoRole.Filter.Server do
 
     Enum.each(filters, fn p ->
 
-    f = %{name: p.name, key: p.key, status: p.status, create: p.create, delete: p.delete}
-      FILTER.create(f)
+    f = %{name: p.name, key: p.key, status: p.status, create: p.create, delete: p.delete, schema_id: nil}
+      FILTER.create(p)
     end)
 
     send(self(), {:setup, key})

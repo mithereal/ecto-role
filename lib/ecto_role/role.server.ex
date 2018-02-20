@@ -85,16 +85,17 @@ defmodule EctoRole.Server do
 
   def handle_info(:save, %__MODULE__{key: key, name: name} = state) do
 
-    {result, role_record} = ROLE.get(%{key: key})
+    role_record = ROLE.get(%{key: key})
 
 
-    case result do
-      :error ->
+    case role_record do
+      nil ->
         false
 
       _ ->
         params = %{id: role_record.id, key: key, name: name}
         changeset = ROLE.changeset(role_record, params)
+
         {result, _} = Repo.insert_or_update(changeset)
 
         reply =

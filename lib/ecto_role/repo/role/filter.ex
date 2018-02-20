@@ -26,9 +26,9 @@ defmodule EctoRole.Filter do
 
     belongs_to(:schema, SCHEMA)
 
-    embeds_one :read, READ
-    embeds_one :write, WRITE
-
+#    embeds_one :read, READ
+#    embeds_one :write, WRITE
+#
     many_to_many(
       :roles,
       ROLE,
@@ -36,6 +36,7 @@ defmodule EctoRole.Filter do
     )
     timestamps()
   end
+
 
   @params ~w(name create delete key status schema_id)a
   @required_fields ~w(name)a
@@ -94,8 +95,7 @@ defmodule EctoRole.Filter do
   """
   def create(attrs \\ %{}) do
 
-    IO.inspect(attrs, label: "attrs")
-    FILTER
+    %FILTER{}
     |> FILTER.changeset(attrs)
     |> Repo.insert()
   end

@@ -77,7 +77,6 @@ defmodule EctoRole.Role.Supervisor do
       "true"
   """
   def process_exists?(id) do
-    IO.inspect id
 
     case Registry.lookup(@registry_name, id) do
       [] -> false
