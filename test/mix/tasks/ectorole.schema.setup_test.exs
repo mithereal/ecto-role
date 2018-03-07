@@ -55,24 +55,24 @@ defmodule Mix.Tasks.EctoRole.Schema.SetupTest do
   end
 #
 #
-  describe "Schema Server: Delete Schema" do
-    test "Success" do
-
-      schema = Repo.all(SCHEMA)
-
-      first = List.first(schema)
-
-      #IO.inspect(first, label: "first")
-
-      result = SS.remove(first.name)
-
-      assert =
-        case result do
-          {:error, _} -> false
-          _ -> true
-        end
-
-      assert false == assert
-    end
-  end
+#  describe "Schema Server: Delete Schema" do
+#    test "Success" do
+#
+#      schema = Repo.all(SCHEMA)
+#
+#      first = List.first(schema)
+#
+#      #IO.inspect(first, label: "first")
+#
+#      result = SS.remove(first.name)
+#
+#      assert =
+#        case result do
+#          {:error, _} -> false
+#          _ -> true
+#        end
+#
+#      assert false == assert
+#    end
+#  end
 end

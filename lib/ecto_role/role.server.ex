@@ -190,7 +190,11 @@ defmodule EctoRole.Server do
   def handle_call(:delete, _from, %__MODULE__{status: status, key: key} = state) do
     entity = ROLE.get(%{key: key})
 
-    Repo.delete(entity)
+case entity do
+  nil -> nil
+  _-> Repo.delete(entity)
+    end
+
 
     send(self(), :shutdown)
 
