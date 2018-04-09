@@ -6,6 +6,7 @@ defmodule EctoRole.Filter.Server do
   @moduledoc false
 
   alias EctoRole.Filter, as: FILTER
+  alias EctoRole.Permission, as: PERMISSION
   alias EctoRole.Enitiy, as: ENTITY
 
 
@@ -14,7 +15,7 @@ defmodule EctoRole.Filter.Server do
 
   defstruct key: nil,
             schema: nil,
-            filters: [],
+            permissions: [],
             status: "active",
             name: nil
 
@@ -28,11 +29,11 @@ defmodule EctoRole.Filter.Server do
     {:via, Registry, {@registry_name, id}}
   end
 
-  def get_filters(id) do
+  def get_permissions(id) do
     try do
-      GenServer.call(via_tuple(id), :get_filters)
+      GenServer.call(via_tuple(id), :get_permissions)
     catch
-      :exit, _ -> {:error, 'invalid_filter'}
+      :exit, _ -> {:error, 'invalid_permission'}
     end
   end
 
@@ -51,9 +52,9 @@ defmodule EctoRole.Filter.Server do
 
         false ->
           params = %{key: id}
-          record = FILTER.get(params)
+          record = PERMISSION.get(params)
 
-          filters = case record do
+          permissions = case record do
             %{} -> [record]
             _-> []
           end
@@ -69,14 +70,14 @@ defmodule EctoRole.Filter.Server do
             _-> schema.name
           end
 
-          %__MODULE__{state | key: id, schema: name, filters: filters}
+          %__MODULE__{state | key: id, schema: name, permissions: permissions}
       end
 
     {:noreply, updated_state}
   end
 
-  @doc "queries the server for filters"
-  def handle_call(:get_filters, _from, state) do
+  @doc "queries the server for permissions"
+  def handle_call(:get_permissions, _from, state) do
     {:reply, state, state}
   end
 
@@ -84,16 +85,16 @@ defmodule EctoRole.Filter.Server do
   def handle_call(
         :save,
         _from,
-        %__MODULE__{key: key, schema: schema, filters: filters} = state
+        %__MODULE__{key: key, schema: schema, permissions: permissions} = state
       ) do
-    Enum.each(filters, fn f ->
-      FILTER.delete( f )
+    Enum.each(permissions, fn f ->
+      PERMISSION.delete( f )
     end)
 
-    Enum.each(filters, fn p ->
+    Enum.each(permissions, fn p ->
 
     f = %{name: p.name, key: p.key, status: p.status, create: p.create, delete: p.delete, schema_id: nil}
-      FILTER.create(p)
+    PERMISSION.create(p)
     end)
 
     send(self(), {:setup, key})
@@ -103,15 +104,15 @@ defmodule EctoRole.Filter.Server do
 
 
 
-  def handle_info(:save, %__MODULE__{key: key, schema: schema, filters: filters} = state) do
-    Enum.each(filters, fn p ->
-      FILTER.delete(p)
+  def handle_info(:save, %__MODULE__{key: key, schema: schema, permissions: permissions} = state) do
+    Enum.each(permissions, fn p ->
+      PERMISSION.delete(p)
     end)
 
-    Enum.each(filters, fn p ->
+    Enum.each(permissions, fn p ->
       schema_id = nil
       f = %{name: p.name, key: p.key, status: p.status,  create: p.create, delete: p.delete, schema_id: schema_id}
-      FILTER.create(f)
+      PERMISSION.create(f)
     end)
 
     send(self(), {:setup, key})
@@ -164,9 +165,17 @@ defmodule EctoRole.Filter.Server do
     {:reply, :ok, updated_state}
   end
 
-  @doc "status the role"
+  @doc "status of the filter"
 
   def handle_call({:status, status} , _from, %__MODULE__{status: status} = state) do
+
+    updated_state = %__MODULE__{state | status: status}
+
+    {:reply, :ok, updated_state}
+  end
+  @doc "filter a schema"
+
+  def handle_call({:filter, schema} , _from, %__MODULE__{status: status} = state) do
 
     updated_state = %__MODULE__{state | status: status}
 
@@ -212,7 +221,7 @@ defmodule EctoRole.Filter.Server do
     try do
       GenServer.call(via_tuple(key), {:name, name})
     catch
-      :exit, _ -> {:error, 'invalid_role'}
+      :exit, _ -> {:error, 'invalid_filter'}
     end
   end
 
@@ -220,7 +229,15 @@ defmodule EctoRole.Filter.Server do
     try do
       GenServer.call(via_tuple(key), {:status, status})
     catch
-      :exit, _ -> {:error, 'invalid_role'}
+      :exit, _ -> {:error, 'invalid_filter'}
+    end
+  end
+
+  def filter(key, schema) do
+    try do
+      GenServer.call(via_tuple(key), {:filter, schema})
+    catch
+      :exit, _ -> {:error, 'invalid_filter'}
     end
   end
 

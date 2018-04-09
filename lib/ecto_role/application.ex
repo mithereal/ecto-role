@@ -78,4 +78,25 @@ defmodule EctoRole.Application do
       ES.start(x.key)
     end)
   end
+
+  @doc """
+    Check if entity belongs to the named role
+    ## Examples
+        iex> EctoRole.role?("entity_uuid", "role")
+        {:ok,_},{:error,_}
+        "%
+  """
+  def role?(uuid,role) do
+    ES.role?(uuid,role)
+  end
+  @doc """
+    filter the result
+    ## Examples
+        iex> EctoRole.filter("entity_uuid", "query_result")
+        {:ok,filtered_result},{:error,_}
+        "%
+  """
+  def filter(uuid,schema) do
+    FS.filter(uuid,schema)
+  end
 end

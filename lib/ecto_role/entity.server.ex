@@ -149,6 +149,14 @@ defmodule EctoRole.Entity.Server do
     {:reply, roles, state}
   end
 
+  @doc "queries the server for a role"
+  def handle_call({:has_role, role}, _from, %__MODULE__{roles: roles} = state) do
+
+    result = Enum.member?(roles, role)
+
+    {:reply, result, state}
+  end
+
   @doc "builds the entitys active permission set based on the filters in use"
   def handle_call(:init_permission, _from, %__MODULE__{permissions: permissions} = state) do
     permissions = [{'user', %FILTER{}}]
@@ -200,6 +208,14 @@ defmodule EctoRole.Entity.Server do
   def get_roles(id) do
     try do
       GenServer.call(via_tuple(id), :get_roles)
+    catch
+      :exit, _ -> {:error, 'invalid_entity'}
+    end
+  end
+
+  def role?(id, role) do
+    try do
+      GenServer.call(via_tuple(id), {:has_role, role })
     catch
       :exit, _ -> {:error, 'invalid_entity'}
     end

@@ -39,6 +39,21 @@ def deps do
 end
 ```
 
+## How to Use
+
+you can query the otp app to see if the entity has the necessary role to access the db record, and/or filter the result of the query
+
+entity_uuid = "xxx-xxx-xxx-xxx"
+role_uuid = "xxx-xxx-xxx-xxx"
+role = EctoRole.role?("entity_uuid", role_uuid )
+# {:ok,_}, {:error,_}
+query_result = %{SCHEMA}
+result = case role do
+{:ok,_} -> EctoRole.filter("filter_uuid", query_result)
+{:error,e} -> {:error,e}
+end 
+
+  
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/ecto_role](https://hexdocs.pm/ecto_role).

@@ -201,4 +201,14 @@ defmodule EctoRole.Filter.Supervisor do
         end
     end
   end
+
+  @doc """
+  filter a result from input
+  ## Examples
+      iex> EctoRole.Filter.Supervisor.filter("xxx")
+      "%{}"
+  """
+  def filter(id,schema) do
+    FS.filter(id,schema)
+    end
 end

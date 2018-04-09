@@ -196,4 +196,26 @@ defmodule EctoRole.Entity.Supervisor do
         end
     end
   end
+
+  @doc """
+    Check if entity has the named role
+    ## Examples
+        iex> EctoRole.Entity.Supervisor.exists("entity_uuid", "role")
+        "%
+  """
+  def role?(uuid,role)do
+
+    result = case process_exists?(uuid) do
+      false ->
+        {:error, "Entity does not exist"}
+
+      true ->
+
+        result = ES.role?(uuid,role)
+
+        {:ok, result}
+    end
+
+
+  end
 end
