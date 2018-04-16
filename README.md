@@ -1,6 +1,7 @@
 # EctoRole
 
 [![Build Status](https://travis-ci.org/mithereal/ecto-role.svg?branch=master)](https://travis-ci.org/mithereal/ecto-role)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmithereal%2Fecto-role.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmithereal%2Fecto-role?ref=badge_shield)
 
 [![Inline docs](http://inch-ci.org/github/mithereal/ecto-role.svg)](http://inch-ci.org/github/mithereal/ecto-role)
 
@@ -43,3 +44,7 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/ecto_role](https://hexdocs.pm/ecto_role).
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmithereal%2Fecto-role.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmithereal%2Fecto-role?ref=badge_large)
