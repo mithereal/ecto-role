@@ -5,6 +5,11 @@ defmodule EctoRole.Timer do
 
   defstruct tick_interval: 500, ticker_ref: :none
 
+  def init(args) do
+    {:ok, args}
+  end
+
+
   def start_link(id) do
     GenServer.start_link(__MODULE__, [id], name: @name)
   end
